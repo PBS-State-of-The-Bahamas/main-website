@@ -1,11 +1,11 @@
 import Image from "next/image";
-import styles from "../styles/HallOfFame.module.css";
+import styles from "../styles/Member.module.css";
 
-export interface LineMemberThumbnailProps {
+export interface MemberThumbnailProps {
   member_photo_url: string;
 }
 
-export default function LineMemberThumbnail(props: LineMemberThumbnailProps) {
+export default function LineMemberThumbnail(props: MemberThumbnailProps) {
   return (
     <div>
       <Image
