@@ -13,7 +13,7 @@ const ChapterHero = ({
 }: ChapterHeroInfo) => {
   return (
     <div className="relative isolate overflow-hidden bg-royal-blue">
-      <img src="" alt="" className="absolute h-full w-full object-cover" />
+      <img src="" alt={`Phi Beta Sigma - ${chapter} Chapter`} className="absolute h-full w-full object-cover" />
       <div className="px-6 lg:px-8">
         <div className="max-w-2xl py-32 sm:py-48 lg:py-56">
           <div className="text-left">
