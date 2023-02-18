@@ -38,13 +38,13 @@ export const getServerSideProps: GetServerSideProps<{
   });
   const json_data = await response.json();
 
-  if (!json_data?.data) {
+  if (!json_data?.data?.length) {
     return {
       notFound: true,
     };
   }
 
-  const lineage: LineProps[] = json_data.data[0].attributes?.lines?.data.map(
+  const lineage: LineProps[] = json_data?.data[0].attributes?.lines?.data.map(
     (line: any) => {
       return {
         key: line.id,
@@ -54,7 +54,6 @@ export const getServerSideProps: GetServerSideProps<{
       };
     }
   );
-  console.log(`Lineage: ${JSON.stringify(lineage)}`);
 
   return {
     props: { lineage },
