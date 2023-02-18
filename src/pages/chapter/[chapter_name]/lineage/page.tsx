@@ -21,10 +21,17 @@ export default async function Lineage() {
   const router = useRouter();
   const { chapter_name } = router.query;
   const { data } = await getLineageData(chapter_name);
+
   if (!data) {
     return <div>Chapter Not Found ...</div>;
   }
+
   const lineage = data[0].lines?.data;
+
+  if (!lineage) {
+    return <div>Lineage Not Found ...</div>;
+  }
+
   return (
     <div>
       {lineage.map((line: any) => (
