@@ -5,14 +5,13 @@ export interface LineProps {
   term: Terms;
   year: number;
   ship_name: string;
-  total_members: number;
 }
 
 export default function Line(props: LineProps) {
   return (
     <div key={props.id}>
       <h4>
-        {props.term} {props.year} {props.total_members}
+        {props.term} {props.year}
       </h4>
       <div>{props.ship_name}</div>
     </div>

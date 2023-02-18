@@ -40,7 +40,6 @@ export default async function Lineage() {
           term={line.term}
           year={line.year}
           ship_name={line.ship_name}
-          total_members={0}
         />
       ))}
     </div>
