@@ -1,13 +1,13 @@
 import React from "react";
 
-type ChapterHeroInfo = {
+type Props = {
   chapter: string;
   city: string;
   chapterType: "Undergraduate" | "Graduate";
   country: string;
 };
 
-const ChapterHero = ({ chapter, city, chapterType, country }: ChapterHeroInfo) => {
+const ChapterHero = ({ chapter, city, chapterType, country }: Props) => {
   return (
     <div className="relative isolate overflow-hidden bg-royal-blue">
       <img
