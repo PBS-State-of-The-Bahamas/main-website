@@ -5,7 +5,9 @@ async function getLineageData(
   chapter_name: string | string[] | undefined
 ): Promise<any> {
   const res = await fetch(
-    `http://localhost:1337/api/chapters?populate[0]=lines&filters[name][$eq]=${chapter_name}`,
+    `http://localhost:1337/api/chapters?populate[0]=lines&filters[chapter_abbreviation][$eq]=${(
+      chapter_name as string
+    ).toUpperCase()}`,
     { cache: "no-store" }
   );
 
