@@ -1,5 +1,5 @@
-import Line from "@/components/lineage/line";
 import { GetServerSideProps } from "next";
+import Line from "@/components/lineage/line";
 import { LineProps } from "@/components/lineage/line";
 
 export default function Lineage({ lineage }: { lineage: LineProps[] }) {
