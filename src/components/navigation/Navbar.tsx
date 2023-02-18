@@ -10,8 +10,8 @@ export default function Navbar({type = 'main'}: Props) {
   return (
     <>
       <SubNavBar />
-      <div className='bg-royal-blue h-12 '>
-        <div className='flex max-w-screen-2xl items-center px-10 mx-auto'>
+      <div className='bg-royal-blue'>
+        <div className='flex max-w-screen-2xl items-center px-10 py-2 mx-auto'>
           <PageLogo />
           <div className='flex items-center ml-auto'>
             {
@@ -29,7 +29,7 @@ export default function Navbar({type = 'main'}: Props) {
 
 function SubNavBar() {
   return (
-    <div className=' bg-dark-royal-blue '>
+    <div className=' bg-dark-royal-blue py-1'>
       <div className='max-w-screen-2xl px-10 flex text-gray-1 text-sm mx-auto'>
       {
         renderNavigationLinks(subNav)

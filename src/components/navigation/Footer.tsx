@@ -23,7 +23,7 @@ function Footer({}: Props) {
             </div>
 
         </div>
-        <div className=' bg-royal-blue py-1'>
+        <div className=' bg-royal-blue py-1 py-2'>
             <div className='text-gray-1 text-heading-6 flex mx-auto max-w-screen-2xl px-10'>
                 <>© {new Date().getFullYear()} Phi Beta Sigma Bahamas. All rights reserved.</>
                 <div className='ml-auto'>Privacy</div>
