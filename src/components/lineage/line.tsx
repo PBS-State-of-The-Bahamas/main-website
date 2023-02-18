@@ -13,9 +13,9 @@ export default function Line(props: LineProps) {
       key={props.key}
       className="rounded-lg shadow-lg p-8 bg-pure-white hover:bg-gray-4"
     >
-      <div className="text-heading-4">
+      <span className="text-heading-4">
         {props.term} {props.year}
-      </div>
+      </span>
       <div className="text-heading-6">{props.ship_name}</div>
     </div>
   );

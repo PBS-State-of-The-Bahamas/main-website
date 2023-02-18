@@ -21,10 +21,10 @@ export default function Lineage({
         <Head>
           <title>Chapter Lineage</title>
         </Head>
-        <div className="font-bold text-xl">{chapter}</div>
+        <span className="font-bold text-xl">{chapter}</span>
         <div className="font-bold text-heading-3">Lineage</div>
-        <div className="flex justify-between items-center mt-4 ">
-          <div className="flex space-x-4 space-y-4">
+        <div className="flex items-center mt-4">
+          <div className="flex flex-row flex-wrap justify-evenly space-x-4 space-y-4">
             {lineage.map((line: any) => (
               <Line
                 key={line.id}
