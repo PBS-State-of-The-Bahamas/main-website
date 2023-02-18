@@ -25,7 +25,6 @@ export default async function Lineage() {
     return <div>Chapter Not Found ...</div>;
   }
   const lineage = data[0].lines?.data;
-  //TODO loop through lineage results and populate list of components
   return (
     <div>
       {lineage.map((line: any) => (
