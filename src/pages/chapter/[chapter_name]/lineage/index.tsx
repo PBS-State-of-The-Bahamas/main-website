@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import Line from "@/components/lineage/line";
 import { LineProps } from "@/components/lineage/line";
+import PageTemplate from "@/components/PageTemplate";
 
 export default function Lineage({ lineage }: { lineage: LineProps[] }) {
   if (!lineage.length) {
@@ -8,16 +9,18 @@ export default function Lineage({ lineage }: { lineage: LineProps[] }) {
   }
 
   return (
-    <div>
-      {lineage.map((line: any) => (
-        <Line
-          key={line.id}
-          term={line.term}
-          year={line.year}
-          ship_name={line.ship_name}
-        />
-      ))}
-    </div>
+    <PageTemplate>
+      <div>
+        {lineage.map((line: any) => (
+          <Line
+            key={line.id}
+            term={line.term}
+            year={line.year}
+            ship_name={line.ship_name}
+          />
+        ))}
+      </div>
+    </PageTemplate>
   );
 }
 
