@@ -14,7 +14,7 @@ const GridGallery = (props: Props) => {
     >
       {props.images.map((image) => (
         <li key={image.source} className="relative">
-          <div className="group aspect-w-10 aspect-h-7 block w-full overflow-hidden rounded-lg bg-gray-100">
+          <div className="group aspect-w-10 aspect-h-7 block w-full overflow-hidden rounded-sm bg-gray-100">
             <img
               src={image.source}
               alt=""
