@@ -1,7 +1,7 @@
 type Terms = "Spring" | "Summer" | "Fall";
 
 export interface LineProps {
-  id: number;
+  key: number;
   term: Terms;
   year: number;
   ship_name: string;
@@ -9,7 +9,7 @@ export interface LineProps {
 
 export default function Line(props: LineProps) {
   return (
-    <div key={props.id}>
+    <div key={props.key}>
       <h4>
         {props.term} {props.year}
       </h4>
