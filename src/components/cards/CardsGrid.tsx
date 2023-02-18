@@ -1,7 +1,7 @@
 import React from "react";
 
 type Props = {
-  heading: string;
+  heading?: string;
   items: {
     icon: any;
     title: string;
@@ -13,7 +13,11 @@ type Props = {
 const CardsGrid = (props: Props) => {
   return (
     <div className="p-8">
-      <h4 className="text-heading-4 font-bold text-gray-6">{props.heading}</h4>
+      {props.heading && (
+        <h4 className="text-heading-4 font-bold text-gray-6">
+          {props.heading}
+        </h4>
+      )}
       <ul
         role="list"
         className="mt-3 grid gap-5 max-sm:grid-cols-1 max-sm:gap-6 md:grid-cols-3 lg:grid-cols-4"
