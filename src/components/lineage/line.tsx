@@ -9,11 +9,14 @@ export interface LineProps {
 
 export default function Line(props: LineProps) {
   return (
-    <div key={props.key}>
-      <h4>
+    <div
+      key={props.key}
+      className="rounded-lg shadow-lg p-8 bg-pure-white hover:bg-gray-4"
+    >
+      <div className="text-heading-4">
         {props.term} {props.year}
-      </h4>
-      <div>{props.ship_name}</div>
+      </div>
+      <div className="text-heading-6">{props.ship_name}</div>
     </div>
   );
 }

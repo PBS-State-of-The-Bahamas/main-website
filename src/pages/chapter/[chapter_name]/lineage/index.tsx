@@ -1,30 +1,47 @@
 import { GetServerSideProps } from "next";
 import Line from "@/components/lineage/line";
 import { LineProps } from "@/components/lineage/line";
+import Head from "next/head";
 import PageTemplate from "@/components/PageTemplate";
 
-export default function Lineage({ lineage }: { lineage: LineProps[] }) {
+export default function Lineage({
+  chapter,
+  lineage,
+}: {
+  chapter: string;
+  lineage: LineProps[];
+}) {
   if (!lineage.length) {
     return <div>Lineage Not Found ...</div>;
   }
 
   return (
     <PageTemplate>
-      <div>
-        {lineage.map((line: any) => (
-          <Line
-            key={line.id}
-            term={line.term}
-            year={line.year}
-            ship_name={line.ship_name}
-          />
-        ))}
+      <div className="container mt-12">
+        <Head>
+          <title>Chapter Lineage</title>
+        </Head>
+        <div className="font-bold text-xl">{chapter}</div>
+        <div className="font-bold text-heading-3">Lineage</div>
+        <div className="flex justify-between items-center mt-4 ">
+          <div className="flex space-x-4 space-y-4">
+            {lineage.map((line: any) => (
+              <Line
+                key={line.id}
+                term={line.term}
+                year={line.year}
+                ship_name={line.ship_name}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </PageTemplate>
   );
 }
 
 export const getServerSideProps: GetServerSideProps<{
+  chapter: string;
   lineage: LineProps[];
 }> = async ({ query }) => {
   const { chapter_name } = query;
@@ -47,6 +64,7 @@ export const getServerSideProps: GetServerSideProps<{
     };
   }
 
+  const chapter = json_data?.data[0].attributes?.name;
   const lineage: LineProps[] = json_data?.data[0].attributes?.lines?.data.map(
     (line: any) => {
       return {
@@ -59,6 +77,6 @@ export const getServerSideProps: GetServerSideProps<{
   );
 
   return {
-    props: { lineage },
+    props: { chapter, lineage },
   };
 };
