@@ -1,7 +1,5 @@
 import Line from "@/components/lineage/line";
 import { GetServerSideProps } from "next";
-import { InferGetServerSidePropsType } from "next";
-import { json } from "stream/consumers";
 import { LineProps } from "@/components/lineage/line";
 
 export default function Lineage({ lineage }: { lineage: LineProps[] }) {
@@ -10,17 +8,16 @@ export default function Lineage({ lineage }: { lineage: LineProps[] }) {
   }
 
   return (
-    <div>HI</div>
-    // <div>
-    //   {lineage.map((line: any) => (
-    //     <Line
-    //       key={line.id}
-    //       term={line.term}
-    //       year={line.year}
-    //       ship_name={line.ship_name}
-    //     />
-    //   ))}
-    // </div>
+    <div>
+      {lineage.map((line: any) => (
+        <Line
+          key={line.id}
+          term={line.term}
+          year={line.year}
+          ship_name={line.ship_name}
+        />
+      ))}
+    </div>
   );
 }
 
