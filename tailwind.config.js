@@ -2,7 +2,22 @@
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    fontFamily: {
+      openSans: ['Open Sans', 'sans-serif'],
+    },
+    fontSize: {
+      sm: '0.75rem',
+      base: '1rem',
+      xl: '1.25rem',
+      'heading-1': ['3rem', {fontWeight: '700'}],
+      'heading-2': ['2.5rem', {fontWeight: '700'}],
+      'heading-3': ['2rem', {fontWeight: '700'}],
+      'heading-4': ['1.5rem', {fontWeight: '700'}],
+      'heading-5': ['1.25rem', {fontWeight: '700'}],
+      'heading-6': ['0.75rem', {fontWeight: '700', letterSpacing: '0.015em', textTransform: 'uppercase'}],
+    },
     extend: {
+      
       colors: {
         "royal-blue": "#0033a1",
         // e.g. {element}-royal-blue
@@ -43,6 +58,7 @@ module.exports = {
         },
       },
       screens: {
+        laptop: "1080px",
         sm: "0px",
         // => @media (min-width: 640px) { ... }
 
