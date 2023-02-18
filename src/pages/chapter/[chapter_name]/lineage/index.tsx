@@ -5,7 +5,7 @@ import { json } from "stream/consumers";
 import { LineProps } from "@/components/lineage/line";
 
 export default function Lineage({ lineage }: { lineage: LineProps[] }) {
-  if (!lineage) {
+  if (!lineage.length) {
     return <div>Lineage Not Found ...</div>;
   }
 
