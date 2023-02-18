@@ -24,7 +24,7 @@ export default function Lineage({
         <span className="font-bold text-xl">{chapter}</span>
         <div className="font-bold text-heading-3">Lineage</div>
         <div className="flex items-center mt-4">
-          <div className="flex flex-row flex-wrap justify-evenly space-x-4 space-y-4">
+          <div className="flex flex-wrap justify-start md:justify-between space-y-4">
             {lineage.map((line: any) => (
               <Line
                 key={line.id}
