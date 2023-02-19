@@ -6,11 +6,22 @@ export interface Params {
 
 /* 
     axios use
+    
     const endpoint = "/endpoint"
     await axiosRequest({populate: "*"}).get(endpoint) 
       .catch((err: any) => handle error)
 
     The request url will look like this: http://baseurl.com/endpoint?populate=*
+
+    api module folder structure: 
+
+        api /
+            axios.ts
+            modules/
+                    chapterPages.ts  *routing for chapter page data
+                    chapterLines.ts  *routing for chapter line data
+                    chapter.ts       *routing for chapter data
+
 */
 
 const axiosRequest = (params?: Params) => {
