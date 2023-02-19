@@ -31,8 +31,8 @@ const CardsGrid = (props: Props) => {
               {prop.icon}
             </div>
             <div className="flex flex-1 items-center justify-between rounded-r-md bg-white">
-              <div className="flex-1 px-4 py-2 text-sm uppercase">
-                <p className="font-bold text-black">{prop.title}</p>
+              <div className="flex-1 px-4 py-2 text-sm">
+                <p className="font-bold text-black uppercase">{prop.title}</p>
                 <p className="text-gray-5">
                   <span className="font-bold">{prop.subtitle}</span>
                   {prop.description && <span> - {prop.description}</span>}
