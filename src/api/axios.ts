@@ -4,6 +4,15 @@ interface Params {
   [key: string]: string;
 }
 
+/* 
+    axios use
+    const endpoint = "/endpoint"
+    await axiosRequest({populate: "*"}).get(endpoint) 
+      .catch((err: any) => handle error)
+
+    The request url will look like this: http://baseurl.com/endpoint?populate=*
+*/
+
 const axiosRequest = (params?: Params) => {
   let searchParams: URLSearchParams = new URLSearchParams();
   if (params)
