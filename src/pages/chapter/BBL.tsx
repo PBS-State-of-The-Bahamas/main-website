@@ -106,6 +106,7 @@ const Chapter = () => {
         chapterType="Undergraduate"
         city="Nassau"
         country="Bahamas"
+        buttonText="I'm Interested"
       />
       <div className="flex flex-col lg:flex-row w-full">
         <div className="lg:w-3/6 p-8">
