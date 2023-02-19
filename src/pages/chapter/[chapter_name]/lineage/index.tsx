@@ -23,17 +23,15 @@ export default function Lineage({
         </Head>
         <span className="font-bold text-xl">{chapter}</span>
         <div className="font-bold text-heading-3">Lineage</div>
-        <div className="flex items-center mt-4">
-          <div className="flex flex-wrap justify-start md:justify-between grid-cols-4 sm:grid-cols-1 gap-4">
-            {lineage.map((line: any) => (
-              <Line
-                key={line.id}
-                term={line.term}
-                year={line.year}
-                ship_name={line.ship_name}
-              />
-            ))}
-          </div>
+        <div className="flex flex-wrap mt-4 sm:justify-start justify-between grid-cols-4 sm:grid-cols-1 gap-4">
+          {lineage.map((line: any) => (
+            <Line
+              key={line.id}
+              term={line.term}
+              year={line.year}
+              ship_name={line.ship_name}
+            />
+          ))}
         </div>
       </div>
     </PageTemplate>
