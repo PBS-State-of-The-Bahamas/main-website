@@ -1,9 +1,11 @@
+import { LineMemberProps } from "../lineage/line_member";
 import MemberThumbnail from "../member/member_thumbnail";
 
 export interface MemberProps {
   key: number;
   member_name: string;
   member_photo_url: string;
+  description: LineMemberProps;
   children: React.ReactNode;
 }
 

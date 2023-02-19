@@ -1,7 +1,8 @@
 import { GetServerSideProps } from "next";
 import { MemberProps } from "@/components/member/member";
 
-export default function LineMembers({ chapter_abbreviaton, id }) {
+export default function LineMembers({ line_members }) {
+  console.log(`Line Members: ${JSON.stringify(line_members)}`);
   return <div></div>;
 }
 
@@ -30,10 +31,15 @@ export const getServerSideProps: GetServerSideProps<{
 
   const line_members: MemberProps[] = json_data?.data.map((line: any) => {
     return {
-      key: line.attributes?.member?.data?.attributes?.id,
-      member_name: line.attributes?.member?.data?.attributes?.name,
-      member_photo_url: line.attributes?.year,
-      ship_name: line.attributes?.ship_name,
+      key: line?.id,
+      member_name: line?.attributes?.name,
+      member_photo_url: line?.attributes?.photo?.data?.formats?.small,
+      description: {
+        key: line?.attributes?.line_member?.data?.attributes?.id,
+        line_number:
+          line?.attributes?.line_member?.data?.attributes?.line_number,
+        line_name: line?.attributes?.line_member?.data?.attributes?.line_name,
+      },
     };
   });
 
