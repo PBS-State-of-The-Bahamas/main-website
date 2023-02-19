@@ -6,9 +6,10 @@ export interface Params {
 
 /* 
     axios use
-    
+
     const endpoint = "/endpoint"
-    await axiosRequest({populate: "*"}).get(endpoint) 
+    ***pass query params in an object as name:value pairs
+    await axiosRequest({populate: "*", sort: "asc"}).get(endpoint) 
       .catch((err: any) => handle error)
 
     The request url will look like this: http://baseurl.com/endpoint?populate=*
