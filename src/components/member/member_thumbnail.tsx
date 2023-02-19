@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "../styles/Member.module.css";
+import styles from "../../styles/Member.module.css";
 
 export interface MemberThumbnailProps {
   member_photo_url: string;
