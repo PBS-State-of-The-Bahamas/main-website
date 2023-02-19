@@ -27,6 +27,7 @@ export default function Lineage({
         <div className="flex flex-wrap mt-4 sm:justify-start justify-between grid-cols-4 sm:grid-cols-1 gap-4">
           {lineage.map((line: any) => (
             <Link
+              className="md:w-1/4 w-full"
               href={{
                 pathname: "/products",
                 query: { product: "1" },
