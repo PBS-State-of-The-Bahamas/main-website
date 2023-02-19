@@ -2,7 +2,6 @@ import { GetServerSideProps } from "next";
 import { MemberProps } from "@/components/member/member";
 
 export default function LineMembers({ line_members }) {
-  console.log(`Line Members: ${JSON.stringify(line_members)}`);
   return <div></div>;
 }
 
@@ -33,9 +32,10 @@ export const getServerSideProps: GetServerSideProps<{
     return {
       key: line?.id,
       member_name: line?.attributes?.name,
-      member_photo_url: line?.attributes?.photo?.data?.formats?.small,
+      member_photo_url:
+        line?.attributes?.photo?.data[0].attributes?.formats?.small?.url,
       description: {
-        key: line?.attributes?.line_member?.data?.attributes?.id,
+        key: line?.attributes?.line_member?.data?.id,
         line_number:
           line?.attributes?.line_member?.data?.attributes?.line_number,
         line_name: line?.attributes?.line_member?.data?.attributes?.line_name,
