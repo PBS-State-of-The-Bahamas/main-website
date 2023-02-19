@@ -1,12 +1,51 @@
 import { GetServerSideProps } from "next";
-import { MemberProps } from "@/components/member/member";
+import Member, { MemberProps } from "@/components/member/member";
+import PageTemplate from "@/components/PageTemplate";
+import Head from "next/head";
+import LineMember, { LineMemberProps } from "@/components/lineage/line_member";
 
 export default function LineMembers({ line_members }) {
-  return <div></div>;
-}
+  if (!line_members.length) {
+    return <div>Line Members Not Found ...</div>;
+  }
 
+  return (
+    <PageTemplate>
+      <div className="md:container md:mx-auto mt-12">
+        <Head>
+          <title>Chapter Lineage</title>
+        </Head>
+        <span className="font-bold text-xl">Chapter</span>
+        <div className="font-bold text-heading-3">Lineage</div>
+        <div className="flex flex-wrap mt-4 sm:justify-start justify-between grid-cols-4 sm:grid-cols-1 gap-4">
+          {line_members.map((line: LineMember) => (
+            <div className="md:w-1/4 w-full">
+              <Member
+                key={line.key}
+                member_name={line.member_name}
+                member_photo_url={line.member_photo_url}
+              >
+                <LineMember
+                  key={line.description.key}
+                  line_number={line.description.line_number}
+                  line_name={line.description.line_name}
+                />
+              </Member>
+            </div>
+          ))}
+        </div>
+      </div>
+    </PageTemplate>
+  );
+}
+export interface LineMember {
+  key: number;
+  member_name: string;
+  member_photo_url: string;
+  description: LineMemberProps;
+}
 export const getServerSideProps: GetServerSideProps<{
-  line_members: MemberProps[];
+  line_members: LineMember[];
 }> = async ({ query }) => {
   let { chapter_abbreviation } = query;
   chapter_abbreviation = (chapter_abbreviation as string).toUpperCase();
@@ -28,7 +67,7 @@ export const getServerSideProps: GetServerSideProps<{
     };
   }
 
-  const line_members: MemberProps[] = json_data?.data.map((line: any) => {
+  const line_members: LineMember[] = json_data?.data.map((line: any) => {
     return {
       key: line.id,
       member_name: line.attributes?.name,
