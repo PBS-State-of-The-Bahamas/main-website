@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export interface Params {
+export interface QueryParams {
   [key: string]: string;
 }
 
@@ -12,7 +12,7 @@ export interface Params {
     await axiosRequest({populate: "*", sort: "asc"}).get(endpoint) 
       .catch((err: any) => handle error)
 
-    The request url will look like this: http://baseurl.com/endpoint?populate=*
+    The request url will look like this: http://baseurl.com/endpoint?populate=*&sort=asc
 
     api module folder structure: 
 
@@ -25,7 +25,7 @@ export interface Params {
 
 */
 
-const axiosRequest = (params?: Params) => {
+const axiosRequest = (params?: QueryParams) => {
   let searchParams: URLSearchParams = new URLSearchParams();
   if (params)
     for (const [key, value] of Object.entries(params)) {
