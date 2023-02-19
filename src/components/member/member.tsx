@@ -2,7 +2,7 @@ import { LineMemberProps } from "../lineage/line_member";
 import MemberThumbnail from "../member/member_thumbnail";
 
 export interface MemberProps {
-  key: number;
+  id: number;
   member_name: string;
   member_photo_url: string;
   children: React.ReactNode;
@@ -10,7 +10,7 @@ export interface MemberProps {
 
 export default function Member(props: MemberProps) {
   return (
-    <div key={props.key}>
+    <div key={props.id}>
       <MemberThumbnail member_photo_url={props.member_photo_url} />
       <h4>{props.member_name}</h4>
       {props.children}

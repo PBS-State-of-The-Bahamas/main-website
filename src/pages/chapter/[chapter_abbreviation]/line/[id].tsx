@@ -21,12 +21,12 @@ export default function LineMembers({ line_members }) {
           {line_members.map((line: LineMember) => (
             <div className="md:w-1/4 w-full">
               <Member
-                key={line.key}
+                id={line.id}
                 member_name={line.member_name}
                 member_photo_url={line.member_photo_url}
               >
                 <LineMember
-                  key={line.description.key}
+                  id={line.description.id}
                   line_number={line.description.line_number}
                   line_name={line.description.line_name}
                 />
@@ -39,7 +39,7 @@ export default function LineMembers({ line_members }) {
   );
 }
 export interface LineMember {
-  key: number;
+  id: number;
   member_name: string;
   member_photo_url: string;
   description: LineMemberProps;
@@ -69,12 +69,11 @@ export const getServerSideProps: GetServerSideProps<{
 
   const line_members: LineMember[] = json_data?.data.map((line: any) => {
     return {
-      key: line.id,
+      id: line.id,
       member_name: line.attributes?.name,
-      member_photo_url:
-        line.attributes?.photo?.data[0].attributes?.formats?.small?.url,
+      member_photo_url: `http://localhost:1337${line.attributes?.photo?.data[0].attributes?.formats?.small?.url}`,
       description: {
-        key: line.attributes?.line_member?.data?.id,
+        id: line.attributes?.line_member?.data?.id,
         line_number:
           line.attributes?.line_member?.data?.attributes?.line_number,
         line_name: line.attributes?.line_member?.data?.attributes?.line_name,
