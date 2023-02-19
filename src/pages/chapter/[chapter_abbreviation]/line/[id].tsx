@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps<{
   const token =
     "4300669fbc51d81c6ba5e2b2972dbb407e5512aecc3a8b3479a0936f75a3c9c4af610316dbcc131d0f2d30d7cb2a3c8bdd7f1c607256818c30a179f35771212ff40a172e614ccf6d3f8d0371eccf63997067c3b217566a8920875600d43d019b851c9243bc15c049e790670c25105e9bf39a64bfccef27edd065f80bb1258eba";
 
-  const url = `http://localhost:1337/api/line-members?populate[0]=line&populate[1]=member&filters[line][id][$eq]=${id}`;
+  const url = `http://localhost:1337/api/members?populate=*&filters[line_member][line][id][$eq]=${id}`;
 
   const response = await fetch(url, {
     headers: { Authorization: `Bearer ${token}` },
