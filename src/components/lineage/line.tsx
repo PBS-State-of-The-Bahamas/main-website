@@ -11,7 +11,7 @@ export default function Line(props: LineProps) {
   return (
     <div
       key={props.key}
-      className="rounded-lg shadow-lg p-8 bg-pure-white hover:bg-gray-4 w-auto"
+      className="rounded-lg shadow-lg p-8 bg-pure-white hover:bg-gray-4 md:w-1/4 w-full"
     >
       <span className="text-heading-4">
         {props.term} {props.year}
