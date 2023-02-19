@@ -30,15 +30,15 @@ export const getServerSideProps: GetServerSideProps<{
 
   const line_members: MemberProps[] = json_data?.data.map((line: any) => {
     return {
-      key: line?.id,
-      member_name: line?.attributes?.name,
+      key: line.id,
+      member_name: line.attributes?.name,
       member_photo_url:
-        line?.attributes?.photo?.data[0].attributes?.formats?.small?.url,
+        line.attributes?.photo?.data[0].attributes?.formats?.small?.url,
       description: {
-        key: line?.attributes?.line_member?.data?.id,
+        key: line.attributes?.line_member?.data?.id,
         line_number:
-          line?.attributes?.line_member?.data?.attributes?.line_number,
-        line_name: line?.attributes?.line_member?.data?.attributes?.line_name,
+          line.attributes?.line_member?.data?.attributes?.line_number,
+        line_name: line.attributes?.line_member?.data?.attributes?.line_name,
       },
     };
   });
