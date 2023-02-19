@@ -1,6 +1,6 @@
 import axios from "axios";
 
-interface Params {
+export interface Params {
   [key: string]: string;
 }
 
@@ -17,7 +17,7 @@ const axiosRequest = (params?: Params) => {
   let searchParams: URLSearchParams = new URLSearchParams();
   if (params)
     for (const [key, value] of Object.entries(params)) {
-      searchParams.append(key, value);
+      if (key && value) searchParams.append(key, value);
     }
   if (typeof window !== "undefined") {
     const instance = axios.create({
