@@ -8,44 +8,62 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useState } from "react";
 import { ParsedUrlQuery } from "querystring";
 
-export default function LineMembers({ query, line_info, line_members }) {
-  if (!line_members.length) {
+export default function LineMembers({
+  query,
+  lineInfo,
+  lineMembers,
+}: {
+  query: ParsedUrlQuery;
+  lineInfo: LineInfo;
+  lineMembers: LineMember[];
+}) {
+  if (!lineMembers.length) {
     return <div>Line Members Not Found ...</div>;
   }
 
-  const {
-    chapter_abbreviation,
-    id,
-  }: { chapter_abbreviation: string; id: string } = query;
+  const { chapter_abbreviation, id } = query;
 
-  const [lineMembers, setLineMembers] = useState(line_members);
+  const [_lineMembers, setLineMembers] = useState(lineMembers);
+
+  const addNewLineMembers = async (): Promise<void> => {
+    const additionalLineMembers = await getLineMembers(
+      chapter_abbreviation as string,
+      id as string,
+      _lineMembers.length,
+      10
+    );
+    setLineMembers((_lineMembers) => [
+      ..._lineMembers,
+      ...additionalLineMembers,
+    ]);
+  };
 
   return (
     <div>
       <Head>
-        <title>{`${line_info.ship_name}`}</title>
+        <title>{`${lineInfo.ship_name}`}</title>
       </Head>
       <PageTemplate>
         <div className="md:container md:mx-auto mt-12">
           <div>
-            <div className="font-bold text-xl">{line_info.chapter}</div>
+            <div className="font-bold text-xl">{lineInfo.chapter}</div>
             <div className="font-bold text-heading-3">Lineage</div>
             <div className="mt-4">
               <span className="text-heading-4">
-                {line_info.term} {line_info.year}
+                {lineInfo.term} {lineInfo.year}
               </span>
-              <div className="text-heading-6">{line_info.ship_name}</div>
+              <div className="text-heading-6">{lineInfo.ship_name}</div>
             </div>
           </div>
           <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
             <InfiniteScroll
               dataLength={lineMembers.length}
-              next={getLineMembers(chapter_abbreviation, id)}
+              next={addNewLineMembers}
               hasMore={true}
               loader={<h4>Loading...</h4>}
               endMessage={
                 <p className="text-center">
-                  <b>{`You've reached the end of ${line_info.ship_name}`}</b>
+                  <b>{`You've reached the end of ${lineInfo.ship_name}`}</b>
                 </p>
               }
             >
@@ -84,79 +102,95 @@ export interface LineInfo {
   ship_name: string;
 }
 
-async function getLineMembers(chapter_abbreviation: string, line_id: string) {
-  const url = `http://localhost:1337/api/members?sort[0]=[line_member][line_number]&populate=*&filters[line_member][line][id][$eq]=${line_id}&filters[line_member][line][chapter][chapter_abbreviation][$eq]=${chapter_abbreviation}`;
+async function getLineMembers(
+  chapter_abbreviation: string,
+  line_id: string,
+  start: number,
+  limit: number
+): Promise<LineMember[]> {
+  const url = `http://localhost:1337/api/members?sort[0]=[line_member][line_number]&populate=*&filters[line_member][line][id][$eq]=${line_id}&filters[line_member][line][chapter][chapter_abbreviation][$eq]=${chapter_abbreviation}&pagination[start]=${start}&pagination[limit]=${limit}`;
   const token =
     "4300669fbc51d81c6ba5e2b2972dbb407e5512aecc3a8b3479a0936f75a3c9c4af610316dbcc131d0f2d30d7cb2a3c8bdd7f1c607256818c30a179f35771212ff40a172e614ccf6d3f8d0371eccf63997067c3b217566a8920875600d43d019b851c9243bc15c049e790670c25105e9bf39a64bfccef27edd065f80bb1258eba";
   const response = await fetch(url, {
     headers: { Authorization: `Bearer ${token}` },
   });
-  return await response.json();
+
+  const jsonLineMembers = await response.json();
+
+  const lineMembers: LineMember[] = jsonLineMembers?.data.map((line: any) => {
+    return {
+      id: line.id,
+      member_name: line.attributes?.name,
+      member_photo_url: line.attributes?.photo?.data?.length
+        ? `http://localhost:1337${line.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
+        : "/images/missing-member.svg",
+      description: {
+        id: line.attributes?.line_member?.data?.id,
+        line_number:
+          line.attributes?.line_member?.data?.attributes?.line_number,
+        line_name: line.attributes?.line_member?.data?.attributes?.line_name,
+      },
+    };
+  });
+
+  return lineMembers;
 }
 
-async function getLineInfo(chapter_abbreviation: string, line_id: string) {
+async function getLineInfo(
+  chapter_abbreviation: string,
+  line_id: string
+): Promise<LineInfo | undefined> {
   const url = `http://localhost:1337/api/lines?populate[0]=chapter&filters[chapter][chapter_abbreviation][$eq]=${chapter_abbreviation}&filters[id][$eq]=${line_id}`;
   const token =
     "4300669fbc51d81c6ba5e2b2972dbb407e5512aecc3a8b3479a0936f75a3c9c4af610316dbcc131d0f2d30d7cb2a3c8bdd7f1c607256818c30a179f35771212ff40a172e614ccf6d3f8d0371eccf63997067c3b217566a8920875600d43d019b851c9243bc15c049e790670c25105e9bf39a64bfccef27edd065f80bb1258eba";
   const response = await fetch(url, {
     headers: { Authorization: `Bearer ${token}` },
   });
-  return await response.json();
+
+  const jsonLineInfo = await response.json();
+
+  if (!jsonLineInfo?.data.length) {
+    return undefined;
+  }
+
+  const lineInfo: LineInfo = {
+    chapter: jsonLineInfo.data[0].attributes?.chapter?.data?.attributes.name,
+    term: jsonLineInfo.data[0].attributes?.term,
+    year: jsonLineInfo.data[0].attributes?.year,
+    ship_name: jsonLineInfo.data[0].attributes?.ship_name,
+  };
+
+  return lineInfo;
 }
 
 export const getServerSideProps: GetServerSideProps<{
   query: ParsedUrlQuery;
-  line_info: LineInfo;
-  line_members: LineMember[];
+  lineInfo: LineInfo;
+  lineMembers: LineMember[];
 }> = async ({ query }) => {
   let { chapter_abbreviation } = query;
   chapter_abbreviation = (chapter_abbreviation as string).toUpperCase();
   let { id } = query;
   id = id as string;
 
-  const [json_line_members, json_line_info] = await Promise.all([
-    getLineMembers(chapter_abbreviation, id),
+  const [lineMembers, lineInfo] = await Promise.all([
+    getLineMembers(chapter_abbreviation, id, 0, 10),
     getLineInfo(chapter_abbreviation, id),
   ]);
 
-  if (!json_line_members?.data?.length) {
+  if (!lineMembers.length) {
     return {
       notFound: true,
     };
   }
 
-  const line_members: LineMember[] = json_line_members?.data.map(
-    (line: any) => {
-      return {
-        id: line.id,
-        member_name: line.attributes?.name,
-        member_photo_url: line.attributes?.photo?.data?.length
-          ? `http://localhost:1337${line.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
-          : "/images/missing-member.svg",
-        description: {
-          id: line.attributes?.line_member?.data?.id,
-          line_number:
-            line.attributes?.line_member?.data?.attributes?.line_number,
-          line_name: line.attributes?.line_member?.data?.attributes?.line_name,
-        },
-      };
-    }
-  );
-
-  if (!json_line_info?.data?.length) {
+  if (!lineInfo) {
     return {
       notFound: true,
     };
   }
-
-  const line_info: LineInfo = {
-    chapter: json_line_info.data[0].attributes?.chapter?.data?.attributes.name,
-    term: json_line_info.data[0].attributes?.term,
-    year: json_line_info.data[0].attributes?.year,
-    ship_name: json_line_info.data[0].attributes?.ship_name,
-  };
 
   return {
-    props: { query, line_info, line_members },
+    props: { query, lineInfo, lineMembers },
   };
 };
