@@ -12,7 +12,7 @@ export default function Member(props: MemberProps) {
   return (
     <div key={props.id}>
       <MemberThumbnail member_photo_url={props.member_photo_url} />
-      <h4>{props.member_name}</h4>
+      <div className="text-heading-5">{props.member_name}</div>
       {props.children}
     </div>
   );
