@@ -4,11 +4,21 @@ import PageTemplate from "@/components/PageTemplate";
 import Head from "next/head";
 import LineMember, { LineMemberProps } from "@/components/lineage/line_member";
 import { Terms } from "@/components/lineage/line";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useState } from "react";
+import { ParsedUrlQuery } from "querystring";
 
-export default function LineMembers({ line_info, line_members }) {
+export default function LineMembers({ query, line_info, line_members }) {
   if (!line_members.length) {
     return <div>Line Members Not Found ...</div>;
   }
+
+  const {
+    chapter_abbreviation,
+    id,
+  }: { chapter_abbreviation: string; id: string } = query;
+
+  const [lineMembers, setLineMembers] = useState(line_members);
 
   return (
     <div>
@@ -28,19 +38,31 @@ export default function LineMembers({ line_info, line_members }) {
             </div>
           </div>
           <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
-            {line_members.map((line: LineMember) => (
-              <Member
-                id={line.id}
-                member_name={line.member_name}
-                member_photo_url={line.member_photo_url}
-              >
-                <LineMember
-                  id={line.description.id}
-                  line_number={line.description.line_number}
-                  line_name={line.description.line_name}
-                />
-              </Member>
-            ))}
+            <InfiniteScroll
+              dataLength={lineMembers.length}
+              next={getLineMembers(chapter_abbreviation, id)}
+              hasMore={true}
+              loader={<h4>Loading...</h4>}
+              endMessage={
+                <p className="text-center">
+                  <b>{`You've reached the end of ${line_info.ship_name}`}</b>
+                </p>
+              }
+            >
+              {lineMembers.map((line: LineMember) => (
+                <Member
+                  id={line.id}
+                  member_name={line.member_name}
+                  member_photo_url={line.member_photo_url}
+                >
+                  <LineMember
+                    id={line.description.id}
+                    line_number={line.description.line_number}
+                    line_name={line.description.line_name}
+                  />
+                </Member>
+              ))}
+            </InfiniteScroll>
           </div>
         </div>
       </PageTemplate>
@@ -83,6 +105,7 @@ async function getLineInfo(chapter_abbreviation: string, line_id: string) {
 }
 
 export const getServerSideProps: GetServerSideProps<{
+  query: ParsedUrlQuery;
   line_info: LineInfo;
   line_members: LineMember[];
 }> = async ({ query }) => {
@@ -134,6 +157,6 @@ export const getServerSideProps: GetServerSideProps<{
   };
 
   return {
-    props: { line_info, line_members },
+    props: { query, line_info, line_members },
   };
 };
