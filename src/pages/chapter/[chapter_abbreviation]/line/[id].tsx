@@ -13,7 +13,7 @@ export default function LineMembers({ line_info, line_members }) {
   return (
     <div>
       <Head>
-        <title>{`${line_info.chapter} Lineage`}</title>
+        <title>{`${line_info.ship_name}`}</title>
       </Head>
       <PageTemplate>
         <div className="md:container md:mx-auto mt-12">
