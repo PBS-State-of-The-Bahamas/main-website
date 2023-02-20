@@ -11,32 +11,42 @@ export default function LineMembers({ line_info, line_members }) {
   }
 
   return (
-    <PageTemplate>
-      <div className="md:container md:mx-auto mt-12">
-        <Head>
-          <title>Chapter Lineage</title>
-        </Head>
-        <span className="font-bold text-xl">{line_info.chapter}</span>
-        <div className="font-bold text-heading-3">Lineage</div>
-        <div className="flex flex-wrap mt-4 sm:justify-start justify-between grid-cols-4 sm:grid-cols-1 gap-4">
-          {line_members.map((line: LineMember) => (
-            <div className="md:w-1/4 w-full">
-              <Member
-                id={line.id}
-                member_name={line.member_name}
-                member_photo_url={line.member_photo_url}
-              >
-                <LineMember
-                  id={line.description.id}
-                  line_number={line.description.line_number}
-                  line_name={line.description.line_name}
-                />
-              </Member>
+    <div>
+      <Head>
+        <title>Chapter Lineage</title>
+      </Head>
+      <PageTemplate>
+        <div className="md:container md:mx-auto mt-12">
+          <div>
+            <div className="font-bold text-xl">{line_info.chapter}</div>
+            <div className="font-bold text-heading-3">Lineage</div>
+            <div className="mt-4">
+              <span className="text-heading-4">
+                {line_info.term} {line_info.year}
+              </span>
+              <div className="text-heading-6">{line_info.ship_name}</div>
             </div>
-          ))}
+          </div>
+          <div className="flex flex-wrap mt-4 sm:justify-start justify-between grid-cols-4 sm:grid-cols-1 gap-4">
+            {line_members.map((line: LineMember) => (
+              <div className="md:w-1/4 w-full">
+                <Member
+                  id={line.id}
+                  member_name={line.member_name}
+                  member_photo_url={line.member_photo_url}
+                >
+                  <LineMember
+                    id={line.description.id}
+                    line_number={line.description.line_number}
+                    line_name={line.description.line_name}
+                  />
+                </Member>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </PageTemplate>
+      </PageTemplate>
+    </div>
   );
 }
 
