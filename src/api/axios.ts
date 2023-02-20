@@ -12,7 +12,9 @@ export interface QueryParams {
     await axiosRequest({populate: "*", sort: "asc"}).get(endpoint) 
       .catch((err: any) => handle error)
 
-    The request url will look like this: http://baseurl.com/endpoint?populate=*&sort=asc
+    The request url will look like this: 
+    
+            GET:http://baseurl.com/endpoint?populate=*&sort=asc
 
     api module folder structure: 
 
