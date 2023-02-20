@@ -7,13 +7,13 @@ export interface MemberThumbnailProps {
 
 export default function LineMemberThumbnail(props: MemberThumbnailProps) {
   return (
-    <div>
+    <div className="border">
       <Image
         src={props.member_photo_url}
         alt="member"
         className={styles.thumbnail}
-        width="200"
-        height="200"
+        width="100"
+        height="100"
       />
     </div>
   );
