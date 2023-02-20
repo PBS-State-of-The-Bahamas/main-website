@@ -16,7 +16,7 @@ export default function LineMembers({ line_info, line_members }) {
         <Head>
           <title>Chapter Lineage</title>
         </Head>
-        <span className="font-bold text-xl">{line_info.chapter_name}</span>
+        <span className="font-bold text-xl">{line_info.chapter}</span>
         <div className="font-bold text-heading-3">Lineage</div>
         <div className="flex flex-wrap mt-4 sm:justify-start justify-between grid-cols-4 sm:grid-cols-1 gap-4">
           {line_members.map((line: LineMember) => (
