@@ -4,15 +4,14 @@ export interface MemberThumbnailProps {
   member_photo_url: string;
 }
 
-export default function LineMemberThumbnail(props: MemberThumbnailProps) {
+export default function MemberThumbnail(props: MemberThumbnailProps) {
   return (
     <div className="border">
-      <Image
+      <img
+        className="w-12 h-auto"
         src={props.member_photo_url}
         alt="member"
-        width="100"
-        height="100"
-      />
+      ></img>
     </div>
   );
 }

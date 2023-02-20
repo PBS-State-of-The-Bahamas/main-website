@@ -27,21 +27,19 @@ export default function LineMembers({ line_info, line_members }) {
               <div className="text-heading-6">{line_info.ship_name}</div>
             </div>
           </div>
-          <div className="flex flex-wrap mt-4 sm:justify-start justify-between grid-cols-4 sm:grid-cols-1 gap-4">
+          <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
             {line_members.map((line: LineMember) => (
-              <div className="md:w-1/4 w-full">
-                <Member
-                  id={line.id}
-                  member_name={line.member_name}
-                  member_photo_url={line.member_photo_url}
-                >
-                  <LineMember
-                    id={line.description.id}
-                    line_number={line.description.line_number}
-                    line_name={line.description.line_name}
-                  />
-                </Member>
-              </div>
+              <Member
+                id={line.id}
+                member_name={line.member_name}
+                member_photo_url={line.member_photo_url}
+              >
+                <LineMember
+                  id={line.description.id}
+                  line_number={line.description.line_number}
+                  line_name={line.description.line_name}
+                />
+              </Member>
             ))}
           </div>
         </div>

@@ -26,22 +26,20 @@ export default function Lineage({
         </Head>
         <span className="font-bold text-xl">{chapter_name}</span>
         <div className="font-bold text-heading-3">Lineage</div>
-        <div className="flex flex-wrap mt-4 sm:justify-start justify-between grid-cols-4 sm:grid-cols-1 gap-4">
+        <div className="mt-4 grid md:items-center md:grid-cols-4 md:gap-4 gap-y-4">
           {lineage.map((line: any) => (
-            <div className="md:w-1/4 w-full">
-              <Link
-                href={{
-                  pathname: `/chapter/${chapter_abbreviation}/line/${line.key}`,
-                }}
-              >
-                <Line
-                  key={line.key}
-                  term={line.term}
-                  year={line.year}
-                  ship_name={line.ship_name}
-                />
-              </Link>
-            </div>
+            <Link
+              href={{
+                pathname: `/chapter/${chapter_abbreviation}/line/${line.key}`,
+              }}
+            >
+              <Line
+                key={line.key}
+                term={line.term}
+                year={line.year}
+                ship_name={line.ship_name}
+              />
+            </Link>
           ))}
         </div>
       </div>
