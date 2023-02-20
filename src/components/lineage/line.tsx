@@ -1,4 +1,4 @@
-type Terms = "Spring" | "Summer" | "Fall";
+export type Terms = "Spring" | "Summer" | "Fall";
 
 export interface LineProps {
   key: number;

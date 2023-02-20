@@ -3,8 +3,9 @@ import Member, { MemberProps } from "@/components/member/member";
 import PageTemplate from "@/components/PageTemplate";
 import Head from "next/head";
 import LineMember, { LineMemberProps } from "@/components/lineage/line_member";
+import { Terms } from "@/components/lineage/line";
 
-export default function LineMembers({ chapter_name, line_members }) {
+export default function LineMembers({ line_info, line_members }) {
   if (!line_members.length) {
     return <div>Line Members Not Found ...</div>;
   }
@@ -15,7 +16,7 @@ export default function LineMembers({ chapter_name, line_members }) {
         <Head>
           <title>Chapter Lineage</title>
         </Head>
-        <span className="font-bold text-xl">{chapter_name}</span>
+        <span className="font-bold text-xl">{line_info.chapter_name}</span>
         <div className="font-bold text-heading-3">Lineage</div>
         <div className="flex flex-wrap mt-4 sm:justify-start justify-between grid-cols-4 sm:grid-cols-1 gap-4">
           {line_members.map((line: LineMember) => (
@@ -46,8 +47,15 @@ export interface LineMember {
   description: LineMemberProps;
 }
 
-async function getLineMembers(chapter_abbreviation: string, id: string) {
-  const url = `http://localhost:1337/api/members?sort[0]=[line_member][line_number]&populate=*&filters[line_member][line][id][$eq]=${id}&filters[line_member][line][chapter][chapter_abbreviation][$eq]=${chapter_abbreviation}`;
+export interface LineInfo {
+  chapter: string;
+  term: Terms;
+  year: number;
+  ship_name: string;
+}
+
+async function getLineMembers(chapter_abbreviation: string, line_id: string) {
+  const url = `http://localhost:1337/api/members?sort[0]=[line_member][line_number]&populate=*&filters[line_member][line][id][$eq]=${line_id}&filters[line_member][line][chapter][chapter_abbreviation][$eq]=${chapter_abbreviation}`;
   const token =
     "4300669fbc51d81c6ba5e2b2972dbb407e5512aecc3a8b3479a0936f75a3c9c4af610316dbcc131d0f2d30d7cb2a3c8bdd7f1c607256818c30a179f35771212ff40a172e614ccf6d3f8d0371eccf63997067c3b217566a8920875600d43d019b851c9243bc15c049e790670c25105e9bf39a64bfccef27edd065f80bb1258eba";
   const response = await fetch(url, {
@@ -56,8 +64,8 @@ async function getLineMembers(chapter_abbreviation: string, id: string) {
   return await response.json();
 }
 
-async function getChapterName(chapter_abbreviation: string) {
-  const url = `http://localhost:1337/api/chapters?filters[chapter_abbreviation][$eq]=${chapter_abbreviation}`;
+async function getLineInfo(chapter_abbreviation: string, line_id: string) {
+  const url = `http://localhost:1337/api/lines?populate[0]=chapter&filters[chapter][chapter_abbreviation][$eq]=${chapter_abbreviation}&filters[id][$eq]=${line_id}`;
   const token =
     "4300669fbc51d81c6ba5e2b2972dbb407e5512aecc3a8b3479a0936f75a3c9c4af610316dbcc131d0f2d30d7cb2a3c8bdd7f1c607256818c30a179f35771212ff40a172e614ccf6d3f8d0371eccf63997067c3b217566a8920875600d43d019b851c9243bc15c049e790670c25105e9bf39a64bfccef27edd065f80bb1258eba";
   const response = await fetch(url, {
@@ -67,16 +75,17 @@ async function getChapterName(chapter_abbreviation: string) {
 }
 
 export const getServerSideProps: GetServerSideProps<{
-  chapter_name: string;
+  line_info: LineInfo;
   line_members: LineMember[];
 }> = async ({ query }) => {
   let { chapter_abbreviation } = query;
   chapter_abbreviation = (chapter_abbreviation as string).toUpperCase();
-  const { id } = query;
+  let { id } = query;
+  id = id as string;
 
-  const [json_line_members, json_chapter] = await Promise.all([
-    getLineMembers(chapter_abbreviation, id as string),
-    getChapterName(chapter_abbreviation),
+  const [json_line_members, json_line_info] = await Promise.all([
+    getLineMembers(chapter_abbreviation, id),
+    getLineInfo(chapter_abbreviation, id),
   ]);
 
   if (!json_line_members?.data?.length) {
@@ -101,15 +110,20 @@ export const getServerSideProps: GetServerSideProps<{
     }
   );
 
-  if (!json_chapter?.data?.length) {
+  if (!json_line_info?.data?.length) {
     return {
       notFound: true,
     };
   }
 
-  const chapter_name = json_chapter.data[0].attributes.name;
+  const line_info: LineInfo = {
+    chapter: json_line_info.data[0].attributes?.chapter?.data?.attributes.name,
+    term: json_line_info.data[0].attributes?.term,
+    year: json_line_info.data[0].attributes?.year,
+    ship_name: json_line_info.data[0].attributes?.ship_name,
+  };
 
   return {
-    props: { chapter_name, line_members },
+    props: { line_info, line_members },
   };
 };
