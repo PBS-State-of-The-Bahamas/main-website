@@ -111,7 +111,7 @@ export const getServerSideProps: GetServerSideProps<{
         member_name: line.attributes?.name,
         member_photo_url: line.attributes?.photo?.data?.length
           ? `http://localhost:1337${line.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
-          : "/images/missing-member.png",
+          : "/images/missing-member.svg",
         description: {
           id: line.attributes?.line_member?.data?.id,
           line_number:
