@@ -25,7 +25,6 @@ export default function LineMembers({
   }
 
   const { chapter_abbreviation, id } = query;
-
   const [_lineMembers, setLineMembers] = useState(lineMembers);
   const [hasMore, setHasMore] = useState(true);
 
