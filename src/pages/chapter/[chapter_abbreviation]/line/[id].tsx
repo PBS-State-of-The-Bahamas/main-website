@@ -36,7 +36,7 @@ export default function LineMembers({
       chapter_abbreviation as string,
       id as string,
       _lineMembers.length,
-      1
+      10
     );
     setLineMembers((_lineMembers) => [
       ..._lineMembers,
@@ -190,7 +190,7 @@ export const getServerSideProps: GetServerSideProps<{
   id = id as string;
 
   const [[lineMembers, totalLineMembers], lineInfo] = await Promise.all([
-    getLineMembers(chapter_abbreviation, id, 0, 1),
+    getLineMembers(chapter_abbreviation, id, 0, 10),
     getLineInfo(chapter_abbreviation, id),
   ]);
 
