@@ -19,31 +19,33 @@ export default function Lineage({
   }
 
   return (
-    <PageTemplate>
-      <div className="md:container md:mx-auto mt-12 min-h-screen">
-        <Head>
-          <title>Chapter Lineage</title>
-        </Head>
-        <span className="font-bold text-xl">{chapter_name}</span>
-        <div className="font-bold text-heading-3">Lineage</div>
-        <div className="mt-4 grid md:items-center md:grid-cols-4 md:gap-4 gap-y-4">
-          {lineage.map((line: any) => (
-            <Link
-              href={{
-                pathname: `/chapter/${chapter_abbreviation}/line/${line.key}`,
-              }}
-            >
-              <Line
-                key={line.key}
-                term={line.term}
-                year={line.year}
-                ship_name={line.ship_name}
-              />
-            </Link>
-          ))}
+    <div>
+      <Head>
+        <title>Chapter Lineage</title>
+      </Head>
+      <PageTemplate>
+        <div className="md:container md:mx-auto mt-12 min-h-screen">
+          <span className="font-bold text-xl">{chapter_name}</span>
+          <div className="font-bold text-heading-3">Lineage</div>
+          <div className="mt-4 grid md:items-center md:grid-cols-4 md:gap-4 gap-y-4">
+            {lineage.map((line: any) => (
+              <Link
+                href={{
+                  pathname: `/chapter/${chapter_abbreviation}/line/${line.key}`,
+                }}
+              >
+                <Line
+                  key={line.key}
+                  term={line.term}
+                  year={line.year}
+                  ship_name={line.ship_name}
+                />
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
-    </PageTemplate>
+      </PageTemplate>
+    </div>
   );
 }
 
