@@ -28,7 +28,7 @@ export default function Lineage({
 
   const addNewLines = async (): Promise<void> => {
     const [_chapterName, additionalLines, totalLines] = await getChapterLineage(
-      chapter_abbreviation as string,
+      chapter_abbreviation,
       _lineage.length,
       1
     );
@@ -65,7 +65,7 @@ export default function Lineage({
                   }}
                 >
                   <Line
-                    key={line.key}
+                    id={line.id}
                     term={line.term}
                     year={line.year}
                     ship_name={line.ship_name}
@@ -95,6 +95,7 @@ async function getChapterLineage(
   });
 
   const jsonChapterLineage = await response.json();
+  console.log(`Lineage: ${JSON.stringify(jsonChapterLineage)}`);
   const totalLines = jsonChapterLineage.meta?.pagination?.total;
 
   if (!jsonChapterLineage?.data.length) {
@@ -105,7 +106,7 @@ async function getChapterLineage(
 
   const lineage: LineProps[] = jsonChapterLineage?.data.map((line: any) => {
     return {
-      key: line.id,
+      id: line.id,
       term: line.attributes?.term,
       year: line.attributes?.year,
       ship_name: line.attributes?.ship_name,
