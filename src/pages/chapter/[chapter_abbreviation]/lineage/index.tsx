@@ -20,7 +20,7 @@ export default function Lineage({
 
   return (
     <PageTemplate>
-      <div className="md:container md:mx-auto mt-12">
+      <div className="md:container md:mx-auto mt-12 min-h-screen">
         <Head>
           <title>Chapter Lineage</title>
         </Head>

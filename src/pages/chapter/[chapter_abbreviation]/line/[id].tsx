@@ -7,6 +7,7 @@ import { Terms } from "@/components/lineage/line";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect, useState } from "react";
 import { ParsedUrlQuery } from "querystring";
+import { useTriggerScrollFix } from "@/hooks/triggerScroll";
 
 export default function LineMembers({
   query,
@@ -28,6 +29,8 @@ export default function LineMembers({
   const [_lineMembers, setLineMembers] = useState(lineMembers);
   const [hasMore, setHasMore] = useState(true);
 
+  useTriggerScrollFix([_lineMembers.length]);
+
   const addNewLineMembers = async (): Promise<void> => {
     const [additionalLineMembers, _totalLineMembers] = await getLineMembers(
       chapter_abbreviation as string,
@@ -39,11 +42,9 @@ export default function LineMembers({
       ..._lineMembers,
       ...additionalLineMembers,
     ]);
-  };
 
-  useEffect(() => {
     setHasMore(totalLineMembers > _lineMembers.length ? true : false);
-  }, [_lineMembers]);
+  };
 
   return (
     <div>
@@ -51,7 +52,10 @@ export default function LineMembers({
         <title>{`${lineInfo.ship_name}`}</title>
       </Head>
       <PageTemplate>
-        <div className="md:container md:mx-auto mt-12 min-h-screen">
+        <div
+          className="md:container md:mx-auto mt-12 min-h-screen"
+          id="lineMembers"
+        >
           <div>
             <div className="font-bold text-xl">{lineInfo.chapter}</div>
             <div className="font-bold text-heading-3">Lineage</div>
@@ -62,10 +66,13 @@ export default function LineMembers({
               <div className="text-heading-6">{lineInfo.ship_name}</div>
             </div>
           </div>
-          <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
+          <div
+            className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4"
+            id="lineMembersContainer"
+          >
             <InfiniteScroll
-              dataLength={_lineMembers.length}
-              next={addNewLineMembers}
+              dataLength={_lineMembers ? _lineMembers.length : 0}
+              next={() => addNewLineMembers()}
               hasMore={hasMore}
               loader={<h4>Loading...</h4>}
               endMessage={
