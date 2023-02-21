@@ -21,7 +21,7 @@ export default function Lineage({
   return (
     <div>
       <Head>
-        <title>{`${chapter_name} Chapter Lineage`}</title>
+        <title>{`${chapter_abbreviation} Chapter Lineage`}</title>
       </Head>
       <PageTemplate>
         <div className="md:container md:mx-auto mt-12 min-h-screen">
