@@ -130,8 +130,6 @@ async function getLineMembers(
 
   const jsonLineMembers = await response.json();
 
-  console.log(`Line Members: ${JSON.stringify(jsonLineMembers)}`);
-
   const lineMembers: LineMember[] = jsonLineMembers?.data.map((line: any) => {
     return {
       id: line.id,
