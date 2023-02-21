@@ -66,20 +66,20 @@ export default function LineMembers({
               <div className="text-heading-6">{lineInfo.ship_name}</div>
             </div>
           </div>
-          <div
-            className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4"
-            id="lineMembersContainer"
+          <InfiniteScroll
+            dataLength={_lineMembers ? _lineMembers.length : 0}
+            next={() => addNewLineMembers()}
+            hasMore={hasMore}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p className="text-center text-[8px] mt-8">
+                <b>{`You've reached the end of ${lineInfo.ship_name}`}</b>
+              </p>
+            }
           >
-            <InfiniteScroll
-              dataLength={_lineMembers ? _lineMembers.length : 0}
-              next={() => addNewLineMembers()}
-              hasMore={hasMore}
-              loader={<h4>Loading...</h4>}
-              endMessage={
-                <p className="text-center text-[8px]">
-                  <b>{`You've reached the end of ${lineInfo.ship_name}`}</b>
-                </p>
-              }
+            <div
+              className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4"
+              id="lineMembersContainer"
             >
               {_lineMembers.map((line: LineMember) => (
                 <Member
@@ -94,8 +94,8 @@ export default function LineMembers({
                   />
                 </Member>
               ))}
-            </InfiniteScroll>
-          </div>
+            </div>
+          </InfiniteScroll>
         </div>
       </PageTemplate>
     </div>
