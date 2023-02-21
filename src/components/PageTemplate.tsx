@@ -6,7 +6,7 @@ function PageTemplate({children, pageType='main'}) {
   return (
     <> 
         <Navbar type={pageType}/>
-            <main className='max-w-screen-2xl px-10 mx-auto flex'>{children}</main>
+            <main className=''>{children}</main>
         <Footer />
     </>
   )

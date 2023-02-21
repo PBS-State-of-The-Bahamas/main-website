@@ -9,7 +9,7 @@ module.exports = {
       sm: '0.75rem',
       base: '1rem',
       xl: '1.25rem',
-      'heading-1': ['3rem', {fontWeight: '700'}],
+      'heading-1': ['3rem', {fontWeight: '700', lineHeight: '3rem'}],
       'heading-2': ['2.5rem', {fontWeight: '700'}],
       'heading-3': ['2rem', {fontWeight: '700'}],
       'heading-4': ['1.5rem', {fontWeight: '700'}],
