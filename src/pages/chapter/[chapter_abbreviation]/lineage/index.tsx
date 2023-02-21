@@ -32,6 +32,9 @@ export default function Lineage({
       _lineage.length,
       1
     );
+
+    console.log(`Lineage: ${JSON.stringify(_lineage)}`);
+    console.log(`Total Lines: ${totalLines}`);
     setLineage((_lineage) => [..._lineage, ...additionalLines]);
 
     setHasMore(totalLines > _lineage.length ? true : false);
@@ -61,7 +64,7 @@ export default function Lineage({
               {lineage.map((line: any) => (
                 <Link
                   href={{
-                    pathname: `/chapter/${chapter_abbreviation}/line/${line.key}`,
+                    pathname: `/chapter/${chapter_abbreviation}/line/${line.id}`,
                   }}
                 >
                   <Line
@@ -95,7 +98,6 @@ async function getChapterLineage(
   });
 
   const jsonChapterLineage = await response.json();
-  console.log(`Lineage: ${JSON.stringify(jsonChapterLineage)}`);
   const totalLines = jsonChapterLineage.meta?.pagination?.total;
 
   if (!jsonChapterLineage?.data.length) {

@@ -5,6 +5,5 @@ export function useTriggerScrollFix(deps) {
     if (typeof window !== "undefined") {
       window.dispatchEvent(new CustomEvent("scroll"));
     }
-    console.log(`triggered`);
   }, deps);
 }
