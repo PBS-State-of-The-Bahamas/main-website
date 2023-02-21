@@ -5,7 +5,7 @@ const chapterPageActions = {
     const endpoint = "/chapter-pages";
     const params: QueryParams = {
       populate: "*",
-      "filters[chapter][chapter_abbreviation][$eq]": chapterAbbreviation,
+      "filters[chapter][chapter_abbreviation][$eq]": chapterAbbreviation?.toUpperCase(),
     };
     return await axiosRequest(params)
       .get(endpoint)
