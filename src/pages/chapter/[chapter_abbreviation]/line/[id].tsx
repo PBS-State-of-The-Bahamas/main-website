@@ -1,13 +1,12 @@
 import { GetServerSideProps } from "next";
-import Member, { MemberProps } from "@/components/member/member";
+import Member from "@/components/member/member";
 import PageTemplate from "@/components/PageTemplate";
 import Head from "next/head";
 import LineMember, { LineMemberProps } from "@/components/lineage/line_member";
 import { Terms } from "@/components/lineage/line";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ParsedUrlQuery } from "querystring";
-import { useTriggerScrollFix } from "@/hooks/triggerScroll";
 
 export default function LineMembers({
   query,
