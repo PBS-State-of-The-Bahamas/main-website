@@ -61,11 +61,12 @@ export default function Lineage({
             }
           >
             <div className="mt-4 grid md:items-center md:grid-cols-4 md:gap-4 gap-y-4">
-              {lineage.map((line: any) => (
+              {lineage.map((line: any, index: number) => (
                 <Link
                   href={{
                     pathname: `/chapter/${chapter_abbreviation}/line/${line.id}`,
                   }}
+                  key={index}
                 >
                   <Line
                     id={line.id}
