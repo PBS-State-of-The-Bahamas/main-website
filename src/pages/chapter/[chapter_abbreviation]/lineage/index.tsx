@@ -4,7 +4,7 @@ import { LineProps } from "@/components/lineage/line";
 import Head from "next/head";
 import PageTemplate from "@/components/PageTemplate";
 import Link from "next/link";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useTriggerScrollFix } from "@/hooks/triggerScroll";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -24,19 +24,13 @@ export default function Lineage({
   const [_lineage, setLineage] = useState(lineage);
   const [hasMore, setHasMore] = useState(true);
 
-  useTriggerScrollFix([_lineage.length]);
-
   const addNewLines = async (): Promise<void> => {
     const [_chapterName, additionalLines, totalLines] = await getChapterLineage(
       chapter_abbreviation,
       _lineage.length,
       1
     );
-
-    console.log(`Lineage: ${JSON.stringify(_lineage)}`);
-    console.log(`Total Lines: ${totalLines}`);
     setLineage((_lineage) => [..._lineage, ...additionalLines]);
-
     setHasMore(totalLines > _lineage.length ? true : false);
   };
 
@@ -61,7 +55,7 @@ export default function Lineage({
             }
           >
             <div className="mt-4 grid md:items-center md:grid-cols-4 md:gap-4 gap-y-4">
-              {lineage.map((line: any, index: number) => (
+              {_lineage.map((line: any, index: number) => (
                 <Link
                   href={{
                     pathname: `/chapter/${chapter_abbreviation}/line/${line.id}`,
@@ -88,6 +82,8 @@ async function getChapterLineage(
   start: number,
   limit: number
 ): Promise<[string | undefined, LineProps[], number]> {
+  console.log(`start:${start}`);
+  console.log(`limit:${limit}`);
   chapterAbbreviation = chapterAbbreviation.toUpperCase();
   const token =
     "4300669fbc51d81c6ba5e2b2972dbb407e5512aecc3a8b3479a0936f75a3c9c4af610316dbcc131d0f2d30d7cb2a3c8bdd7f1c607256818c30a179f35771212ff40a172e614ccf6d3f8d0371eccf63997067c3b217566a8920875600d43d019b851c9243bc15c049e790670c25105e9bf39a64bfccef27edd065f80bb1258eba";
