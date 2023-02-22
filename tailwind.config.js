@@ -3,7 +3,7 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
-      openSans: ['Open Sans', 'sans-serif'],
+      openSans: ["Open Sans", "sans-serif"],
     },
     fontSize: {
       sm: '0.75rem',
@@ -17,7 +17,6 @@ module.exports = {
       'heading-6': ['0.75rem', {fontWeight: '700', letterSpacing: '0.015em', textTransform: 'uppercase'}],
     },
     extend: {
-      
       colors: {
         "royal-blue": "#0033a1",
         // e.g. {element}-royal-blue
@@ -31,10 +30,9 @@ module.exports = {
         feedback: {
           success: "#00a12d",
           // e.g. {element}-feedback-success
-          
+
           warning: "#a10000",
           // e.g. {element}-feedback-warning
-
         },
         gray: {
           1: "#fafafc",
@@ -54,12 +52,11 @@ module.exports = {
 
           6: "#141414",
           // e.g. {element}-gray-6
-
         },
       },
       screens: {
         laptop: "1080px",
-        sm: "0px",
+        sm: "480px",
         // => @media (min-width: 640px) { ... }
 
         md: "768px",
