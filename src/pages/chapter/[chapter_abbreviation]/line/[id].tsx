@@ -28,14 +28,12 @@ export default function LineMembers({
   const [_lineMembers, setLineMembers] = useState(lineMembers);
   const [hasMore, setHasMore] = useState(true);
 
-  useTriggerScrollFix([_lineMembers.length]);
-
   const addNewLineMembers = async (): Promise<void> => {
     const [additionalLineMembers, _totalLineMembers] = await getLineMembers(
       chapter_abbreviation as string,
       id as string,
       _lineMembers.length,
-      10
+      1
     );
     setLineMembers((_lineMembers) => [
       ..._lineMembers,
@@ -51,10 +49,7 @@ export default function LineMembers({
         <title>{`${lineInfo.ship_name}`}</title>
       </Head>
       <PageTemplate>
-        <div
-          className="md:container md:mx-auto mt-12 min-h-screen"
-          id="lineMembers"
-        >
+        <div className="md:container md:mx-auto mt-12 min-h-screen">
           <div>
             <div className="font-bold text-xl">{lineInfo.chapter}</div>
             <div className="font-bold text-heading-3">Lineage</div>
@@ -76,10 +71,7 @@ export default function LineMembers({
               </p>
             }
           >
-            <div
-              className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4"
-              id="lineMembersContainer"
-            >
+            <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
               {_lineMembers.map((line: LineMember) => (
                 <Member
                   id={line.id}
@@ -187,7 +179,7 @@ export const getServerSideProps: GetServerSideProps<{
   id = id as string;
 
   const [[lineMembers, totalLineMembers], lineInfo] = await Promise.all([
-    getLineMembers(chapter_abbreviation, id, 0, 10),
+    getLineMembers(chapter_abbreviation, id, 0, 1),
     getLineInfo(chapter_abbreviation, id),
   ]);
 
