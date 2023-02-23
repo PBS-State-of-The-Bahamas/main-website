@@ -82,8 +82,6 @@ async function getChapterLineage(
   start: number,
   limit: number
 ): Promise<[string | undefined, LineProps[], number]> {
-  console.log(`start:${start}`);
-  console.log(`limit:${limit}`);
   chapterAbbreviation = chapterAbbreviation.toUpperCase();
   const token =
     "4300669fbc51d81c6ba5e2b2972dbb407e5512aecc3a8b3479a0936f75a3c9c4af610316dbcc131d0f2d30d7cb2a3c8bdd7f1c607256818c30a179f35771212ff40a172e614ccf6d3f8d0371eccf63997067c3b217566a8920875600d43d019b851c9243bc15c049e790670c25105e9bf39a64bfccef27edd065f80bb1258eba";
