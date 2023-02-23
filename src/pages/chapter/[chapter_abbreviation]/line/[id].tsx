@@ -71,14 +71,14 @@ export default function LineMembers({
             }
           >
             <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
-              {_lineMembers.map((line: LineMember) => (
+              {_lineMembers.map((line: LineMember, index: number) => (
                 <Member
-                  id={line.id}
+                  key={line.id}
                   member_name={line.member_name}
-                  member_photo_id={line.id}
                   member_photo_url={line.member_photo_url}
                 >
                   <LineMember
+                    key={line.description.id}
                     id={line.description.id}
                     line_number={line.description.line_number}
                     line_name={line.description.line_name}

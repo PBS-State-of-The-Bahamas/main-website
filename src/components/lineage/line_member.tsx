@@ -6,10 +6,8 @@ export interface LineMemberProps {
 
 export default function LineMember(props: LineMemberProps) {
   return (
-    <div key={props.id}>
-      <div className="text-heading-6">
-        #{props.line_number}-{props.line_name}
-      </div>
+    <div className="text-heading-6">
+      #{props.line_number}-{props.line_name}
     </div>
   );
 }
