@@ -75,6 +75,7 @@ export default function LineMembers({
                 <Member
                   id={line.id}
                   member_name={line.member_name}
+                  member_photo_id={line.id}
                   member_photo_url={line.member_photo_url}
                 >
                   <LineMember
