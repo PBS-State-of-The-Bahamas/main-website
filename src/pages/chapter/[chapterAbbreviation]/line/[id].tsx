@@ -73,7 +73,7 @@ export default function LineMembers({
             }
           >
             <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
-              {_lineMembers.map((line: LineMember, index: number) => (
+              {_lineMembers.map((line: LineMember) => (
                 <Member
                   key={line.id}
                   memberName={line.memberName}
