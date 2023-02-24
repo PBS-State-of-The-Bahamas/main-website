@@ -137,9 +137,9 @@ async function getLineMembers(
           : "/images/missing-member.svg",
         description: {
           id: line.attributes?.line_member?.data?.id,
-          line_number:
+          lineNumber:
             line.attributes?.line_member?.data?.attributes?.line_number,
-          line_name: line.attributes?.line_member?.data?.attributes?.line_name,
+          lineName: line.attributes?.line_member?.data?.attributes?.line_name,
         },
       };
     }
