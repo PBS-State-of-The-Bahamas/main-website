@@ -96,7 +96,7 @@ async function getChapterLineage(
   const totalLines = jsonChapterLineage?.data?.meta?.pagination?.total;
 
   if (!jsonChapterLineage?.data?.data.length) {
-    return [undefined, [], totalLines];
+    return [undefined, [], 0];
   }
   const chapter_name =
     jsonChapterLineage.data?.data[0].attributes?.chapter?.data?.attributes
