@@ -18,12 +18,12 @@ export default function Lineage({
   chapterName: string;
   lineage: LineProps[];
 }) {
+  const [_lineage, setLineage] = useState(lineage);
+  const [hasMore, setHasMore] = useState(true);
+
   if (!lineage.length) {
     return <div>Lineage Not Found ...</div>;
   }
-
-  const [_lineage, setLineage] = useState(lineage);
-  const [hasMore, setHasMore] = useState(true);
 
   const addNewLines = async (): Promise<void> => {
     const [_chapterName, additionalLines, totalLines] = await getChapterLineage(

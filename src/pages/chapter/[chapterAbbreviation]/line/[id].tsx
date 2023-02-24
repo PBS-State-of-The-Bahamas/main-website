@@ -21,13 +21,13 @@ export default function LineMembers({
   lineMembers: LineMember[];
   totalLineMembers: number;
 }) {
-  if (!lineMembers.length) {
-    return <div>Line Members Not Found ...</div>;
-  }
-
   const { chapterAbbreviation, id } = query;
   const [_lineMembers, setLineMembers] = useState(lineMembers);
   const [hasMore, setHasMore] = useState(true);
+
+  if (!lineMembers.length) {
+    return <div>Line Members Not Found ...</div>;
+  }
 
   const addNewLineMembers = async (): Promise<void> => {
     const [additionalLineMembers, _totalLineMembers] = await getLineMembers(
