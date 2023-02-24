@@ -47,7 +47,7 @@ export default function LineMembers({
   return (
     <div>
       <Head>
-        <title>{`${lineInfo.ship_name}`}</title>
+        <title>{`${lineInfo.shipName}`}</title>
       </Head>
       <PageTemplate>
         <div className="md:container md:mx-auto mt-12 min-h-screen">
@@ -58,7 +58,7 @@ export default function LineMembers({
               <span className="text-heading-4">
                 {lineInfo.term} {lineInfo.year}
               </span>
-              <div className="text-heading-6">{lineInfo.ship_name}</div>
+              <div className="text-heading-6">{lineInfo.shipName}</div>
             </div>
           </div>
           <InfiniteScroll
@@ -68,7 +68,7 @@ export default function LineMembers({
             loader={<h4>Loading...</h4>}
             endMessage={
               <p className="text-center text-[8px] mt-8">
-                <b>{`You've reached the end of ${lineInfo.ship_name}`}</b>
+                <b>{`You've reached the end of ${lineInfo.shipName}`}</b>
               </p>
             }
           >
@@ -76,8 +76,8 @@ export default function LineMembers({
               {_lineMembers.map((line: LineMember, index: number) => (
                 <Member
                   key={line.id}
-                  memberName={line.member_name}
-                  memberPhotoUrl={line.member_photo_url}
+                  memberName={line.memberName}
+                  memberPhotoUrl={line.memberPhotoUrl}
                 >
                   <LineMember
                     key={line.description.id}
@@ -97,8 +97,8 @@ export default function LineMembers({
 
 export interface LineMember {
   id: number;
-  member_name: string;
-  member_photo_url: string;
+  memberName: string;
+  memberPhotoUrl: string;
   description: LineMemberProps;
 }
 
@@ -106,18 +106,18 @@ export interface LineInfo {
   chapter: string;
   term: Terms;
   year: number;
-  ship_name: string;
+  shipName: string;
 }
 
 async function getLineMembers(
   chapterAbbreviation: string,
-  line_id: string,
+  lineID: string,
   start: string,
   limit: string
 ): Promise<[LineMember[], number]> {
   const [jsonLineMembers, error] = await getChapterLineMembers(
     chapterAbbreviation,
-    line_id,
+    lineID,
     start,
     limit
   );
@@ -131,8 +131,8 @@ async function getLineMembers(
     (line: any) => {
       return {
         id: line.id,
-        member_name: line.attributes?.name,
-        member_photo_url: line.attributes?.photo?.data?.length
+        memberName: line.attributes?.name,
+        memberPhotoUrl: line.attributes?.photo?.data?.length
           ? `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_HOST}:${process.env.NEXT_PUBLIC_API_PORT}${line.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
           : "/images/missing-member.svg",
         description: {
@@ -150,11 +150,11 @@ async function getLineMembers(
 
 async function getLineInfo(
   chapterAbbreviation: string,
-  line_id: string
+  lineID: string
 ): Promise<LineInfo | undefined> {
   const [jsonLineInfo, error] = await getChapterLine(
     chapterAbbreviation,
-    line_id
+    lineID
   );
 
   if (error) {
@@ -171,7 +171,7 @@ async function getLineInfo(
       jsonLineInfo.data?.data[0].attributes?.chapter?.data?.attributes.name,
     term: jsonLineInfo.data?.data[0].attributes?.term,
     year: jsonLineInfo.data?.data[0].attributes?.year,
-    ship_name: jsonLineInfo.data?.data[0].attributes?.ship_name,
+    shipName: jsonLineInfo.data?.data[0].attributes?.ship_name,
   };
 
   return lineInfo;
