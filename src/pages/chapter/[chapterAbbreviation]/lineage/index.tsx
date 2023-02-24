@@ -77,6 +77,32 @@ export default function Lineage({
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  chapterAbbreviation: string;
+  chapterName: string;
+  lineage: LineProps[];
+}> = async ({ query }) => {
+  let { chapterAbbreviation } = query;
+  chapterAbbreviation = (chapterAbbreviation as string).toUpperCase();
+
+  const [chapterName, lineage, totalLines] = await getChapterLineage(
+    chapterAbbreviation,
+    "0",
+    "10"
+  );
+
+  if (!chapterName) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: { chapterAbbreviation, chapterName, lineage },
+  };
+};
+
 async function getChapterLineage(
   chapterAbbreviation: string,
   start: string,
@@ -115,28 +141,3 @@ async function getChapterLineage(
 
   return [chapterName, lineage, totalLines];
 }
-
-export const getServerSideProps: GetServerSideProps<{
-  chapterAbbreviation: string;
-  chapterName: string;
-  lineage: LineProps[];
-}> = async ({ query }) => {
-  let { chapterAbbreviation } = query;
-  chapterAbbreviation = (chapterAbbreviation as string).toUpperCase();
-
-  const [chapterName, lineage, totalLines] = await getChapterLineage(
-    chapterAbbreviation,
-    "0",
-    "10"
-  );
-
-  if (!chapterName) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: { chapterAbbreviation, chapterName, lineage },
-  };
-};
