@@ -10,11 +10,11 @@ import getChapterLines from "@/api/modules/chapterLineage/getChapterLines";
 
 export default function Lineage({
   chapterAbbreviation,
-  chapter_name,
+  chapterName,
   lineage,
 }: {
   chapterAbbreviation: string;
-  chapter_name: string;
+  chapterName: string;
   lineage: LineProps[];
 }) {
   if (!lineage.length) {
@@ -41,7 +41,7 @@ export default function Lineage({
       </Head>
       <PageTemplate>
         <div className="md:container md:mx-auto mt-12 min-h-screen">
-          <span className="font-bold text-xl">{chapter_name}</span>
+          <span className="font-bold text-xl">{chapterName}</span>
           <div className="font-bold text-heading-3">Lineage</div>
           <InfiniteScroll
             dataLength={_lineage ? _lineage.length : 0}
@@ -98,7 +98,7 @@ async function getChapterLineage(
   if (!jsonChapterLineage?.data?.data.length) {
     return [undefined, [], 0];
   }
-  const chapter_name =
+  const chapterName =
     jsonChapterLineage.data?.data[0].attributes?.chapter?.data?.attributes
       ?.name;
 
@@ -113,7 +113,7 @@ async function getChapterLineage(
     }
   );
 
-  return [chapter_name, lineage, totalLines];
+  return [chapterName, lineage, totalLines];
 }
 
 export const getServerSideProps: GetServerSideProps<{
