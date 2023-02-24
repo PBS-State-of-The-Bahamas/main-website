@@ -4,9 +4,9 @@ import { LineProps } from "@/components/lineage/line";
 import Head from "next/head";
 import PageTemplate from "@/components/PageTemplate";
 import Link from "next/link";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useTriggerScrollFix } from "@/hooks/triggerScroll";
+import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import getChapterLines from "@/api/modules/chapterLineage/getChapterLines";
 
 export default function Lineage({
   chapter_abbreviation,
@@ -27,8 +27,8 @@ export default function Lineage({
   const addNewLines = async (): Promise<void> => {
     const [_chapterName, additionalLines, totalLines] = await getChapterLineage(
       chapter_abbreviation,
-      _lineage.length,
-      1
+      _lineage.length.toString(),
+      "10"
     );
     setLineage((_lineage) => [..._lineage, ...additionalLines]);
     setHasMore(totalLines > _lineage.length ? true : false);
@@ -79,36 +79,34 @@ export default function Lineage({
 }
 async function getChapterLineage(
   chapterAbbreviation: string,
-  start: number,
-  limit: number
+  start: string,
+  limit: string
 ): Promise<[string | undefined, LineProps[], number]> {
-  chapterAbbreviation = chapterAbbreviation.toUpperCase();
-  const token =
-    "4300669fbc51d81c6ba5e2b2972dbb407e5512aecc3a8b3479a0936f75a3c9c4af610316dbcc131d0f2d30d7cb2a3c8bdd7f1c607256818c30a179f35771212ff40a172e614ccf6d3f8d0371eccf63997067c3b217566a8920875600d43d019b851c9243bc15c049e790670c25105e9bf39a64bfccef27edd065f80bb1258eba";
+  const jsonChapterLineage = await getChapterLines(
+    chapterAbbreviation,
+    start,
+    limit
+  );
 
-  const url = `http://localhost:1337/api/lines?populate[0]=chapter&filters[chapter][chapter_abbreviation][$eq]=${chapterAbbreviation}&pagination[start]=${start}&pagination[limit]=${limit}`;
+  const totalLines = jsonChapterLineage?.data?.meta?.pagination?.total;
 
-  const response = await fetch(url, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  const jsonChapterLineage = await response.json();
-  const totalLines = jsonChapterLineage.meta?.pagination?.total;
-
-  if (!jsonChapterLineage?.data.length) {
+  if (!jsonChapterLineage?.data?.data.length) {
     return [undefined, [], totalLines];
   }
   const chapter_name =
-    jsonChapterLineage.data[0].attributes?.chapter?.data?.attributes?.name;
+    jsonChapterLineage.data?.data[0].attributes?.chapter?.data?.attributes
+      ?.name;
 
-  const lineage: LineProps[] = jsonChapterLineage?.data.map((line: any) => {
-    return {
-      id: line.id,
-      term: line.attributes?.term,
-      year: line.attributes?.year,
-      ship_name: line.attributes?.ship_name,
-    };
-  });
+  const lineage: LineProps[] = jsonChapterLineage?.data?.data?.map(
+    (line: any) => {
+      return {
+        id: line.id,
+        term: line.attributes?.term,
+        year: line.attributes?.year,
+        ship_name: line.attributes?.ship_name,
+      };
+    }
+  );
 
   return [chapter_name, lineage, totalLines];
 }
@@ -123,8 +121,8 @@ export const getServerSideProps: GetServerSideProps<{
 
   const [chapterName, lineage, totalLines] = await getChapterLineage(
     chapter_abbreviation,
-    0,
-    1
+    "0",
+    "10"
   );
 
   if (!chapterName) {

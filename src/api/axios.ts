@@ -10,17 +10,17 @@ const axiosRequest = (params?: QueryParams) => {
     for (const [key, value] of Object.entries(params)) {
       if (key && value) searchParams.append(key, value);
     }
-    const instance = axios.create({
-      baseURL: process.env.NEXT_PUBLIC_API_URL,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
-      },
-      withCredentials: true,
-      params: searchParams,
-    });
-    return instance;
+  const instance = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
+    },
+    withCredentials: true,
+    params: searchParams,
+  });
+  return instance;
 };
 
 export default axiosRequest;
