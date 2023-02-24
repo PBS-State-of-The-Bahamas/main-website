@@ -13,6 +13,7 @@ export default async function getChapterLines(
     "pagination[start]": start,
     "pagination[limit]": limit,
   };
+
   try {
     const data = await axiosRequest().get(endpoint, { params: params });
     return [data, null];

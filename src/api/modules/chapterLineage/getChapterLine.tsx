@@ -11,6 +11,7 @@ export default async function getChapterLine(
       chapterAbbreviation.toUpperCase(),
     "filters[id][$eq]": lineID,
   };
+
   try {
     const data = await axiosRequest().get(endpoint, { params: params });
     return [data, null];
