@@ -66,7 +66,7 @@ export default function Lineage({
                     id={line.id}
                     term={line.term}
                     year={line.year}
-                    ship_name={line.ship_name}
+                    shipName={line.ship_name}
                   />
                 </Link>
               ))}
