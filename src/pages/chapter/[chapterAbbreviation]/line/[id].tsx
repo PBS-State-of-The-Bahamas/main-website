@@ -76,14 +76,14 @@ export default function LineMembers({
               {_lineMembers.map((line: LineMember, index: number) => (
                 <Member
                   key={line.id}
-                  member_name={line.member_name}
-                  member_photo_url={line.member_photo_url}
+                  memberName={line.member_name}
+                  memberPhotoUrl={line.member_photo_url}
                 >
                   <LineMember
                     key={line.description.id}
                     id={line.description.id}
-                    line_number={line.description.line_number}
-                    line_name={line.description.line_name}
+                    lineNumber={line.description.lineNumber}
+                    lineName={line.description.lineName}
                   />
                 </Member>
               ))}
