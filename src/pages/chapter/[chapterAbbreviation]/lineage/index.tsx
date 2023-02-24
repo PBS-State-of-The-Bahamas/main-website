@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import getChapterLines from "@/api/modules/chapterLineage/getChapterLines";
+import { v4 } from "uuid";
 
 export default function Lineage({
   chapterAbbreviation,
@@ -60,10 +61,10 @@ export default function Lineage({
                   href={{
                     pathname: `/chapter/${chapterAbbreviation}/line/${line.id}`,
                   }}
-                  key={index}
+                  key={v4()}
                 >
                   <Line
-                    id={line.id}
+                    key={line.id}
                     term={line.term}
                     year={line.year}
                     shipName={line.ship_name}
