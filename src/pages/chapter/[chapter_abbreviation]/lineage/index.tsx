@@ -82,11 +82,16 @@ async function getChapterLineage(
   start: string,
   limit: string
 ): Promise<[string | undefined, LineProps[], number]> {
-  const jsonChapterLineage = await getChapterLines(
+  const [jsonChapterLineage, error] = await getChapterLines(
     chapterAbbreviation,
     start,
     limit
   );
+
+  if (error) {
+    console.log(error);
+    return [undefined, [], 0];
+  }
 
   const totalLines = jsonChapterLineage?.data?.meta?.pagination?.total;
 
