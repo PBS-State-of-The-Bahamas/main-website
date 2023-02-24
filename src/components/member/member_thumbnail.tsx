@@ -1,5 +1,5 @@
 export interface MemberThumbnailProps {
-  member_photo_url: string;
+  memberPhotoUrl: string;
 }
 
 export default function MemberThumbnail(props: MemberThumbnailProps) {
@@ -7,7 +7,7 @@ export default function MemberThumbnail(props: MemberThumbnailProps) {
     <div className="border">
       <img
         className="w-12 h-auto"
-        src={props.member_photo_url}
+        src={props.memberPhotoUrl}
         alt="member"
       ></img>
     </div>

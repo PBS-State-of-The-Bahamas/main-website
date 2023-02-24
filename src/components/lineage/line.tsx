@@ -4,7 +4,7 @@ export interface LineProps {
   id: number;
   term: Terms;
   year: number;
-  ship_name: string;
+  shipName: string;
 }
 
 export default function Line(props: LineProps) {
@@ -16,7 +16,7 @@ export default function Line(props: LineProps) {
       <span className="text-heading-4">
         {props.term} {props.year}
       </span>
-      <div className="text-heading-6">{props.ship_name}</div>
+      <div className="text-heading-6">{props.shipName}</div>
     </div>
   );
 }
