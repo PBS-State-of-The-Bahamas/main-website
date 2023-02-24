@@ -8,6 +8,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useState } from "react";
 import { ParsedUrlQuery } from "querystring";
 import getChapterLineMembers from "@/api/modules/chapterLineage/getChapterLineMembers";
+import getChapterLine from "@/api/modules/chapterLineage/getChapterLine";
 
 export default function LineMembers({
   query,
@@ -151,24 +152,26 @@ async function getLineInfo(
   chapter_abbreviation: string,
   line_id: string
 ): Promise<LineInfo | undefined> {
-  const url = `http://localhost:1337/api/lines?populate[0]=chapter&filters[chapter][chapter_abbreviation][$eq]=${chapter_abbreviation}&filters[id][$eq]=${line_id}`;
-  const token =
-    "4300669fbc51d81c6ba5e2b2972dbb407e5512aecc3a8b3479a0936f75a3c9c4af610316dbcc131d0f2d30d7cb2a3c8bdd7f1c607256818c30a179f35771212ff40a172e614ccf6d3f8d0371eccf63997067c3b217566a8920875600d43d019b851c9243bc15c049e790670c25105e9bf39a64bfccef27edd065f80bb1258eba";
-  const response = await fetch(url, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const [jsonLineInfo, error] = await getChapterLine(
+    chapter_abbreviation,
+    line_id
+  );
 
-  const jsonLineInfo = await response.json();
+  if (error) {
+    console.log(error);
+    return undefined;
+  }
 
-  if (!jsonLineInfo?.data.length) {
+  if (!jsonLineInfo?.data?.data.length) {
     return undefined;
   }
 
   const lineInfo: LineInfo = {
-    chapter: jsonLineInfo.data[0].attributes?.chapter?.data?.attributes.name,
-    term: jsonLineInfo.data[0].attributes?.term,
-    year: jsonLineInfo.data[0].attributes?.year,
-    ship_name: jsonLineInfo.data[0].attributes?.ship_name,
+    chapter:
+      jsonLineInfo.data?.data[0].attributes?.chapter?.data?.attributes.name,
+    term: jsonLineInfo.data?.data[0].attributes?.term,
+    year: jsonLineInfo.data?.data[0].attributes?.year,
+    ship_name: jsonLineInfo.data?.data[0].attributes?.ship_name,
   };
 
   return lineInfo;
