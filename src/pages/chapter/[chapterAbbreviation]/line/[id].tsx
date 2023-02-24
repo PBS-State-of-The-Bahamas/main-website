@@ -194,7 +194,7 @@ async function getLineInfo(
 
   const lineInfo: LineInfo = {
     chapter:
-      jsonLineInfo.data?.data[0].attributes?.chapter?.data?.attributes.name,
+      jsonLineInfo.data?.data[0].attributes?.chapter?.data?.attributes?.name,
     term: jsonLineInfo.data?.data[0].attributes?.term,
     year: jsonLineInfo.data?.data[0].attributes?.year,
     shipName: jsonLineInfo.data?.data[0].attributes?.ship_name,
