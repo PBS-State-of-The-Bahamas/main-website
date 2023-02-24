@@ -9,11 +9,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import getChapterLines from "@/api/modules/chapterLineage/getChapterLines";
 
 export default function Lineage({
-  chapter_abbreviation,
+  chapterAbbreviation,
   chapter_name,
   lineage,
 }: {
-  chapter_abbreviation: string;
+  chapterAbbreviation: string;
   chapter_name: string;
   lineage: LineProps[];
 }) {
@@ -26,7 +26,7 @@ export default function Lineage({
 
   const addNewLines = async (): Promise<void> => {
     const [_chapterName, additionalLines, totalLines] = await getChapterLineage(
-      chapter_abbreviation,
+      chapterAbbreviation,
       _lineage.length.toString(),
       "10"
     );
@@ -37,7 +37,7 @@ export default function Lineage({
   return (
     <div>
       <Head>
-        <title>{`${chapter_abbreviation} Chapter Lineage`}</title>
+        <title>{`${chapterAbbreviation} Chapter Lineage`}</title>
       </Head>
       <PageTemplate>
         <div className="md:container md:mx-auto mt-12 min-h-screen">
@@ -50,7 +50,7 @@ export default function Lineage({
             loader={<h4>Loading...</h4>}
             endMessage={
               <p className="text-center text-[8px] mt-8">
-                <b>{`You've reached the end of ${chapter_abbreviation}'s Chapter Lineage`}</b>
+                <b>{`You've reached the end of ${chapterAbbreviation}'s Chapter Lineage`}</b>
               </p>
             }
           >
@@ -58,7 +58,7 @@ export default function Lineage({
               {_lineage.map((line: any, index: number) => (
                 <Link
                   href={{
-                    pathname: `/chapter/${chapter_abbreviation}/line/${line.id}`,
+                    pathname: `/chapter/${chapterAbbreviation}/line/${line.id}`,
                   }}
                   key={index}
                 >
@@ -117,15 +117,15 @@ async function getChapterLineage(
 }
 
 export const getServerSideProps: GetServerSideProps<{
-  chapter_abbreviation: string;
+  chapterAbbreviation: string;
   chapterName: string;
   lineage: LineProps[];
 }> = async ({ query }) => {
-  let { chapter_abbreviation } = query;
-  chapter_abbreviation = (chapter_abbreviation as string).toUpperCase();
+  let { chapterAbbreviation } = query;
+  chapterAbbreviation = (chapterAbbreviation as string).toUpperCase();
 
   const [chapterName, lineage, totalLines] = await getChapterLineage(
-    chapter_abbreviation,
+    chapterAbbreviation,
     "0",
     "10"
   );
@@ -137,6 +137,6 @@ export const getServerSideProps: GetServerSideProps<{
   }
 
   return {
-    props: { chapter_abbreviation, chapterName, lineage },
+    props: { chapterAbbreviation, chapterName, lineage },
   };
 };

@@ -25,13 +25,13 @@ export default function LineMembers({
     return <div>Line Members Not Found ...</div>;
   }
 
-  const { chapter_abbreviation, id } = query;
+  const { chapterAbbreviation, id } = query;
   const [_lineMembers, setLineMembers] = useState(lineMembers);
   const [hasMore, setHasMore] = useState(true);
 
   const addNewLineMembers = async (): Promise<void> => {
     const [additionalLineMembers, _totalLineMembers] = await getLineMembers(
-      chapter_abbreviation as string,
+      chapterAbbreviation as string,
       id as string,
       _lineMembers.length.toString(),
       "10"
@@ -110,13 +110,13 @@ export interface LineInfo {
 }
 
 async function getLineMembers(
-  chapter_abbreviation: string,
+  chapterAbbreviation: string,
   line_id: string,
   start: string,
   limit: string
 ): Promise<[LineMember[], number]> {
   const [jsonLineMembers, error] = await getChapterLineMembers(
-    chapter_abbreviation,
+    chapterAbbreviation,
     line_id,
     start,
     limit
@@ -149,11 +149,11 @@ async function getLineMembers(
 }
 
 async function getLineInfo(
-  chapter_abbreviation: string,
+  chapterAbbreviation: string,
   line_id: string
 ): Promise<LineInfo | undefined> {
   const [jsonLineInfo, error] = await getChapterLine(
-    chapter_abbreviation,
+    chapterAbbreviation,
     line_id
   );
 
@@ -182,14 +182,14 @@ export const getServerSideProps: GetServerSideProps<{
   lineInfo: LineInfo;
   lineMembers: LineMember[];
 }> = async ({ query }) => {
-  let { chapter_abbreviation } = query;
-  chapter_abbreviation = (chapter_abbreviation as string).toUpperCase();
+  let { chapterAbbreviation } = query;
+  chapterAbbreviation = (chapterAbbreviation as string).toUpperCase();
   let { id } = query;
   id = id as string;
 
   const [[lineMembers, totalLineMembers], lineInfo] = await Promise.all([
-    getLineMembers(chapter_abbreviation, id, "0", "1"),
-    getLineInfo(chapter_abbreviation, id),
+    getLineMembers(chapterAbbreviation, id, "0", "1"),
+    getLineInfo(chapterAbbreviation, id),
   ]);
 
   if (!lineInfo) {
