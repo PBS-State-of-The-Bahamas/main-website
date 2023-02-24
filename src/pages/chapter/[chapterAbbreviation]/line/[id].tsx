@@ -95,18 +95,37 @@ export default function LineMembers({
   );
 }
 
+export const getServerSideProps: GetServerSideProps<{
+  query: ParsedUrlQuery;
+  lineInfo: LineInfo;
+  lineMembers: LineMember[];
+}> = async ({ query }) => {
+  let { chapterAbbreviation } = query;
+  chapterAbbreviation = (chapterAbbreviation as string).toUpperCase();
+  let { id } = query;
+  id = id as string;
+
+  const [[lineMembers, totalLineMembers], lineInfo] = await Promise.all([
+    getLineMembers(chapterAbbreviation, id, "0", "1"),
+    getLineInfo(chapterAbbreviation, id),
+  ]);
+
+  if (!lineInfo) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: { query, lineInfo, lineMembers, totalLineMembers },
+  };
+};
+
 export interface LineMember {
   id: number;
   memberName: string;
   memberPhotoUrl: string;
   description: LineMemberProps;
-}
-
-export interface LineInfo {
-  chapter: string;
-  term: Terms;
-  year: number;
-  shipName: string;
 }
 
 async function getLineMembers(
@@ -148,6 +167,13 @@ async function getLineMembers(
   return [lineMembers, jsonLineMembers.data?.meta?.pagination?.total];
 }
 
+export interface LineInfo {
+  chapter: string;
+  term: Terms;
+  year: number;
+  shipName: string;
+}
+
 async function getLineInfo(
   chapterAbbreviation: string,
   lineID: string
@@ -176,29 +202,3 @@ async function getLineInfo(
 
   return lineInfo;
 }
-
-export const getServerSideProps: GetServerSideProps<{
-  query: ParsedUrlQuery;
-  lineInfo: LineInfo;
-  lineMembers: LineMember[];
-}> = async ({ query }) => {
-  let { chapterAbbreviation } = query;
-  chapterAbbreviation = (chapterAbbreviation as string).toUpperCase();
-  let { id } = query;
-  id = id as string;
-
-  const [[lineMembers, totalLineMembers], lineInfo] = await Promise.all([
-    getLineMembers(chapterAbbreviation, id, "0", "1"),
-    getLineInfo(chapterAbbreviation, id),
-  ]);
-
-  if (!lineInfo) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: { query, lineInfo, lineMembers, totalLineMembers },
-  };
-};
