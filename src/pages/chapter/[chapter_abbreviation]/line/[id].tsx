@@ -7,6 +7,7 @@ import { Terms } from "@/components/lineage/line";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useState } from "react";
 import { ParsedUrlQuery } from "querystring";
+import getChapterLineMembers from "@/api/modules/chapterLineage/getChapterLineMembers";
 
 export default function LineMembers({
   query,
@@ -110,35 +111,40 @@ export interface LineInfo {
 async function getLineMembers(
   chapter_abbreviation: string,
   line_id: string,
-  start: number,
-  limit: number
+  start: string,
+  limit: string
 ): Promise<[LineMember[], number]> {
-  const url = `http://localhost:1337/api/members?sort[0]=[line_member][line_number]&populate=*&filters[line_member][line][id][$eq]=${line_id}&filters[line_member][line][chapter][chapter_abbreviation][$eq]=${chapter_abbreviation}&pagination[start]=${start}&pagination[limit]=${limit}`;
-  const token =
-    "4300669fbc51d81c6ba5e2b2972dbb407e5512aecc3a8b3479a0936f75a3c9c4af610316dbcc131d0f2d30d7cb2a3c8bdd7f1c607256818c30a179f35771212ff40a172e614ccf6d3f8d0371eccf63997067c3b217566a8920875600d43d019b851c9243bc15c049e790670c25105e9bf39a64bfccef27edd065f80bb1258eba";
-  const response = await fetch(url, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const [jsonLineMembers, error] = await getChapterLineMembers(
+    chapter_abbreviation,
+    line_id,
+    start,
+    limit
+  );
 
-  const jsonLineMembers = await response.json();
+  if (error) {
+    console.log(error);
+    return [[], 0];
+  }
 
-  const lineMembers: LineMember[] = jsonLineMembers?.data.map((line: any) => {
-    return {
-      id: line.id,
-      member_name: line.attributes?.name,
-      member_photo_url: line.attributes?.photo?.data?.length
-        ? `http://localhost:1337${line.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
-        : "/images/missing-member.svg",
-      description: {
-        id: line.attributes?.line_member?.data?.id,
-        line_number:
-          line.attributes?.line_member?.data?.attributes?.line_number,
-        line_name: line.attributes?.line_member?.data?.attributes?.line_name,
-      },
-    };
-  });
+  const lineMembers: LineMember[] = jsonLineMembers?.data?.data.map(
+    (line: any) => {
+      return {
+        id: line.id,
+        member_name: line.attributes?.name,
+        member_photo_url: line.attributes?.photo?.data?.length
+          ? `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_HOST}:${process.env.NEXT_PUBLIC_API_PORT}${line.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
+          : "/images/missing-member.svg",
+        description: {
+          id: line.attributes?.line_member?.data?.id,
+          line_number:
+            line.attributes?.line_member?.data?.attributes?.line_number,
+          line_name: line.attributes?.line_member?.data?.attributes?.line_name,
+        },
+      };
+    }
+  );
 
-  return [lineMembers, jsonLineMembers.meta?.pagination?.total];
+  return [lineMembers, jsonLineMembers.data?.meta?.pagination?.total];
 }
 
 async function getLineInfo(
