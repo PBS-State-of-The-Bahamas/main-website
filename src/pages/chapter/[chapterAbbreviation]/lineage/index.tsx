@@ -67,7 +67,7 @@ export default function Lineage({
                     key={line.id}
                     term={line.term}
                     year={line.year}
-                    shipName={line.ship_name}
+                    shipName={line.shipName}
                   />
                 </Link>
               ))}
@@ -135,7 +135,7 @@ async function getChapterLineage(
         id: line.id,
         term: line.attributes?.term,
         year: line.attributes?.year,
-        ship_name: line.attributes?.ship_name,
+        shipName: line.attributes?.ship_name,
       };
     }
   );
