@@ -106,7 +106,7 @@ export const getServerSideProps: GetServerSideProps<{
   id = id as string;
 
   const [[lineMembers, totalLineMembers], lineInfo] = await Promise.all([
-    getLineMembers(chapterAbbreviation, id, "0", "1"),
+    getLineMembers(chapterAbbreviation, id, "0", "10"),
     getLineInfo(chapterAbbreviation, id),
   ]);
 
