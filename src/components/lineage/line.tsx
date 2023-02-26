@@ -8,7 +8,7 @@ export interface LineProps {
 
 export default function Line(props: LineProps) {
   return (
-    <div className="rounded-lg shadow-lg p-4 bg-gray-1 hover:bg-gray-2 max-h-[95px]">
+    <div className="rounded shadow-lg p-4 bg-gray-1 hover:bg-gray-2 max-h-[95px]">
       <span className="text-heading-5">
         {props.term} {props.year}
       </span>
