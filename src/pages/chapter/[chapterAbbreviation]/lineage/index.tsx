@@ -51,7 +51,7 @@ export default function Lineage({
             loader={<h4>Loading...</h4>}
             endMessage={
               <p className="text-center text-[8px] mt-8">
-                <b>{`You've reached the end of ${chapterAbbreviation}'s Chapter Lineage`}</b>
+                <b>{`You've reached the end of the chapter lineage for ${chapterAbbreviation}`}</b>
               </p>
             }
           >
