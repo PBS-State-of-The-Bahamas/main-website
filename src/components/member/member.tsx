@@ -8,7 +8,7 @@ export interface MemberProps {
 
 export default function Member(props: MemberProps) {
   return (
-    <div className="border inline-flex items-center">
+    <div className="border rounded inline-flex items-center p-2 h-[75px]">
       <MemberThumbnail memberPhotoUrl={props.memberPhotoUrl} />
       <div className="ml-2 pr-4">
         <div className="text-heading-5">{props.memberName}</div>
