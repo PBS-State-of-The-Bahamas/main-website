@@ -1,8 +1,43 @@
+import LifeMember, {
+  LifeMemberProps,
+} from "@/components/lifeMember/life-member";
+import Member from "@/components/member/member";
 import PageTemplate from "@/components/PageTemplate";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { v4 } from "uuid";
 
-export default function LifeMember() {
+export default function LifeMembers({
+  lifeMembers,
+  totalLifeMembers,
+}: {
+  lifeMembers: LifeMembers;
+  totalLifeMembers: number;
+}) {
+  const [_lifeMembers, setLineMembers] = useState(lifeMembers);
+  const [hasMore, setHasMore] = useState(true);
+
+  Object.entries(lifeMembers).forEach(([key, value]) => {
+    if (!value.length) {
+      return <div>Life Members Not Found ...</div>;
+    }
+  });
+
+  const addNewLifeMembers = async (): Promise<void> => {
+    const [additionalLifeMembers, _totalLifeMembers] = await getLifeMembers(
+      0,
+      0
+    );
+    setLineMembers((_lineMembers) => [
+      ..._lineMembers,
+      ...additionalLifeMembers,
+    ]);
+
+    setHasMore(totalLifeMembers > _lifeMembers.length ? true : false);
+  };
+
   return (
     <div>
       <Head>
@@ -20,9 +55,33 @@ export default function LifeMember() {
             turpis dictumst. In donec integer elit malesuada a imperdiet vel
             amet.
           </div>
-          <div className="grid grid-cols-1 gap-4">
-            <div></div>
-          </div>
+          <InfiniteScroll
+            dataLength={_lifeMembers ? _lifeMembers.length : 0}
+            next={() => addNewLifeMembers()}
+            hasMore={hasMore}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p className="text-center text-[8px] mt-8">
+                <b>{`You've reached the end of the life members in the state of The Bahamas`}</b>
+              </p>
+            }
+          >
+            <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
+              {_lifeMembers.map((line: LifeMember) => (
+                <Member
+                  key={line.id}
+                  memberName={line.memberName}
+                  memberPhotoUrl={line.memberPhotoUrl}
+                >
+                  <LifeMember
+                    key={v4()}
+                    shipName={line.description.shipName}
+                    lineName={line.description.lineName}
+                  />
+                </Member>
+              ))}
+            </div>
+          </InfiniteScroll>
         </div>
       </PageTemplate>
     </div>
@@ -30,17 +89,56 @@ export default function LifeMember() {
 }
 
 export interface LifeMember {
+  id: number;
   memberName: string;
-  memberPhotoURL: string;
-  shipName: string;
-  lineName: string;
+  memberPhotoUrl: string;
+  lifeMembershipYear: number;
+  description: LifeMemberProps;
 }
 
-function getLifeMembers() {}
-
 export const getServerSideProps: GetServerSideProps<{
-  resp: string;
+  lifeMembers: LifeMembers;
+  totalLifeMembers: number;
 }> = async () => {
-  const resp = "";
-  return { props: { resp } };
+  const [lifeMembers, totalLifeMembers] = getLifeMembers(0, 10);
+  return { props: { lifeMembers, totalLifeMembers } };
 };
+
+export interface LifeMembers {
+  [key: number]: LifeMember[];
+}
+
+function getLifeMembers(start: number, limit: number): [LifeMembers, number] {
+  let lifeMembers: LifeMembers = undefined;
+
+  const lifeMemberDesc: LifeMemberProps = {
+    shipName: "DOD",
+    lineName: "monster",
+  };
+  const lifeMember: LifeMember = {
+    id: 0,
+    memberName: "John Doe",
+    memberPhotoUrl: "/images/missing-member.svg",
+    lifeMembershipYear: 2023,
+    description: lifeMemberDesc,
+  };
+
+  let _lifeMembers: LifeMember[] = [];
+
+  //generate List
+  for (let i = start; i <= limit; i++) {
+    lifeMember.id += 1;
+    _lifeMembers.push(lifeMember);
+  }
+
+  //Add list to lifeMembers Map
+  _lifeMembers.map((lm) => {
+    if (lm.lifeMembershipYear in lifeMembers) {
+      lifeMembers[lm.lifeMembershipYear] = [lm];
+    } else {
+      lifeMembers[lm.lifeMembershipYear].push(lm);
+    }
+  });
+
+  return [lifeMembers, limit];
+}
