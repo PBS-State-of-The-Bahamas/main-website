@@ -11,32 +11,14 @@ import { v4 } from "uuid";
 
 export default function LifeMembers({
   lifeMembers,
-  totalLifeMembers,
 }: {
   lifeMembers: LifeMembers;
-  totalLifeMembers: number;
 }) {
-  const [_lifeMembers, setLineMembers] = useState(lifeMembers);
-  const [hasMore, setHasMore] = useState(true);
-
   Object.entries(lifeMembers).forEach(([key, value]) => {
     if (!value.length) {
       return <div>Life Members Not Found ...</div>;
     }
   });
-
-  const addNewLifeMembers = async (): Promise<void> => {
-    const [additionalLifeMembers, _totalLifeMembers] = await getLifeMembers(
-      0,
-      0
-    );
-    setLineMembers((_lifeMembers) => [
-      ..._lifeMembers,
-      ...additionalLifeMembers,
-    ]);
-
-    setHasMore(totalLifeMembers > _lifeMembers.length ? true : false);
-  };
 
   return (
     <div>
@@ -45,8 +27,8 @@ export default function LifeMembers({
       </Head>
       <PageTemplate>
         <div className="min-h-screen">
-          <div className="text-heading-3 text-">Sigma Bahamas Life Members</div>
-          <div className="pt-2">
+          <div className="text-heading-3 pt-12">Sigma Bahamas Life Members</div>
+          <div className="pt-2 pb-6">
             Lorem ipsum dolor sit amet consectetur. Hendrerit diam quis
             ultricies scelerisque eget et et scelerisque. Nunc aliquam morbi
             suscipit at sagittis. Adipiscing id at mauris ut odio dictum
@@ -55,33 +37,30 @@ export default function LifeMembers({
             turpis dictumst. In donec integer elit malesuada a imperdiet vel
             amet.
           </div>
-          <InfiniteScroll
-            dataLength={_lifeMembers ? _lifeMembers.length : 0}
-            next={() => addNewLifeMembers()}
-            hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
-            endMessage={
-              <p className="text-center text-[8px] mt-8">
-                <b>{`You've reached the end of the life members in the state of The Bahamas`}</b>
-              </p>
-            }
-          >
-            <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
-              {_lifeMembers.map((line: LifeMember) => (
-                <Member
-                  key={line.id}
-                  memberName={line.memberName}
-                  memberPhotoUrl={line.memberPhotoUrl}
-                >
-                  <LifeMember
-                    key={v4()}
-                    shipName={line.description.shipName}
-                    lineName={line.description.lineName}
-                  />
-                </Member>
-              ))}
-            </div>
-          </InfiniteScroll>
+          {Object.keys(lifeMembers).map((year) => {
+            return (
+              <div className="pt-2">
+                <div className="text-heading-4">{year}</div>
+                <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
+                  {lifeMembers[year].map((lifeMember: LifeMember) => {
+                    return (
+                      <Member
+                        key={lifeMember.id}
+                        memberName={lifeMember.memberName}
+                        memberPhotoUrl={lifeMember.memberPhotoUrl}
+                      >
+                        <LifeMember
+                          key={v4()}
+                          shipName={lifeMember.description.shipName}
+                          lineName={lifeMember.description.lineName}
+                        />
+                      </Member>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </PageTemplate>
     </div>
@@ -98,18 +77,17 @@ export interface LifeMember {
 
 export const getServerSideProps: GetServerSideProps<{
   lifeMembers: LifeMembers;
-  totalLifeMembers: number;
 }> = async () => {
-  const [lifeMembers, totalLifeMembers] = getLifeMembers(0, 10);
-  return { props: { lifeMembers, totalLifeMembers } };
+  const lifeMembers = getLifeMembers(1, 25);
+  return { props: { lifeMembers } };
 };
 
 export interface LifeMembers {
-  [key: number]: LifeMember[];
+  [year: string]: LifeMember[];
 }
 
-function getLifeMembers(start: number, limit: number): [LifeMembers, number] {
-  let lifeMembers: LifeMembers = undefined;
+function getLifeMembers(start: number, limit: number): LifeMembers {
+  let lifeMembers: LifeMembers = {};
 
   const lifeMemberDesc: LifeMemberProps = {
     shipName: "DOD",
@@ -134,11 +112,11 @@ function getLifeMembers(start: number, limit: number): [LifeMembers, number] {
   //Add list to lifeMembers Map
   _lifeMembers.map((lm) => {
     if (lm.lifeMembershipYear in lifeMembers) {
-      lifeMembers[lm.lifeMembershipYear] = [lm];
-    } else {
       lifeMembers[lm.lifeMembershipYear].push(lm);
+    } else {
+      lifeMembers[lm.lifeMembershipYear] = [lm];
     }
   });
 
-  return [lifeMembers, limit];
+  return lifeMembers;
 }
