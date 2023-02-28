@@ -1,11 +1,9 @@
 import axiosRequest, { QueryParams } from "@/api/axios";
 
-export default async function getLifeMembers(start: string, limit: string) {
+export default async function getLifeMembers() {
   const endpoint = "/lines";
   const params: QueryParams = {
     "filters[line_members][member][life_member][$eq]": "true",
-    "pagination[start]": start,
-    "pagination[limit]": limit,
     populate: "*",
   };
 
