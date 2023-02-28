@@ -1,12 +1,9 @@
-import LifeMember, {
-  LifeMemberProps,
-} from "@/components/lifeMember/life-member";
+import getLifeMembers from "@/api/modules/lifeMember/getLifeMembers";
+import LineMember, { LineMemberProps } from "@/components/lineage/line_member";
 import Member from "@/components/member/member";
 import PageTemplate from "@/components/PageTemplate";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { useState } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { v4 } from "uuid";
 
 export default function LifeMembers({
@@ -49,9 +46,10 @@ export default function LifeMembers({
                         memberName={lifeMember.memberName}
                         memberPhotoUrl={lifeMember.memberPhotoUrl}
                       >
-                        <LifeMember
-                          key={v4()}
-                          shipName={lifeMember.description.shipName}
+                        <LineMember
+                          key={lifeMember.description.id}
+                          id={lifeMember.description.id}
+                          lineNumber={lifeMember.description.lineNumber}
                           lineName={lifeMember.description.lineName}
                         />
                       </Member>
@@ -76,41 +74,47 @@ export interface LifeMember {
   memberName: string;
   memberPhotoUrl: string;
   lifeMembershipYear: number;
-  description: LifeMemberProps;
+  description: LineMemberProps;
 }
 
 export const getServerSideProps: GetServerSideProps<{
   lifeMembers: LifeMembers;
 }> = async () => {
-  const lifeMembers = getLifeMembers(1, 25);
+  const lifeMembers = await _getLifeMembers();
   return { props: { lifeMembers } };
 };
 
-function getLifeMembers(start: number, limit: number): LifeMembers {
+async function _getLifeMembers(): Promise<LifeMembers> {
   let lifeMembers: LifeMembers = {};
 
-  const lifeMemberDesc: LifeMemberProps = {
-    shipName: "DOD",
-    lineName: "monster",
-  };
-  const lifeMember: LifeMember = {
-    id: 0,
-    memberName: "John Doe",
-    memberPhotoUrl: "/images/missing-member.svg",
-    lifeMembershipYear: 2023,
-    description: lifeMemberDesc,
-  };
+  const [jsonLifeMembers, error] = await getLifeMembers();
 
-  let _lifeMembers: LifeMember[] = [];
-
-  //generate List
-  for (let i = start; i <= limit; i++) {
-    lifeMember.id += 1;
-    _lifeMembers.push(lifeMember);
+  if (error) {
+    console.log(error);
+    return jsonLifeMembers;
   }
 
-  //Add list to lifeMembers Map
-  _lifeMembers.map((lm) => {
+  jsonLifeMembers?.data?.data?.map((lifeMember) => {
+    let lm: LifeMember = {
+      id: lifeMember?.id,
+      memberName: lifeMember?.attributes?.name,
+      memberPhotoUrl: lifeMember?.attributes?.photo?.data?.length
+        ? `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_HOST}:${process.env.NEXT_PUBLIC_API_PORT}${lifeMember?.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
+        : "/images/missing-member.svg",
+      lifeMembershipYear: lifeMember?.attributes?.life_membership_year,
+      description: {
+        id: v4(),
+        lineNumber:
+          lifeMember?.attributes?.line_member?.data !== null
+            ? lifeMember?.attributes?.line_member?.data?.attributes?.line_number
+            : null,
+        lineName:
+          lifeMember?.attributes?.line_member?.data !== null
+            ? lifeMember?.attributes?.line_member?.data?.attributes?.line_name
+            : null,
+      },
+    };
+
     if (lm.lifeMembershipYear in lifeMembers) {
       lifeMembers[lm.lifeMembershipYear].push(lm);
     } else {
