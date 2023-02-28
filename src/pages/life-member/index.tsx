@@ -30,8 +30,8 @@ export default function LifeMembers({
       0,
       0
     );
-    setLineMembers((_lineMembers) => [
-      ..._lineMembers,
+    setLineMembers((_lifeMembers) => [
+      ..._lifeMembers,
       ...additionalLifeMembers,
     ]);
 
