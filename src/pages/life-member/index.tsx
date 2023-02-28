@@ -67,6 +67,10 @@ export default function LifeMembers({
   );
 }
 
+export interface LifeMembers {
+  [year: string]: LifeMember[];
+}
+
 export interface LifeMember {
   id: number;
   memberName: string;
@@ -81,10 +85,6 @@ export const getServerSideProps: GetServerSideProps<{
   const lifeMembers = getLifeMembers(1, 25);
   return { props: { lifeMembers } };
 };
-
-export interface LifeMembers {
-  [year: string]: LifeMember[];
-}
 
 function getLifeMembers(start: number, limit: number): LifeMembers {
   let lifeMembers: LifeMembers = {};
