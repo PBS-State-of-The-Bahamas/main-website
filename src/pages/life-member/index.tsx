@@ -1,4 +1,5 @@
 import getLifeMembers from "@/api/modules/lifeMember/getLifeMembers";
+import getLifeMembersPageContent from "@/api/modules/lifeMember/getLifeMembersPageContent";
 import LineMember, { LineMemberProps } from "@/components/lineage/line_member";
 import Member from "@/components/member/member";
 import PageTemplate from "@/components/PageTemplate";
@@ -8,8 +9,10 @@ import { v4 } from "uuid";
 
 export default function LifeMembers({
   lifeMembers,
+  opening_paragraph
 }: {
   lifeMembers: LifeMembers;
+  opening_paragraph: string
 }) {
   const notFound =  <div>Life Members Not Found ...</div>;
 
@@ -32,17 +35,11 @@ export default function LifeMembers({
         <div className="min-h-screen">
           <div className="text-heading-3 pt-12">Sigma Bahamas Life Members</div>
           <div className="pt-2 pb-6">
-            Lorem ipsum dolor sit amet consectetur. Hendrerit diam quis
-            ultricies scelerisque eget et et scelerisque. Nunc aliquam morbi
-            suscipit at sagittis. Adipiscing id at mauris ut odio dictum
-            ultricies vitae neque. Risus arcu lectus enim egestas urna. Massa
-            platea neque integer diam. Commodo magna sodales sagittis quisque
-            turpis dictumst. In donec integer elit malesuada a imperdiet vel
-            amet.
+                {opening_paragraph}
           </div>
           {Object.keys(lifeMembers).map((year) => {
             return (
-              <div className="pt-2">
+              <div className="pt-2" key={v4()}>
                 <div className="text-heading-4">{year}</div>
                 <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
                   {lifeMembers[year].map((lifeMember: LifeMember) => {
@@ -85,9 +82,10 @@ export interface LifeMember {
 
 export const getServerSideProps: GetServerSideProps<{
   lifeMembers: LifeMembers;
+  opening_paragraph: string;
 }> = async () => {
-  const lifeMembers = await _getLifeMembers();
-  return { props: { lifeMembers } };
+  const [lifeMembers,opening_paragraph] = await Promise.all([_getLifeMembers(),getPageContent()]);
+  return { props: { lifeMembers, opening_paragraph} };
 };
 
 async function _getLifeMembers(): Promise<LifeMembers> {
@@ -129,4 +127,15 @@ async function _getLifeMembers(): Promise<LifeMembers> {
   });
 
   return lifeMembers;
+}
+
+async function getPageContent(): Promise<any>{
+  const [content, error] = await getLifeMembersPageContent();
+
+  if (error) {
+    console.log(error);
+    return content;
+  }
+
+  return content?.data?.data?.attributes?.opening_paragraph
 }
