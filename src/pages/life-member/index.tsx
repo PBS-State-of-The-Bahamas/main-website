@@ -11,9 +11,15 @@ export default function LifeMembers({
 }: {
   lifeMembers: LifeMembers;
 }) {
+  const notFound =  <div>Life Members Not Found ...</div>;
+
+  if (!lifeMembers){
+    return notFound
+  }
+
   Object.entries(lifeMembers).forEach(([key, value]) => {
     if (!value.length) {
-      return <div>Life Members Not Found ...</div>;
+      return notFound
     }
   });
 
