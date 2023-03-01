@@ -39,7 +39,7 @@ export default function LifeMembers({
           </div>
           {Object.keys(lifeMembers).map((year) => {
             return (
-              <div className="pt-2" key={v4()}>
+              <div className="pt-4" key={v4()}>
                 <div className="text-heading-4">{year}</div>
                 <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
                   {lifeMembers[year].map((lifeMember: LifeMember) => {
