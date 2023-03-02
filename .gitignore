@@ -39,3 +39,12 @@ next-env.d.ts
 .flaskenv*
 !.env.project
 !.env.vault
+
+# Yarn modules
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
