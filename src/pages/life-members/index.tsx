@@ -9,10 +9,10 @@ import { v4 } from "uuid";
 
 export default function LifeMembers({
   lifeMembers,
-  opening_paragraph
+  openingParagraph
 }: {
   lifeMembers: LifeMembers;
-  opening_paragraph: string
+  openingParagraph: string
 }) {
   const notFound =  <div>Life Members Not Found ...</div>;
 
@@ -35,33 +35,35 @@ export default function LifeMembers({
         <div className="min-h-screen">
           <div className="text-heading-3 pt-12">Sigma Bahamas Life Members</div>
           <div className="pt-2 pb-6">
-                {opening_paragraph}
+                {openingParagraph}
           </div>
-          {Object.keys(lifeMembers).map((year) => {
-            return (
-              <div className="pt-4" key={v4()}>
-                <div className="text-heading-4">{year}</div>
-                <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
-                  {lifeMembers[year].map((lifeMember: LifeMember) => {
-                    return (
-                      <Member
-                        key={lifeMember.id}
-                        memberName={lifeMember.memberName}
-                        memberPhotoUrl={lifeMember.memberPhotoUrl}
-                      >
-                        <LineMember
-                          key={lifeMember.description.id}
-                          id={lifeMember.description.id}
-                          lineNumber={lifeMember.description.lineNumber}
-                          lineName={lifeMember.description.lineName}
-                        />
-                      </Member>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
+          <div className="pb-6">
+              {Object.keys(lifeMembers).map((year) => {
+                return (
+                  <div className="pt-4" key={v4()}>
+                    <div className="text-heading-4">{year}</div>
+                    <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
+                      {lifeMembers[year].map((lifeMember: LifeMember) => {
+                        return (
+                          <Member
+                            key={lifeMember.id}
+                            memberName={lifeMember.memberName}
+                            memberPhotoUrl={lifeMember.memberPhotoUrl}
+                          >
+                            <LineMember
+                              key={lifeMember.description.id}
+                              id={lifeMember.description.id}
+                              lineNumber={lifeMember.description.lineNumber}
+                              lineName={lifeMember.description.lineName}
+                            />
+                          </Member>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
         </div>
       </PageTemplate>
     </div>
@@ -82,10 +84,10 @@ export interface LifeMember {
 
 export const getServerSideProps: GetServerSideProps<{
   lifeMembers: LifeMembers;
-  opening_paragraph: string;
+  openingParagraph: string;
 }> = async () => {
-  const [lifeMembers,opening_paragraph] = await Promise.all([_getLifeMembers(),getPageContent()]);
-  return { props: { lifeMembers, opening_paragraph} };
+  const [lifeMembers,openingParagraph] = await Promise.all([_getLifeMembers(),getPageContent()]);
+  return { props: { lifeMembers, openingParagraph} };
 };
 
 async function _getLifeMembers(): Promise<LifeMembers> {
@@ -129,7 +131,7 @@ async function _getLifeMembers(): Promise<LifeMembers> {
   return lifeMembers;
 }
 
-async function getPageContent(): Promise<any>{
+async function getPageContent(): Promise<string>{
   const [content, error] = await getLifeMembersPageContent();
 
   if (error) {
