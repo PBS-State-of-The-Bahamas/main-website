@@ -131,7 +131,7 @@ async function _getLifeMembers(): Promise<LifeMembers> {
   return lifeMembers;
 }
 
-async function getPageContent(): Promise<any>{
+async function getPageContent(): Promise<string>{
   const [content, error] = await getLifeMembersPageContent();
 
   if (error) {
