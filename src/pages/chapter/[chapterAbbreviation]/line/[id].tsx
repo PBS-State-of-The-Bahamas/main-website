@@ -23,7 +23,7 @@ export default function LineMembers({
 }) {
   const { chapterAbbreviation, id } = query;
   const [_lineMembers, setLineMembers] = useState(lineMembers);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(totalLineMembers > lineMembers.length ? true : false);
 
   if (!lineMembers.length) {
     return <div>Line Members Not Found ...</div>;
