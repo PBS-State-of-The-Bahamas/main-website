@@ -5,9 +5,8 @@ import Instagram from "../icons/socials/Instagram";
 type Props = {
   chapter: string;
   city: string;
-  chapterType: "Undergraduate" | "Graduate";
+  chapterType: string;
   country: string;
-  buttonText: string;
 };
 
 const ChapterHero = ({
@@ -15,7 +14,6 @@ const ChapterHero = ({
   city,
   chapterType,
   country,
-  buttonText,
 }: Props) => {
   return (
     <div className="relative isolate overflow-hidden bg-royal-blue">
