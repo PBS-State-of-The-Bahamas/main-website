@@ -111,7 +111,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       (chapterAbbreviation as string).toUpperCase()
     ),
   ]);   
-  if (pageData) {
+  if (pageData?.data?.data[0]?.attributes && charters?.data?.data) {
     return {
       props: fromApiResponseToPageInterface(
         pageData?.data?.data[0]?.attributes,
