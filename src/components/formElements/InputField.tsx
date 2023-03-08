@@ -12,7 +12,6 @@ type Props = {
 };
 
 const classNames = (...classes: any) => {
-    console.log(classes)
   return classes.filter(Boolean).join(" ");
 };
 
@@ -28,7 +27,7 @@ const InputField = ({
 }: Props) => {
   return (
     <div>
-      <label htmlFor={name} className="block text-sm font-bold text-gray-700">
+      <label htmlFor={name} className="block text-sm font-bold text-gray-6">
         {label}
       </label>
       <div className="relative mt-1 rounded-md">
@@ -41,11 +40,11 @@ const InputField = ({
           onBlur={onBlur}
           autoComplete={autoComplete}
           className={classNames(
-            error ? "border-red-500" : "border-gray-300",
-            "block w-full border appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            error ? "border-feedback-warning" : "border-gray-4",
+            "block w-full border appearance-none rounded-md border px-3 py-2 shadow-sm focus:border-royal-blue focus:outline-none focus:ring-royal-blue sm:text-sm"
           )}
         />
-        <p className="mt-2 text-sm text-red-600">
+        <p className="mt-2 text-sm text-feedback-warning">
           {error}
         </p>
       </div>
