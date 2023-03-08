@@ -9,6 +9,14 @@ const RadioGroup = ({ children, label, error}) => {
       <fieldset className="mt-2">
         <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
           <div className="flex items-center">
+            {/* <input 
+            type="radio" 
+            id="customid" 
+            className="block text-sm font-medium leading-6 text-gray-6" 
+            onChange={formik.handleChange} 
+            name="enrolled" 
+            value="yes" 
+          /> adding comment for to just copy and paste later :) */}
             {children}
           </div>
         </div>
