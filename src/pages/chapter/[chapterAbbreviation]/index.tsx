@@ -29,6 +29,11 @@ export interface ChapterImage {
   source: string;
 }
 
+export interface ChapterSocial {
+  platform: string;
+  profileURL: string;
+}
+
 export interface PageData {
   city: string;
   country: string;
@@ -36,7 +41,7 @@ export interface PageData {
   chapterAwards: ChapterAward[];
   chapterCharters: ChapterCharter[];
   images: ChapterImage[];
-  chapterSocials: any;
+  chapterSocials: ChapterSocial[];
   chapter: Chapter;
 }
 
@@ -132,7 +137,9 @@ const fromApiResponseToPageInterface = (
   chapterCharters: charterLine?.map((charter) =>
     fromApiResponseToChapterCharterInterface(charter)
   ),
-  chapterSocials: data?.chapter_socials?.data[0]?.attributes,
+  chapterSocials: data?.chapter_socials?.data.map((social) =>
+    fromApiResponseToChapterSocialsInterface(social)
+  ),
   chapter: {
     name: data?.chapter?.data?.attributes?.name,
     type: data?.chapter?.data?.attributes?.type,
@@ -161,4 +168,11 @@ const fromApiResponseToChapterGalleryInterface = (
   gallery: any
 ): ChapterImage => ({
   source: gallery?.attributes?.url,
+});
+
+const fromApiResponseToChapterSocialsInterface = (
+  social: any
+): ChapterSocial => ({
+  platform: social?.attributes?.platform,
+  profileURL: social?.attributes?.link,
 });
