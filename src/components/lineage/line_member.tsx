@@ -5,6 +5,9 @@ export interface LineMemberProps {
 }
 
 export default function LineMember(props: LineMemberProps) {
+  if (!(props.lineNumber && props.lineName)) {
+    return <></>;
+  }
   return (
     <div className="text-heading-6">
       #{props.lineNumber}-{props.lineName}

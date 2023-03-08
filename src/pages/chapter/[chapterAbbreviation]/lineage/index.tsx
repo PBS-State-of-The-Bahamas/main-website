@@ -13,26 +13,28 @@ export default function Lineage({
   chapterAbbreviation,
   chapterName,
   lineage,
+  totalLines
 }: {
   chapterAbbreviation: string;
   chapterName: string;
   lineage: LineProps[];
+  totalLines: number
 }) {
   const [_lineage, setLineage] = useState(lineage);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(totalLines > lineage.length ? true : false);
 
   if (!lineage.length) {
     return <div>Lineage Not Found ...</div>;
   }
 
   const addNewLines = async (): Promise<void> => {
-    const [_chapterName, additionalLines, totalLines] = await getChapterLineage(
+    const [_chapterName, additionalLines, _totalLines] = await getChapterLineage(
       chapterAbbreviation,
       _lineage.length.toString(),
       "10"
     );
     setLineage((_lineage) => [..._lineage, ...additionalLines]);
-    setHasMore(totalLines > _lineage.length ? true : false);
+    setHasMore(_totalLines > _lineage.length ? true : false);
   };
 
   return (
@@ -83,6 +85,7 @@ export const getServerSideProps: GetServerSideProps<{
   chapterAbbreviation: string;
   chapterName: string;
   lineage: LineProps[];
+  totalLines: number
 }> = async ({ query }) => {
   let { chapterAbbreviation } = query;
   chapterAbbreviation = (chapterAbbreviation as string).toUpperCase();
@@ -100,7 +103,7 @@ export const getServerSideProps: GetServerSideProps<{
   }
 
   return {
-    props: { chapterAbbreviation, chapterName, lineage },
+    props: { chapterAbbreviation, chapterName, lineage, totalLines },
   };
 };
 
