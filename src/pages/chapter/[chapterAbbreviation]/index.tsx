@@ -25,33 +25,21 @@ export interface ChapterCharter {
   lineNumber: string;
 }
 
+export interface ChapterImage {
+  source: string;
+}
+
 export interface PageData {
   city: string;
   country: string;
   history: string;
   chapterAwards: ChapterAward[];
   chapterCharters: ChapterCharter[];
+  images: ChapterImage[];
   chapterSocials: any;
   chapter: Chapter;
 }
-const images = [
-  {
-    source:
-      "https://th.bing.com/th/id/R.93db2ad96c0408ab4d969fd2dee77249?rik=Xdp5c5P%2b80BQ2g&riu=http%3a%2f%2fphibetasigma1914.org%2fwp-content%2fuploads%2f2017%2f09%2ffounders%40Howard-e1508946425457.jpg&ehk=FJmuYFxrIZufj2uQrmlJysNLWkbJg5LFuSNkkTI2uaY%3d&risl=&pid=ImgRaw&r=0",
-  },
-  {
-    source:
-      "https://th.bing.com/th/id/R.93db2ad96c0408ab4d969fd2dee77249?rik=Xdp5c5P%2b80BQ2g&riu=http%3a%2f%2fphibetasigma1914.org%2fwp-content%2fuploads%2f2017%2f09%2ffounders%40Howard-e1508946425457.jpg&ehk=FJmuYFxrIZufj2uQrmlJysNLWkbJg5LFuSNkkTI2uaY%3d&risl=&pid=ImgRaw&r=0",
-  },
-  {
-    source:
-      "https://th.bing.com/th/id/R.93db2ad96c0408ab4d969fd2dee77249?rik=Xdp5c5P%2b80BQ2g&riu=http%3a%2f%2fphibetasigma1914.org%2fwp-content%2fuploads%2f2017%2f09%2ffounders%40Howard-e1508946425457.jpg&ehk=FJmuYFxrIZufj2uQrmlJysNLWkbJg5LFuSNkkTI2uaY%3d&risl=&pid=ImgRaw&r=0",
-  },
-  {
-    source:
-      "https://th.bing.com/th/id/R.93db2ad96c0408ab4d969fd2dee77249?rik=Xdp5c5P%2b80BQ2g&riu=http%3a%2f%2fphibetasigma1914.org%2fwp-content%2fuploads%2f2017%2f09%2ffounders%40Howard-e1508946425457.jpg&ehk=FJmuYFxrIZufj2uQrmlJysNLWkbJg5LFuSNkkTI2uaY%3d&risl=&pid=ImgRaw&r=0",
-  },
-];
+
 const Index: NextPage = ({ ...data }: PageData) => {
   const awards = data.chapterAwards.map((award: ChapterAward) => {
     return {
@@ -69,6 +57,12 @@ const Index: NextPage = ({ ...data }: PageData) => {
       description: charter.lineName,
     };
   });
+  const images = data.images.map((image: ChapterImage) => {
+    return {
+      source: `${process.env.NEXT_PUBLIC_API_URL}${image.source}`,
+    };
+  });
+
   return (
     <PageTemplate pageType="chapter">
       <ChapterHero
@@ -76,12 +70,13 @@ const Index: NextPage = ({ ...data }: PageData) => {
         chapterType={data.chapter.type}
         city={data.city}
         country={data.country}
+        imageURL={images[Math.floor(Math.random() * images.length)].source}
       />
       <div className="flex flex-col items-center lg:flex-row w-full">
         <div className="lg:w-3/6 p-8">
           <h4 className="text-heading-4 py-8 font-bold text-gray-6">History</h4>
           <img
-            src="https://phibetasigma1914.org/wp-content/uploads/2017/09/founders@Howard-e1508946425457.jpg"
+            src={images[Math.floor(Math.random() * images.length)].source}
             alt=""
             className=""
           />
@@ -110,7 +105,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     chapterPageActions.getCharterMembers(
       (chapterAbbreviation as string).toUpperCase()
     ),
-  ]);   
+  ]);
   if (pageData?.data?.data[0]?.attributes && charters?.data?.data) {
     return {
       props: fromApiResponseToPageInterface(
@@ -143,6 +138,9 @@ const fromApiResponseToPageInterface = (
     type: data?.chapter?.data?.attributes?.type,
     chapterAbbreviation: data?.chapter?.data?.attributes?.chapter_abbreviation,
   },
+  images: data?.gallery_images?.data?.map((image) =>
+    fromApiResponseToChapterGalleryInterface(image)
+  ),
 });
 
 const fromApiResponseToChapterAwardInterface = (award: any): ChapterAward => ({
@@ -157,4 +155,10 @@ const fromApiResponseToChapterCharterInterface = (
   name: charter?.attributes?.member?.data?.attributes?.name,
   lineName: charter?.attributes?.line_name,
   lineNumber: charter?.attributes?.line_number,
+});
+
+const fromApiResponseToChapterGalleryInterface = (
+  gallery: any
+): ChapterImage => ({
+  source: gallery?.attributes?.url,
 });
