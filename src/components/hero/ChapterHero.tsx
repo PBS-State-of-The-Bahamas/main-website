@@ -7,6 +7,7 @@ type Props = {
   city: string;
   chapterType: string;
   country: string;
+  imageURL: string;
 };
 
 const ChapterHero = ({
@@ -14,11 +15,12 @@ const ChapterHero = ({
   city,
   chapterType,
   country,
+  imageURL
 }: Props) => {
   return (
     <div className="relative isolate overflow-hidden bg-royal-blue">
       <img
-        src=""
+        src={imageURL}
         alt={`Phi Beta Sigma - ${chapter} Chapter`}
         className="absolute inset-0 -z-10 h-full w-full object-cover"
       />
