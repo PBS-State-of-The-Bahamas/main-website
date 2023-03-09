@@ -18,8 +18,9 @@ const chapterPageActions = {
     try {
       const endpoint = "/api/line-members";
       const params: QueryParams = {
-        "populate": "*",
-        "filters[line][chapter][chapter_abbreviation][$eq]": chapterAbbreviation,
+        "populate[member][populate][0]": "photo",
+        "filters[line][chapter][chapter_abbreviation][$eq]":
+          chapterAbbreviation,
         "filters[line][charter_line][$eq]": "true",
       };
       return await axiosRequest().get(endpoint, { params: params });
