@@ -18,14 +18,14 @@ const ChapterHero = ({
   imageURL
 }: Props) => {
   return (
-    <div className="relative isolate overflow-hidden bg-royal-blue">
+    <div className="relative isolate overflow-hidden bg-gray-4">
       <img
         src={imageURL}
         alt={`Phi Beta Sigma - ${chapter} Chapter`}
         className="absolute inset-0 -z-10 h-full w-full object-cover"
       />
       <div className="px-6 lg:px-8">
-        <div className="max-w-2xl py-32 sm:py-48 lg:py-56">
+        <div className="max-w-2xl py-32 sm:py-48 lg:pt-16 lg:pb-32">
           <div>
             <h4 className="max-sm:text-sm text-heading-6 uppercase text-white">
               {chapterType} Chapter - {city}, {country}
@@ -35,15 +35,15 @@ const ChapterHero = ({
             </h1>
           </div>
           <div className="py-4">
-            <button className="bg-dark-royal-blue px-8 py-4 border-none rounded-sm uppercase text-gray-1 font-bold">
+            <button className="bg-royal-blue px-6 py-3 border-none rounded-sm uppercase text-gray-1 font-bold">
               I'm Interested
             </button>
           </div>
           <div className="py-4 flex flex-row">
-            <div className="mr-8">
+            <div className="mr-2">
               <Facebook />
             </div>
-            <div className="mr-8">
+            <div className="mr-2">
               <Instagram />
             </div>
           </div>
