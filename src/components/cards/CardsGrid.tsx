@@ -1,9 +1,10 @@
 import React from "react";
+import Card from "./Card";
 
 type Props = {
   heading?: string;
   items: {
-    icon: any;
+    icon: JSX.Element;
     title: string;
     subtitle: string;
     description?: string;
@@ -23,23 +24,12 @@ const CardsGrid = (props: Props) => {
         className="mt-3 grid gap-5 max-sm:grid-cols-1 max-sm:gap-6 md:grid-cols-3 lg:grid-cols-4"
       >
         {props.items.map((prop) => (
-          <li
-            key={prop.title}
-            className="col-span-1 flex rounded-md shadow-sm border border-gray-4 p-2"
-          >
-            <div className="flex-shrink-0 flex items-center justify-center w-16 text-sm font-medium rounded-md bg-gray-2">
-              {prop.icon}
-            </div>
-            <div className="flex flex-1 items-center justify-between rounded-r-md bg-white">
-              <div className="flex-1 px-4 py-2 text-sm">
-                <p className="font-bold text-black uppercase">{prop.title}</p>
-                <p className="text-gray-5">
-                  <span className="font-bold">{prop.subtitle}</span>
-                  {prop.description && <span> - {prop.description}</span>}
-                </p>
-              </div>
-            </div>
-          </li>
+          <Card
+            title={prop.title}
+            subtitle={prop.subtitle}
+            icon={prop.icon}
+            description={prop.description}
+          />
         ))}
       </ul>
     </div>
