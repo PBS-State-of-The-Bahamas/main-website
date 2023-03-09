@@ -3,6 +3,7 @@ import PageTemplate from "@/components/PageTemplate";
 import CardsGrid from "@/components/cards/CardsGrid";
 import ChapterHero from "@/components/hero/ChapterHero";
 import Trophy from "@/components/icons/Trophy";
+import Member from "@/components/member/member";
 import GridGallery from "@/gallery/GridGallery";
 import { GetServerSideProps, GetServerSidePropsResult, NextPage } from "next";
 import React from "react";
@@ -27,6 +28,7 @@ export interface ChapterCharter {
 
 export interface ChapterImage {
   source: string;
+  altText: string;
 }
 
 export interface ChapterSocial {
@@ -65,6 +67,7 @@ const Index: NextPage = ({ ...data }: PageData) => {
   const images = data.images.map((image: ChapterImage) => {
     return {
       source: `${process.env.NEXT_PUBLIC_API_URL}${image.source}`,
+      altText: image.altText,
     };
   });
 
@@ -78,16 +81,16 @@ const Index: NextPage = ({ ...data }: PageData) => {
         imageURL={images[Math.floor(Math.random() * images.length)].source}
       />
       <div className="flex flex-col items-center lg:flex-row w-full">
-        <div className="lg:w-3/6 p-8">
-          <h4 className="text-heading-4 py-8 font-bold text-gray-6">History</h4>
+        <div className="lg:w-3/6 p-6">
+          <h4 className="text-heading-4 pb-8 font-bold text-gray-6">History</h4>
           <img
             src={images[Math.floor(Math.random() * images.length)].source}
             alt=""
             className=""
           />
         </div>
-        <div className="lg:w-3/6 p-8">
-          <p>{data.history}</p>
+        <div className="lg:w-3/6 p-6">
+          <p className="text-gray-5">{data.history}</p>
         </div>
       </div>
       <CardsGrid heading="Founding Members" items={charters} />
@@ -168,6 +171,7 @@ const fromApiResponseToChapterGalleryInterface = (
   gallery: any
 ): ChapterImage => ({
   source: gallery?.attributes?.url,
+  altText: gallery?.attributes?.alternativeText,
 });
 
 const fromApiResponseToChapterSocialsInterface = (
