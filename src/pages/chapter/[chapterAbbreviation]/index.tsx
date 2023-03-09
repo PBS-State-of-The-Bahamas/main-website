@@ -106,7 +106,7 @@ const Index: NextPage = ({ ...data }: PageData) => {
       <div className="m-8">
         <h4 className="text-heading-4 font-bold text-gray-6">Charters</h4>
       </div>
-      <div className="m-8">
+      <div className="m-8 grid gap-5 max-sm:grid-cols-1 max-sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
         {charters.map((charter, idx) => (
           <Member
             key={charter.title}
@@ -193,7 +193,7 @@ const fromApiResponseToChapterCharterInterface = (
   name: charter?.attributes?.member?.data?.attributes?.name,
   lineName: charter?.attributes?.line_name,
   lineNumber: charter?.attributes?.line_number,
-  imageURL: charter?.attributes?.member?.data?.attributes?.photo?.data[0]?.attributes?.formats?.small?.url
+  imageURL: charter?.attributes?.member?.data?.attributes?.photo?.data?.[0]?.attributes?.formats?.small?.url
     ? `${process.env.NEXT_PUBLIC_API_URL}${charter?.attributes?.member?.data?.attributes?.photo?.data[0]?.attributes?.formats?.small?.url}`
     : "/images/missing-member.svg",
 });
