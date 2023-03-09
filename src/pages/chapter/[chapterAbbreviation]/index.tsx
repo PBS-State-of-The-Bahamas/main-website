@@ -3,6 +3,7 @@ import PageTemplate from "@/components/PageTemplate";
 import CardsGrid from "@/components/cards/CardsGrid";
 import ChapterHero from "@/components/hero/ChapterHero";
 import Trophy from "@/components/icons/Trophy";
+import LineMember from "@/components/lineage/line_member";
 import Member from "@/components/member/member";
 import GridGallery from "@/gallery/GridGallery";
 import { GetServerSideProps, GetServerSidePropsResult, NextPage } from "next";
@@ -24,6 +25,7 @@ export interface ChapterCharter {
   name: string;
   lineName: string;
   lineNumber: string;
+  imageURL: string;
 }
 
 export interface ChapterImage {
@@ -62,6 +64,7 @@ const Index: NextPage = ({ ...data }: PageData) => {
       title: charter.name,
       subtitle: charter.lineNumber,
       description: charter.lineName,
+      imageURL: charter.imageURL
     };
   });
   const images = data.images.map((image: ChapterImage) => {
@@ -93,7 +96,25 @@ const Index: NextPage = ({ ...data }: PageData) => {
           <p className="text-gray-5">{data.history}</p>
         </div>
       </div>
-      <CardsGrid heading="Founding Members" items={charters} />
+      <div className="m-8">
+        <h4 className="text-heading-4 font-bold text-gray-6">Charters</h4>
+      </div>
+      <div className="m-8">
+        {charters.map((charter, idx) => (
+          <Member
+            key={charter.title}
+            memberName={charter.title}
+            memberPhotoUrl={charter.imageURL}
+          >
+            <LineMember
+              key={charter.title}
+              id={idx}
+              lineNumber={parseInt(charter.subtitle)}
+              lineName={charter.description}
+            />
+          </Member>
+        ))}
+      </div>
       <CardsGrid heading="Awards" items={awards} />
       <GridGallery images={images} />
     </PageTemplate>
@@ -165,6 +186,7 @@ const fromApiResponseToChapterCharterInterface = (
   name: charter?.attributes?.member?.data?.attributes?.name,
   lineName: charter?.attributes?.line_name,
   lineNumber: charter?.attributes?.line_number,
+  imageURL: "/images/missing-member.svg",
 });
 
 const fromApiResponseToChapterGalleryInterface = (
