@@ -73,6 +73,12 @@ const Index: NextPage = ({ ...data }: PageData) => {
       altText: image.altText,
     };
   });
+  const socials = data.chapterSocials.map((social: ChapterSocial) => {
+    return {
+      platform: social.platform,
+      profileURL: social.profileURL
+    }
+  })
 
   return (
     <PageTemplate pageType="chapter">
@@ -82,6 +88,7 @@ const Index: NextPage = ({ ...data }: PageData) => {
         city={data.city}
         country={data.country}
         imageURL={images[Math.floor(Math.random() * images.length)].source}
+        socials={socials}
       />
       <div className="flex flex-col items-center lg:flex-row w-full">
         <div className="lg:w-3/6 p-6">

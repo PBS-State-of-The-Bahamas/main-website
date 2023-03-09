@@ -1,6 +1,8 @@
 import React from "react";
 import Facebook from "../icons/socials/Facebook";
 import Instagram from "../icons/socials/Instagram";
+import { ChapterSocial } from "@/pages/chapter/[chapterAbbreviation]";
+import Link from "next/link";
 
 type Props = {
   chapter: string;
@@ -8,6 +10,12 @@ type Props = {
   chapterType: string;
   country: string;
   imageURL: string;
+  socials: ChapterSocial[];
+};
+
+const socialIcons = {
+  facebook: <Facebook />,
+  instagram: <Instagram />,
 };
 
 const ChapterHero = ({
@@ -15,7 +23,8 @@ const ChapterHero = ({
   city,
   chapterType,
   country,
-  imageURL
+  imageURL,
+  socials,
 }: Props) => {
   return (
     <div className="relative isolate overflow-hidden bg-gray-4">
@@ -40,12 +49,15 @@ const ChapterHero = ({
             </button>
           </div>
           <div className="py-4 flex flex-row">
-            <div className="mr-2">
-              <Facebook />
-            </div>
-            <div className="mr-2">
-              <Instagram />
-            </div>
+            {socials.map((social) => (
+              <div className="mr-2">
+                {socialIcons[social.platform] && (
+                  <Link href={social.profileURL}>
+                    {socialIcons[social.platform]}
+                  </Link>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
