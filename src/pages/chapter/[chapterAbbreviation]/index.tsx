@@ -193,7 +193,7 @@ const fromApiResponseToChapterCharterInterface = (
   name: charter?.attributes?.member?.data?.attributes?.name,
   lineName: charter?.attributes?.line_name,
   lineNumber: charter?.attributes?.line_number,
-  imageURL: charter?.attributes?.member?.data?.attributes?.photo?.data
+  imageURL: charter?.attributes?.member?.data?.attributes?.photo?.data[0]?.attributes?.formats?.small?.url
     ? `${process.env.NEXT_PUBLIC_API_URL}${charter?.attributes?.member?.data?.attributes?.photo?.data[0]?.attributes?.formats?.small?.url}`
     : "/images/missing-member.svg",
 });
