@@ -5,7 +5,7 @@ import ChapterHero from "@/components/hero/ChapterHero";
 import Trophy from "@/components/icons/Trophy";
 import LineMember from "@/components/lineage/line_member";
 import Member from "@/components/member/member";
-import GridGallery from "@/gallery/GridGallery";
+import GridGallery from "@/components/gallery/GridGallery";
 import { GetServerSideProps, GetServerSidePropsResult, NextPage } from "next";
 import React from "react";
 
@@ -64,7 +64,7 @@ const Index: NextPage = ({ ...data }: PageData) => {
       title: charter.name,
       subtitle: charter.lineNumber,
       description: charter.lineName,
-      imageURL: charter.imageURL
+      imageURL: charter.imageURL,
     };
   });
   const images = data.images.map((image: ChapterImage) => {
@@ -76,9 +76,9 @@ const Index: NextPage = ({ ...data }: PageData) => {
   const socials = data.chapterSocials.map((social: ChapterSocial) => {
     return {
       platform: social.platform,
-      profileURL: social.profileURL
-    }
-  })
+      profileURL: social.profileURL,
+    };
+  });
 
   return (
     <PageTemplate pageType="chapter">
@@ -193,7 +193,9 @@ const fromApiResponseToChapterCharterInterface = (
   name: charter?.attributes?.member?.data?.attributes?.name,
   lineName: charter?.attributes?.line_name,
   lineNumber: charter?.attributes?.line_number,
-  imageURL: "/images/missing-member.svg",
+  imageURL: charter?.attributes?.member?.data?.attributes?.photo?.data
+    ? `${process.env.NEXT_PUBLIC_API_URL}${charter?.attributes?.member?.data?.attributes?.photo?.data[0]?.attributes?.formats?.small?.url}`
+    : "/images/missing-member.svg",
 });
 
 const fromApiResponseToChapterGalleryInterface = (
