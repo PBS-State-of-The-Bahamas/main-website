@@ -6,7 +6,8 @@ import RadioGroup from "../formElements/RadioGroup";
 import FormButton from "../formElements/FormButton";
 
 enum FormFeedbackEnum {
-    FIELD_REQUIRED = "This is required."
+  FIELD_REQUIRED = "This is required.",
+  INVALID_EMAIL = "Invalid email",
 }
 
 const ChapterInterestForm = () => {
@@ -20,11 +21,13 @@ const ChapterInterestForm = () => {
     },
     onSubmit: async (values) => {
       // send email
-      console.log(values)
+      console.log(values);
     },
     validationSchema: Yup.object({
       fullName: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
-      email: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
+      email: Yup.string()
+        .email(FormFeedbackEnum.INVALID_EMAIL)
+        .required(FormFeedbackEnum.FIELD_REQUIRED),
       phone: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
       currentlyEnrolled: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
       hasMinimumCredits: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
@@ -35,8 +38,9 @@ const ChapterInterestForm = () => {
     e.preventDefault();
     formik.handleSubmit(e);
   };
+  
   return (
-    <div className="max-w-screen-sm flex flex-col mx-auto max-sm:px-2">
+    <div className="max-w-screen-sm flex flex-col mx-auto mt-8 mb-16 max-sm:px-2">
       <h4 className="text-heading-4 py-4">Interested in Joining</h4>
       <form className="flex flex-col" onSubmit={(e: any) => submit(e)}>
         <InputField
@@ -60,7 +64,7 @@ const ChapterInterestForm = () => {
           error={formik.touched.email ? formik.errors.email : undefined}
         />
         <InputField
-          label="Phone Number"
+          label="Phone number"
           name="phone"
           type="tel"
           autoComplete="tel"
