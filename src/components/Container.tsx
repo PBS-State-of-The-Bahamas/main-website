@@ -1,10 +1,8 @@
 import React from 'react'
 
-type Props = {}
-
 function Container({children}) {
   return (
-    <div className='max-w-screen-2xl px-10 mx-auto flex'>
+    <div className='max-w-screen-2xl px-4 md:px-10 mx-auto flex'>
         {children}
     </div>
   )
