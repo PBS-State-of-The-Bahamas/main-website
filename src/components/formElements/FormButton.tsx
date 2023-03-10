@@ -8,7 +8,7 @@ const FormButton = ({ text }: Props) => {
   return (
     <button
       type="submit"
-      className="flex w-full uppercase justify-center rounded-md bg-royal-blue py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-dark-royal-blue disabled:bg-blue-200"
+      className="mt-2 flex w-full uppercase justify-center bg-royal-blue py-2 px-4 text-sm font-bold text-gray-1 shadow-sm hover:bg-dark-royal-blue disabled:bg-blue-200"
     >
       {text}
     </button>
