@@ -1,14 +1,9 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
-import Navbar from '@/components/navigation/Navbar'
-import Footer from '@/components/navigation/Footer'
 import PageTemplate from '@/components/PageTemplate'
 import Container from '@/components/Container'
-
-
-const inter = Inter({ subsets: ['latin'] })
+import ProgramCard from '@/components/cards/ProgramCard'
+import Section from '@/components/Section'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -23,51 +18,47 @@ export default function Home() {
         <header className='pt-12 pb-40 bg-gray-2'>
           <Container>
             <h1 className='text-heading-1 text-gray-6'>
-              BrotherHood. <br />
+              Brotherhood. <br />
               Scholarship. <br />
               Service.
             </h1>
           </Container>
         </header>
-        <section className='py-12'>
-          <Container>
-            <div className="gap-x-6 flex">
-              <div className='w-1/2'>
-                <h4 className="text-heading-4 text-gray-6">About</h4>
+        <Section>
+            <div className="gap-x-6 flex flex-col-reverse lg:flex-row">
+              <div className='lg:w-1/2 w-full'>
+                <h4 className="text-heading-4 text-gray-6 mt-4 lg:mt-0">About</h4>
                 <p className="text-gray-5 pt-1">
                   Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur sit earum et aperiam, dolore eveniet eius rem itaque temporibus dolor enim quae cupiditate voluptates quas fugiat hic, obcaecati quis natus recusandae in? Veritatis molestias id facilis rem ipsam laborum, tempora cumque numquam quas porro non saepe earum officia dolorum doloribus delectus ducimus sapiente provident doloremque! Assumenda impedit in cupiditate maxime dolorem? Dicta sed nobis molestiae officiis, architecto magnam numquam id harum suscipit aliquid nulla quod ratione quae odio dolore molestias doloribus facere necessitatibus aperiam reprehenderit doloremque cum quos fugit. Suscipit alias ad repellat saepe quia, iste incidunt facere nulla iure!
                 </p>
-                <button className='rounded bg-royal-blue text-heading-6 text-gray-1 py-1 px-6 uppercase mt-6'>Learn more</button>
+                <Link href='https://phibetasigma1914.org/about/history/' target='_blank' className='cursor-pointer'><button className='cursor-pointer rounded bg-royal-blue text-heading-6 text-gray-1 py-2 px-6 uppercase mt-6'>Learn more </button></Link>
               </div>
-              <div className='grow bg-gray-2'>
-                PICTURE
+              <div className='grow bg-[#F0F0F0]'>
+                <img src={'/images/empty.png'} alt="Our mission" className='h-full mx-auto'/>
               </div>
             </div>
-          </Container>
-        </section>
-        <section className="py-12 bg-gray-2">
-          <Container>
-            <div className="gap-x-6 flex">
-              <div className='grow bg-gray-1'>
-                  PICTURE
+          </Section>
+          <Section classes='bg-gray-2'>
+            <div className="gap-x-6 flex lg:flex-row flex-col">
+              <div className='grow bg-[#F0F0F0]'>
+                <img src={'/images/empty.png'} alt="Our mission" className='h-full mx-auto'/>
               </div>
-              <div className='w-1/2'>
-                <h4 className="text-heading-4 text-gray-6">Our mission</h4>
+              <div className='lg:w-1/2 w-full'>
+                <h4 className="text-heading-4 text-gray-6 lg:mt-0 mt-4">Our mission</h4>
                 <p className="text-gray-5 pt-1">
                       Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur sit earum et aperiam, dolore eveniet eius rem itaque temporibus dolor enim quae cupiditate voluptates quas fugiat hic, obcaecati quis natus recusandae in? Veritatis molestias id facilis rem ipsam laborum, tempora cumque numquam quas porro non saepe earum officia dolorum doloribus delectus ducimus sapiente provident doloremque! Assumenda impedit in cupiditate maxime dolorem? Dicta sed nobis molestiae officiis, architecto magnam numquam id harum suscipit aliquid nulla quod ratione quae odio dolore molestias doloribus facere necessitatibus aperiam reprehenderit doloremque cum quos fugit. Suscipit alias ad repellat saepe quia, iste incidunt facere nulla iure!
                 </p>
-                <button className='rounded bg-royal-blue text-heading-6 text-gray-1 py-1 px-6 uppercase mt-6'>Learn more</button>
+                <Link href='https://phibetasigma1914.org/about/history/' target='_blank' className='cursor-pointer'><button className='cursor-pointer rounded bg-royal-blue text-heading-6 text-gray-1 py-2 px-6 uppercase mt-6'>Learn more</button></Link>
               </div>
             </div>
-          </Container>
-        </section>
+          </Section>
         <section className="py-12 bg-[#E7EFFF]">
           <Container>
-            <div className="gap-x-4 flex w-full">
-              <div className="rounded w-1/4 h-72 bg-gray-3">
-                <div className="bg-gray-2 w-full h-5/6"> ssdsdsds</div>
-                <h5 className="text-heading-5">Hello </h5>
-              </div>
+            <div className="gap-x-4 flex w-full flex-wrap lg:flex-nowrap flex-col sm:flex-row">
+              <ProgramCard title='Bigger Better Business' photoUrl='' />
+              <ProgramCard title='Bigger Better Business' photoUrl='' />
+              <ProgramCard title='Bigger Better Business' photoUrl='' />
+              <ProgramCard title='Bigger Better Business' photoUrl='' />
             </div>
           </Container>
         </section>
