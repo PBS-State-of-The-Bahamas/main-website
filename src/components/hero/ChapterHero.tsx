@@ -50,7 +50,7 @@ const ChapterHero = ({
           </div>
           <div className="py-4 flex flex-row">
             {socials.map((social) => (
-              <div className="mr-2">
+              <div key={social.platform} className="mr-2">
                 {socialIcons[social.platform] && (
                   <Link href={social.profileURL}>
                     {socialIcons[social.platform]}
