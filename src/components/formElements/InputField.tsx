@@ -27,7 +27,7 @@ const InputField = ({
 }: Props) => {
   return (
     <div>
-      <label htmlFor={name} className="block text-sm font-bold text-gray-6">
+      <label htmlFor={name} className="block text-base font-normal text-gray-6">
         {label}
       </label>
       <div className="relative mt-1 rounded-md">
