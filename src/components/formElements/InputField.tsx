@@ -26,7 +26,7 @@ const InputField = ({
   onBlur
 }: Props) => {
   return (
-    <div>
+    <div className="mt-2">
       <label htmlFor={name} className="block text-base font-normal text-gray-6">
         {label}
       </label>
