@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "./Card";
+import AwardCard from "./AwardCard";
 
 type Props = {
   heading?: string;
@@ -24,7 +24,7 @@ const CardsGrid = (props: Props) => {
         className="mt-3 grid gap-5 max-sm:grid-cols-1 max-sm:gap-6 md:grid-cols-3 lg:grid-cols-4"
       >
         {props.items.map((prop) => (
-          <Card
+          <AwardCard
             title={prop.title}
             subtitle={prop.subtitle}
             icon={prop.icon}

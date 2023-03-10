@@ -7,7 +7,7 @@ type Props = {
   description: string;
 };
 
-const Card = (props: Props) => {
+const AwardCard = (props: Props) => {
   return (
     <li
       key={props.title}
@@ -29,4 +29,4 @@ const Card = (props: Props) => {
   );
 };
 
-export default Card;
+export default AwardCard;
