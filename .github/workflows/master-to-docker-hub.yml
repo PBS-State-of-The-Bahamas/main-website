@@ -2,7 +2,7 @@ name: Publish Docker Image to Docker Hub
 
 on:
   push:
-    branches: ['master']
+    branches: ["master"]
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile.prod --tag ${{ secrets.DOCKER_USERNAME }}/pbs-bahamas-state-frontend:latest
+        run: docker build . --file Dockerfile.prod --tag ${{ secrets.DOCKER_USERNAME }}/pbs-bahamas-state-frontend:latest --build-arg NEXT_PUBLIC_API_URL=${{secrets.NEXT_PUBLIC_API_URL}} --build-arg NEXT_PUBLIC_TOKEN=${{secrets.NEXT_PUBLIC_TOKEN}}
 
       - name: Docker Push
         run: docker push ${{ secrets.DOCKER_USERNAME }}/pbs-bahamas-state-frontend:latest
