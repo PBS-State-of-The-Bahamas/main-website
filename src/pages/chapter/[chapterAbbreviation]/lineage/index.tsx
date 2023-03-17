@@ -14,11 +14,15 @@ export default function Lineage({
   chapterName,
   lineage,
   totalLines,
+  strapiUrl,
+  strapiToken,
 }: {
   chapterAbbreviation: string;
   chapterName: string;
   lineage: LineProps[];
   totalLines: number;
+  strapiUrl: string | undefined;
+  strapiToken: string | undefined;
 }) {
   const [_lineage, setLineage] = useState(lineage);
   const [hasMore, setHasMore] = useState(
@@ -34,7 +38,9 @@ export default function Lineage({
       await getChapterLineage(
         chapterAbbreviation,
         _lineage.length.toString(),
-        "10"
+        "10",
+        strapiUrl,
+        strapiToken
       );
     setLineage((_lineage) => [..._lineage, ...additionalLines]);
     setHasMore(_totalLines > _lineage.length ? true : false);
@@ -89,14 +95,21 @@ export const getServerSideProps: GetServerSideProps<{
   chapterName: string;
   lineage: LineProps[];
   totalLines: number;
+  strapiUrl: string | undefined;
+  strapiToken: string | undefined;
 }> = async ({ query }) => {
+  let strapiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const strapiToken = process.env.NEXT_PUBLIC_TOKEN;
+
   let { chapterAbbreviation } = query;
   chapterAbbreviation = (chapterAbbreviation as string).toUpperCase();
 
   const [chapterName, lineage, totalLines] = await getChapterLineage(
     chapterAbbreviation,
     "0",
-    "10"
+    "10",
+    strapiUrl,
+    strapiToken
   );
 
   if (!chapterName) {
@@ -105,20 +118,35 @@ export const getServerSideProps: GetServerSideProps<{
     };
   }
 
+  if (process.env.NODE_ENV === "production") {
+    strapiUrl = process.env.STRAPI_EXTERNAL_URL;
+  }
+
   return {
-    props: { chapterAbbreviation, chapterName, lineage, totalLines },
+    props: {
+      chapterAbbreviation,
+      chapterName,
+      lineage,
+      totalLines,
+      strapiUrl,
+      strapiToken,
+    },
   };
 };
 
 async function getChapterLineage(
   chapterAbbreviation: string,
   start: string,
-  limit: string
+  limit: string,
+  strapiUrl: string | undefined,
+  strapiToken: string | undefined
 ): Promise<[string | undefined, LineProps[], number]> {
   const [jsonChapterLineage, error] = await getChapterLines(
     chapterAbbreviation,
     start,
-    limit
+    limit,
+    strapiUrl,
+    strapiToken
   );
 
   if (error) {
