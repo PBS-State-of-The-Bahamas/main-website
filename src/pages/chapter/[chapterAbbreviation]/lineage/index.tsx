@@ -38,8 +38,6 @@ export default function Lineage({
       );
     setLineage((_lineage) => [..._lineage, ...additionalLines]);
     setHasMore(_totalLines > _lineage.length ? true : false);
-    console.log(`URL:${process.env.NEXT_PUBLIC_API_URL}`);
-    console.log(`Token:${process.env.NEXT_PUBLIC_TOKEN}`);
   };
 
   return (
