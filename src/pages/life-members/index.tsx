@@ -1,8 +1,10 @@
 import getLifeMembers from "@/api/modules/lifeMember/getLifeMembers";
 import getLifeMembersPageContent from "@/api/modules/lifeMember/getLifeMembersPageContent";
+import Container from "@/components/Container";
 import LineMember, { LineMemberProps } from "@/components/lineage/line_member";
 import Member from "@/components/member/member";
 import PageTemplate from "@/components/PageTemplate";
+import Section from "@/components/Section";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { v4 } from "uuid";
@@ -32,10 +34,10 @@ export default function LifeMembers({
         <title>Life Members</title>
       </Head>
       <PageTemplate>
-        <section>
-          <div className="min-h-screen">
-            <div className="container">
-              <div className="text-heading-3 pt-12">Sigma Bahamas Life Members</div>
+        <Section>
+          <Container>
+            <div className="min-h-screen">
+              <div className="text-heading-3">Sigma Bahamas Life Members</div>
               <div className="pt-2 pb-6">
                     {openingParagraph}
               </div>
@@ -67,8 +69,8 @@ export default function LifeMembers({
                   })}
               </div>
             </div>
-          </div>
-        </section>
+          </Container>
+        </Section>
       </PageTemplate>
     </div>
   );
