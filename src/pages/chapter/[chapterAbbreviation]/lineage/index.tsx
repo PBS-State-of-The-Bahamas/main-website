@@ -55,41 +55,41 @@ export default function Lineage({
       </Head>
       <PageTemplate>
         <Section>
-        <Container>
-          <div className="min-h-screen">
-              <span className="font-bold text-xl">{chapterName}</span>
-                <div className="font-bold text-heading-3">Lineage</div>
-                <InfiniteScroll
-                  dataLength={_lineage ? _lineage.length : 0}
-                  next={() => addNewLines()}
-                  hasMore={hasMore}
-                  loader={<h4>Loading...</h4>}
-                  endMessage={
-                    <p className="text-center text-[8px] mt-8">
-                      <b>{`You've reached the end of the chapter lineage for ${chapterAbbreviation}`}</b>
-                    </p>
-                  }
-                >
-                  <div className="mt-4 grid md:items-center md:grid-cols-4 md:gap-4 gap-y-4">
-                    {_lineage.map((line: any, index: number) => (
-                      <Link
-                        href={{
-                          pathname: `/chapter/${chapterAbbreviation}/line/${line.id}`,
-                        }}
-                        key={v4()}
-                      >
-                        <Line
-                          key={line.id}
-                          term={line.term}
-                          year={line.year}
-                          shipName={line.shipName}
-                        />
-                      </Link>
-                    ))}
-                  </div>
-                </InfiniteScroll>
-          </div>
-        </Container>
+          <Container>
+            <div className="min-h-screen">
+                <span className="font-bold text-xl">{chapterName}</span>
+                  <div className="font-bold text-heading-3">Lineage</div>
+                  <InfiniteScroll
+                    dataLength={_lineage ? _lineage.length : 0}
+                    next={() => addNewLines()}
+                    hasMore={hasMore}
+                    loader={<h4>Loading...</h4>}
+                    endMessage={
+                      <p className="text-center text-[8px] mt-8">
+                        <b>{`You've reached the end of the chapter lineage for ${chapterAbbreviation}`}</b>
+                      </p>
+                    }
+                  >
+                    <div className="mt-4 grid md:items-center md:grid-cols-4 md:gap-4 gap-y-4">
+                      {_lineage.map((line: any, index: number) => (
+                        <Link
+                          href={{
+                            pathname: `/chapter/${chapterAbbreviation}/line/${line.id}`,
+                          }}
+                          key={v4()}
+                        >
+                          <Line
+                            key={line.id}
+                            term={line.term}
+                            year={line.year}
+                            shipName={line.shipName}
+                          />
+                        </Link>
+                      ))}
+                    </div>
+                  </InfiniteScroll>
+            </div>
+          </Container>
         </Section>
       </PageTemplate>
     </div>
