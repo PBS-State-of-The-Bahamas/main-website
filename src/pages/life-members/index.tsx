@@ -66,7 +66,6 @@ export default function LifeMembers({
                   );
                 })}
             </div>
-
             </div>
           </div>
         </section>
