@@ -33,6 +33,7 @@ export default function LifeMembers({
       </Head>
       <PageTemplate>
         <div className="min-h-screen">
+          <div className="container">
           <div className="text-heading-3 pt-12">Sigma Bahamas Life Members</div>
           <div className="pt-2 pb-6">
                 {openingParagraph}
@@ -63,6 +64,8 @@ export default function LifeMembers({
                   </div>
                 );
               })}
+          </div>
+
           </div>
         </div>
       </PageTemplate>
