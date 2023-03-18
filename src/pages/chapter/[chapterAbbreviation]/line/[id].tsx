@@ -15,11 +15,15 @@ export default function LineMembers({
   lineInfo,
   lineMembers,
   totalLineMembers,
+  strapiUrl,
+  strapiToken,
 }: {
   query: ParsedUrlQuery;
   lineInfo: LineInfo;
   lineMembers: LineMember[];
   totalLineMembers: number;
+  strapiUrl: string | undefined;
+  strapiToken: string | undefined;
 }) {
   const { chapterAbbreviation, id } = query;
   const [_lineMembers, setLineMembers] = useState(lineMembers);
@@ -34,7 +38,9 @@ export default function LineMembers({
       chapterAbbreviation as string,
       id as string,
       _lineMembers.length.toString(),
-      "10"
+      "10",
+      strapiUrl,
+      strapiToken,
     );
     setLineMembers((_lineMembers) => [
       ..._lineMembers,
@@ -99,14 +105,19 @@ export const getServerSideProps: GetServerSideProps<{
   query: ParsedUrlQuery;
   lineInfo: LineInfo;
   lineMembers: LineMember[];
+  strapiUrl: string | undefined;
+  strapiToken: string | undefined;
 }> = async ({ query }) => {
+  let strapiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const strapiToken = process.env.NEXT_PUBLIC_TOKEN;
+
   let { chapterAbbreviation } = query;
   chapterAbbreviation = (chapterAbbreviation as string).toUpperCase();
   let { id } = query;
   id = id as string;
 
   const [[lineMembers, totalLineMembers], lineInfo] = await Promise.all([
-    getLineMembers(chapterAbbreviation, id, "0", "10"),
+    getLineMembers(chapterAbbreviation, id, "0", "10",strapiUrl, strapiToken),
     getLineInfo(chapterAbbreviation, id),
   ]);
 
@@ -116,8 +127,12 @@ export const getServerSideProps: GetServerSideProps<{
     };
   }
 
+  if (process.env.NODE_ENV === "production") {
+    strapiUrl = process.env.STRAPI_EXTERNAL_URL;
+  }
+
   return {
-    props: { query, lineInfo, lineMembers, totalLineMembers },
+    props: { query, lineInfo, lineMembers, totalLineMembers, strapiUrl, strapiToken,},
   };
 };
 
@@ -132,13 +147,17 @@ async function getLineMembers(
   chapterAbbreviation: string,
   lineID: string,
   start: string,
-  limit: string
+  limit: string,
+  strapiUrl: string | undefined,
+  strapiToken: string | undefined
 ): Promise<[LineMember[], number]> {
   const [jsonLineMembers, error] = await getChapterLineMembers(
     chapterAbbreviation,
     lineID,
     start,
-    limit
+    limit,
+    strapiUrl,
+    strapiToken
   );
 
   if (error) {
