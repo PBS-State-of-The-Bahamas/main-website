@@ -4,7 +4,9 @@ export default async function getChapterLineMembers(
   chapterAbbreviation: string,
   line_id: string,
   start: string,
-  limit: string
+  limit: string,
+  strapiUrl: string | undefined,
+  strapiToken: string | undefined
 ) {
   const endpoint = "/members";
 
@@ -19,7 +21,7 @@ export default async function getChapterLineMembers(
   };
 
   try {
-    const data = await axiosRequest().get(endpoint, { params: params });
+    const data = await axiosRequest(strapiUrl, strapiToken).get(endpoint, { params: params });
     return [data, null];
   } catch (error) {
     return [null, error];
