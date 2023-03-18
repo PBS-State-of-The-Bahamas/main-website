@@ -14,6 +14,7 @@ export default async function getChapterLines(
       chapterAbbreviation.toUpperCase(),
     "pagination[start]": start,
     "pagination[limit]": limit,
+    "sort": "id:asc"
   };
 
   try {
