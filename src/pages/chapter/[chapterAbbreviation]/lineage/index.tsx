@@ -34,10 +34,11 @@ export default function Lineage({
   }
 
   const addNewLines = async (): Promise<void> => {
+    const startIndex = _lineage.length - 1
     const [_chapterName, additionalLines, _totalLines] =
       await getChapterLineage(
         chapterAbbreviation,
-        _lineage.length.toString(),
+        startIndex.toString(),
         "10",
         strapiUrl,
         strapiToken
