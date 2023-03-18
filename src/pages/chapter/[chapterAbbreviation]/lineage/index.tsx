@@ -55,8 +55,8 @@ export default function Lineage({
       </Head>
       <PageTemplate>
         <Section>
-          <div className="mt-12 min-h-screen">
-            <Container>
+        <Container>
+          <div className="min-h-screen">
               <span className="font-bold text-xl">{chapterName}</span>
                 <div className="font-bold text-heading-3">Lineage</div>
                 <InfiniteScroll
@@ -88,9 +88,8 @@ export default function Lineage({
                     ))}
                   </div>
                 </InfiniteScroll>
-            </Container>
-
           </div>
+        </Container>
         </Section>
       </PageTemplate>
     </div>
