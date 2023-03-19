@@ -111,8 +111,8 @@ function ContactModal({setContactModalOpen, contactModalOpen}) {
 
   }
   return (
-    <div className={`w-full h-full bg-gray-6/[.20] z-50 fixed inset-0 pt-12 ${!contactModalOpen && 'hidden'}`} onClick={e =>closeReset(e)}>
-      <div className={`bg-gray-1 rounded py-10 px-6 w-96 mx-auto relative`} onClick={e => e.stopPropagation()}>
+    <div className={`w-full h-full bg-gray-6/[.20] z-50 fixed inset-0 sm:pt-12 pt-4 ${!contactModalOpen && 'hidden'}`} onClick={e =>closeReset(e)}>
+      <div className={`bg-gray-1 rounded py-10 px-6 w-96 mx-auto relative max-w-[90%] overflow-y-auto max-h-screen`} onClick={e => e.stopPropagation()}>
         <img src="/images/Cross.svg" alt="Contact Modal close" className='invert absolute top-2 right-2 hover' onClick={e => closeReset(e)}/>
         <h6 className='uppercase text-royal-blue text-heading-6'>Get in touch</h6>
         <h5 className='text-heading-5 text-gray-6 mb-2'>Phi Beta Sigma Bahamas</h5> 
@@ -132,6 +132,6 @@ function ContactModal({setContactModalOpen, contactModalOpen}) {
 
 function ContactButton({setContactModalOpen}) {
   return (
-    <button className='text-royal-blue bg-gray-1 px-8 py-2 rounded text-heading-6 uppercase hover:text-dark-royal-blue hover:bg-gray-2 ml-2' onClick={()=> setContactModalOpen(true)}>Contact Us</button>
+    <button className='text-royal-blue bg-gray-1 px-8 py-2 rounded text-heading-6 uppercase hover:text-dark-royal-blue hover:bg-gray-2 sm:ml-2 mt-2 sm:mt-0' onClick={()=> setContactModalOpen(true)}>Contact Us</button>
   )
 }
