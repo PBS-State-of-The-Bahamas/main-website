@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Navbar  from '@/components/navigation/Navbar';
 import Footer from '@/components/navigation/Footer';
-import Container from '@/components/Container';
 import Section from '@/components/Section';
 
 export default function FourOhFour() {
