@@ -7,6 +7,8 @@ import TextArea from '../formElements/TextArea';
 import RadioButtons from '@/components/formElements/RadioButtons'
 import * as Yup from 'yup'
 import { useFormik } from "formik";
+import {motion, AnimatePresence} from 'framer-motion'
+import { useRouter } from 'next/router';
 
 type Props = {
   type?: string;
@@ -15,6 +17,7 @@ type Props = {
 export default function Navbar({type = 'main'}: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [contactModalOpen, setContactModalOpen] = useState(false)
+  const router = useRouter()
 
   useEffect(()=>{
     if (contactModalOpen && menuOpen) setMenuOpen(false)
@@ -25,18 +28,27 @@ export default function Navbar({type = 'main'}: Props) {
     <div className='fixed w-full z-40'>
       <SubNavBar />
       <div className='bg-royal-blue py-2'>
+      <AnimatePresence key={router.route}>
         <Container>
-          <PageLogo />
-          <div className='md:flex items-center ml-auto hidden'>
+          <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration: 0.25, delay: 1}}>
+            <PageLogo />
+          </motion.div>
+          
+          <motion.div className='md:flex items-center ml-auto hidden' 
+          initial={{y: 25, opacity: 0}}
+          animate={{y: 0, opacity: 1}}
+          exit={{y: 0, opacity: 1}}
+          transition={{duration: .5, delay: 0.75, type: 'spring'}}
+          >
             {
               renderNavigationLinks(mainNav[type])
                 .map((link, key) => <div key={key} className={`px-3 text-gray-1 hover:text-gray-3`}>{link}</div>)
             }
             <ContactButton setContactModalOpen={setContactModalOpen}/>
-          </div>
+          </motion.div>
           <button className='ml-auto text-gray-1 sm:hidden' onClick={()=> setMenuOpen((menu)=> !menu )}>{menuOpen? <img src="/images/Cross.svg" alt="Hamburger Menu close" /> : <img src="/images/Menu.svg" alt="Hamburger menu open" />}</button>
         </Container>
-
+        </AnimatePresence>
       </div>
       <div className={`hamburgerMenu ${!menuOpen && 'hidden'}`}>
         <div className={`rounded md:hidden bg-dark-royal-blue px-4 py-8 absolute w-full `}>
@@ -111,21 +123,29 @@ function ContactModal({setContactModalOpen, contactModalOpen}) {
 
   }
   return (
-    <div className={`w-full h-full bg-gray-6/[.20] z-50 fixed inset-0 sm:pt-12 pt-4 ${!contactModalOpen && 'hidden'}`} onClick={e =>closeReset(e)}>
-      <div className={`bg-gray-1 rounded py-10 px-6 w-96 mx-auto relative max-w-[90%] overflow-y-auto max-h-screen`} onClick={e => e.stopPropagation()}>
-        <img src="/images/Cross.svg" alt="Contact Modal close" className='invert absolute top-2 right-2 hover' onClick={e => closeReset(e)}/>
-        <h6 className='uppercase text-royal-blue text-heading-6'>Get in touch</h6>
-        <h5 className='text-heading-5 text-gray-6 mb-2'>Phi Beta Sigma Bahamas</h5> 
-        <form onSubmit={formik.handleSubmit}>
-          <TextField for='name' label='Name' value={formik.values.name} onChange={formik.handleChange} errorMessage={formik.errors.name} onBlur={formik.handleBlur}/>
-          <TextField for='email' label='Email Address' formType='email' value={formik.values.email} onChange={formik.handleChange} errorMessage={formik.errors.email} onBlur={formik.handleBlur}/>
-          <TextField for='telephone' label='Telephone' value={formik.values.telephone} formType='tel' optional onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-          <TextArea for='message' label='Message' value={formik.values.message} onChange={formik.handleChange} errorMessage={formik.errors.message} onBlur={formik.handleBlur}/>
-          <RadioButtons for='messageRecipient'label='I want to message:' options={MessageOptions} onChange={(e)=> formik.setFieldValue('messageRecipient', e.target.value)}/>
-          <button type='submit' className='bg-royal-blue text-gray-1 uppercase w-full rounded py-2 mt-6 text-heading-6'>send message</button>
-        </form>
-      </div>
-    </div>
+    <AnimatePresence>
+      <motion.div layout layoutRoot className={`w-full h-full bg-gray-6/[.20] z-50 fixed inset-0 sm:pt-12 pt-4 ${!contactModalOpen && 'hidden'}`} onClick={e =>closeReset(e)}> 
+        <motion.div layout='size' className={`bg-gray-1 rounded py-10 px-6 w-96 mx-auto relative max-w-[90%] overflow-y-auto max-h-screen`} onClick={e => e.stopPropagation()}
+          initial={{y: 100, transformOrigin: 'center'}}
+          animate={{y: 0}}
+          exit={{y: -100}}
+          transition={{duration: .5, type: 'spring'}}
+          >
+          <img src="/images/Cross.svg" alt="Contact Modal close" className='invert absolute top-2 right-2 hover' onClick={e => closeReset(e)}/>
+          <h6 className='uppercase text-royal-blue text-heading-6'>Get in touch</h6>
+          <h5 className='text-heading-5 text-gray-6 mb-2'>Phi Beta Sigma Bahamas</h5> 
+          <form onSubmit={formik.handleSubmit}>
+            <TextField for='name' label='Name' value={formik.values.name} onChange={formik.handleChange} errorMessage={formik.errors.name} onBlur={formik.handleBlur}/>
+            <TextField for='email' label='Email Address' formType='email' value={formik.values.email} onChange={formik.handleChange} errorMessage={formik.errors.email} onBlur={formik.handleBlur}/>
+            <TextField for='telephone' label='Telephone' value={formik.values.telephone} formType='tel' optional onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+            <TextArea for='message' label='Message' value={formik.values.message} onChange={formik.handleChange} errorMessage={formik.errors.message} onBlur={formik.handleBlur}/>
+            <RadioButtons for='messageRecipient'label='I want to message:' options={MessageOptions} onChange={(e)=> formik.setFieldValue('messageRecipient', e.target.value)}/>
+            <button type='submit' className='bg-royal-blue text-gray-1 uppercase w-full rounded py-2 mt-6 text-heading-6'>send message</button>
+          </form>
+        </motion.div>
+        
+      </motion.div>
+    </AnimatePresence>
 
   )
 }
