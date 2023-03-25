@@ -4,9 +4,9 @@ import Footer from '@/components/navigation/Footer';
 import Section from '@/components/Section';
 
 export default function FourOhFour() {
-  return <div className='h-screen'>
+  return <div className=''>
     <Navbar />
-    <div className="min-h-[75%] bg-gray-0">
+    <div className="h-[75vh] bg-gray-0">
         <Section>
           <div className='flex flex-col text-center w-full relative'>
             <h2 className='text-gray-6 text-[80px] leading-[80px] font-bold'>404</h2>
