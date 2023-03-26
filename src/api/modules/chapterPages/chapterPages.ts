@@ -1,6 +1,17 @@
 import axiosRequest, { QueryParams } from "@/api/axios";
 
 const chapterPageActions = {
+  async sendChapterInterestEmail(emailData: any) {
+    try {
+      const endpoint = "/email"
+      return await axiosRequest().post(endpoint, emailData)
+    } 
+    catch (err: any) {
+      // get error list and send to form component
+      console.log(err)
+    }
+  },
+
   async getChapterPageByAbbreviation(chapterAbbreviation: string) {
     try {
       const endpoint = "/chapter-pages";
