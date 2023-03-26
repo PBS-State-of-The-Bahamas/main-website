@@ -1,5 +1,6 @@
 import React from "react";
 import AwardCard from "./AwardCard";
+import { v4 as uuidv4 } from "uuid";
 
 type Props = {
   heading?: string;
@@ -25,6 +26,7 @@ const CardsGrid = (props: Props) => {
       >
         {props.items.map((prop) => (
           <AwardCard
+            key={uuidv4()}
             title={prop.title}
             subtitle={prop.subtitle}
             icon={prop.icon}
