@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import RadioGroup from "../formElements/RadioGroup";
 import FormButton from "../formElements/FormButton";
+import chapterPageActions from "@/api/modules/chapterPages/chapterPages";
 
 enum FormFeedbackEnum {
   FIELD_REQUIRED = "This is required.",
@@ -11,7 +12,21 @@ enum FormFeedbackEnum {
 }
 
 type Props = {
-  chapterType: "undergraduate" | "graduate"
+  chapter: string;
+  chapterType: string;
+};
+
+export interface EmailData {
+  chapter: string;
+  form: string;
+  data: {
+    fullName: string;
+    email: string;
+    phone: string;
+    eligibilityQuestions: {
+      [key: string]: string;
+    };
+  };
 }
 
 const ChapterInterestForm = (props: Props) => {
@@ -20,24 +35,65 @@ const ChapterInterestForm = (props: Props) => {
       fullName: "",
       email: "",
       phone: "",
-      currentlyEnrolled: "",
-      hasMinimumCredits: "",
-      hasBaccalaureate: "",
-      university: "",
+      currentlyEnrolled: props.chapterType === "undergraduate" ? "" : undefined,
+      hasMinimumCredits: props.chapterType === "undergraduate" ? "" : undefined,
+      hasBaccalaureate: props.chapterType === "graduate" ? "" : undefined,
+      university: props.chapterType === "graduate" ? "" : undefined,
     },
     onSubmit: async (values) => {
-      // send email
-      console.log(values);
+      const emailData: EmailData = {
+        chapter: props.chapter,
+        form: "CHAPTER_INTEREST",
+        data: {
+          fullName: values.fullName,
+          email: values.email,
+          phone: values.phone,
+          eligibilityQuestions: {
+            currentlyEnrolled:
+              props.chapterType === "undergraduate"
+                ? values.currentlyEnrolled
+                : undefined,
+            hasMinimumCredits:
+              props.chapterType === "undergraduate"
+                ? values.hasMinimumCredits
+                : undefined,
+            hasBaccalaureate:
+              props.chapterType === "graduate"
+                ? values.hasBaccalaureate
+                : undefined,
+            university:
+              props.chapterType === "graduate" ? values.university : undefined,
+          },
+        },
+      };
+      await chapterPageActions.sendChapterInterestEmail(emailData)
     },
-    validationSchema: Yup.object({
-      fullName: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
-      email: Yup.string()
-        .email(FormFeedbackEnum.INVALID_EMAIL)
-        .required(FormFeedbackEnum.FIELD_REQUIRED),
-      phone: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
-      currentlyEnrolled: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
-      hasMinimumCredits: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
-    }),
+    validationSchema:
+      props.chapterType === "undergraduate"
+        ? Yup.object({
+            fullName: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
+            email: Yup.string()
+              .email(FormFeedbackEnum.INVALID_EMAIL)
+              .required(FormFeedbackEnum.FIELD_REQUIRED),
+            phone: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
+            currentlyEnrolled: Yup.string().required(
+              FormFeedbackEnum.FIELD_REQUIRED
+            ),
+            hasMinimumCredits: Yup.string().required(
+              FormFeedbackEnum.FIELD_REQUIRED
+            ),
+          })
+        : Yup.object({
+            fullName: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
+            email: Yup.string()
+              .email(FormFeedbackEnum.INVALID_EMAIL)
+              .required(FormFeedbackEnum.FIELD_REQUIRED),
+            phone: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
+            hasBaccalaureate: Yup.string().required(
+              FormFeedbackEnum.FIELD_REQUIRED
+            ),
+            university: Yup.string().required(FormFeedbackEnum.FIELD_REQUIRED),
+          }),
   });
 
   const submit = (e: any) => {
@@ -196,15 +252,17 @@ const ChapterInterestForm = (props: Props) => {
               </label>
             </RadioGroup>
             <InputField
-          label="Which university did you attain a baccalaureate?"
-          name="university"
-          type="university"
-          autoComplete="university"
-          value={formik.values.university}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          error={formik.touched.university ? formik.errors.university : undefined}
-        />
+              label="Which university did you attain a baccalaureate?"
+              name="university"
+              type="university"
+              autoComplete="university"
+              value={formik.values.university}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.university ? formik.errors.university : undefined
+              }
+            />
           </>
         )}
         <FormButton text={"I want to join"} />
