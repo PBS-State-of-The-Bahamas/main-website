@@ -125,7 +125,7 @@ const Index: NextPage = ({ ...data }: PageData) => {
       </div>
       <CardsGrid heading="Awards" items={awards} />
       <GridGallery images={images} />
-      <ChapterInterestForm chapterType={data.chapter.type?.toLowerCase()} />
+      <ChapterInterestForm chapter={data.chapter.chapterAbbreviation?.toUpperCase()} chapterType={data.chapter.type?.toLowerCase()} />
     </PageTemplate>
   );
 };
@@ -197,7 +197,7 @@ const fromApiResponseToChapterCharterInterface = (
   lineNumber: charter?.attributes?.line_number,
   imageURL: charter?.attributes?.member?.data?.attributes?.photo?.data?.[0]
     ?.attributes?.formats?.small?.url
-    ? `${process.env.NEXT_PUBLIC_API_URL}${charter?.attributes?.member?.data?.attributes?.photo?.data[0]?.attributes?.formats?.small?.url}`
+    ? `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_HOST}:${process.env.NEXT_PUBLIC_API_PORT}${charter?.attributes?.member?.data?.attributes?.photo?.data[0]?.attributes?.formats?.small?.url}`
     : "/images/missing-member.svg",
 });
 
