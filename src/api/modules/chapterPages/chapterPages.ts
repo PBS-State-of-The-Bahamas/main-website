@@ -3,12 +3,17 @@ import axiosRequest, { QueryParams } from "@/api/axios";
 const chapterPageActions = {
   async sendChapterInterestEmail(emailData: any) {
     try {
-      const endpoint = "/email"
-      return await axiosRequest().post(endpoint, emailData)
-    } 
-    catch (err: any) {
-      // get error list and send to form component
-      console.log(err)
+      const endpoint = "/email";
+      const res = await axiosRequest().post(endpoint, emailData);
+      return [res.data, null];
+    } catch (err: any) {
+      let errs: string[] = [];
+      if (err.response.data.error.details.errors.length) {
+        errs = [...err.response.data.error.details.errors];
+        return [null, errs];
+      }
+      errs.push("Cannot send email. Please try again later.")
+      return [null, errs];
     }
   },
 
