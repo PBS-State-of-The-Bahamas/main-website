@@ -8,6 +8,7 @@ import Member from "@/components/member/member";
 import GridGallery from "@/components/gallery/GridGallery";
 import { GetServerSideProps, GetServerSidePropsResult, NextPage } from "next";
 import React from "react";
+import ChapterInterestForm from "@/components/forms/ChapterInterestForm";
 
 export interface Chapter {
   name: string;
@@ -124,6 +125,7 @@ const Index: NextPage = ({ ...data }: PageData) => {
       </div>
       <CardsGrid heading="Awards" items={awards} />
       <GridGallery images={images} />
+      <ChapterInterestForm chapterType={data.chapter.type?.toLowerCase()} />
     </PageTemplate>
   );
 };
@@ -193,7 +195,8 @@ const fromApiResponseToChapterCharterInterface = (
   name: charter?.attributes?.member?.data?.attributes?.name,
   lineName: charter?.attributes?.line_name,
   lineNumber: charter?.attributes?.line_number,
-  imageURL: charter?.attributes?.member?.data?.attributes?.photo?.data?.[0]?.attributes?.formats?.small?.url
+  imageURL: charter?.attributes?.member?.data?.attributes?.photo?.data?.[0]
+    ?.attributes?.formats?.small?.url
     ? `${process.env.NEXT_PUBLIC_API_URL}${charter?.attributes?.member?.data?.attributes?.photo?.data[0]?.attributes?.formats?.small?.url}`
     : "/images/missing-member.svg",
 });

@@ -10,7 +10,11 @@ enum FormFeedbackEnum {
   INVALID_EMAIL = "Invalid email",
 }
 
-const ChapterInterestForm = () => {
+type Props = {
+  chapterType: "undergraduate" | "graduate"
+}
+
+const ChapterInterestForm = (props: Props) => {
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -18,6 +22,8 @@ const ChapterInterestForm = () => {
       phone: "",
       currentlyEnrolled: "",
       hasMinimumCredits: "",
+      hasBaccalaureate: "",
+      university: "",
     },
     onSubmit: async (values) => {
       // send email
@@ -38,7 +44,7 @@ const ChapterInterestForm = () => {
     e.preventDefault();
     formik.handleSubmit(e);
   };
-  
+
   return (
     <div className="max-w-screen-sm flex flex-col mx-auto mt-8 mb-16 max-sm:px-2">
       <h4 className="text-heading-4 py-4">Interested in Joining</h4>
@@ -73,80 +79,134 @@ const ChapterInterestForm = () => {
           onChange={formik.handleChange}
           error={formik.touched.phone ? formik.errors.phone : undefined}
         />
-        <RadioGroup
-          label="Currently enrolled at the University of The Bahamas?"
-          error={
-            formik.touched.currentlyEnrolled
-              ? formik.errors.currentlyEnrolled
-              : undefined
-          }
-        >
-          <input
-            type="radio"
-            id="currentlyEnrolledYes"
-            className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-            onChange={formik.handleChange}
-            name="currentlyEnrolled"
-            value="yes"
-          />
-          <label
-            htmlFor="currentlyEnrolledYes"
-            className="mx-3 block text-sm font-bold leading-6 uppercase"
-          >
-            yes
-          </label>
-          <input
-            type="radio"
-            onChange={formik.handleChange}
-            id="currentlyEnrolledNo"
-            className="h-4 w-4 border-royal-blue text-indigo-600 checked:bg-royal-blue"
-            name="currentlyEnrolled"
-            value="no"
-          />
-          <label
-            htmlFor="currentlyEnrolledNo"
-            className="mx-3 block text-sm font-bold leading-6 uppercase"
-          >
-            no
-          </label>
-        </RadioGroup>
-        <RadioGroup
-          label="Do you have at least 30 credit hours?"
-          error={
-            formik.touched.hasMinimumCredits
-              ? formik.errors.hasMinimumCredits
-              : undefined
-          }
-        >
-          <input
-            type="radio"
-            id="hasMinimumCreditsYes"
-            className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-            onChange={formik.handleChange}
-            name="hasMinimumCredits"
-            value="yes"
-          />
-          <label
-            htmlFor="hasMinimumCreditsYes"
-            className="mx-3 block text-sm font-bold leading-6 uppercase"
-          >
-            yes
-          </label>
-          <input
-            type="radio"
-            onChange={formik.handleChange}
-            id="hasMinimumCreditsNo"
-            className="h-4 w-4 border-royal-blue text-indigo-600 checked:bg-royal-blue"
-            name="hasMinimumCredits"
-            value="no"
-          />
-          <label
-            htmlFor="hasMinimumCreditsNo"
-            className="mx-3 block text-sm font-bold leading-6 uppercase"
-          >
-            no
-          </label>
-        </RadioGroup>
+        {props.chapterType === "undergraduate" ? (
+          <>
+            <RadioGroup
+              label="Currently enrolled at the University of The Bahamas?"
+              error={
+                formik.touched.currentlyEnrolled
+                  ? formik.errors.currentlyEnrolled
+                  : undefined
+              }
+            >
+              <input
+                type="radio"
+                id="currentlyEnrolledYes"
+                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                onChange={formik.handleChange}
+                name="currentlyEnrolled"
+                value="yes"
+              />
+              <label
+                htmlFor="currentlyEnrolledYes"
+                className="mx-3 block text-sm font-bold leading-6 uppercase"
+              >
+                yes
+              </label>
+              <input
+                type="radio"
+                onChange={formik.handleChange}
+                id="currentlyEnrolledNo"
+                className="h-4 w-4 border-royal-blue text-indigo-600 checked:bg-royal-blue"
+                name="currentlyEnrolled"
+                value="no"
+              />
+              <label
+                htmlFor="currentlyEnrolledNo"
+                className="mx-3 block text-sm font-bold leading-6 uppercase"
+              >
+                no
+              </label>
+            </RadioGroup>
+            <RadioGroup
+              label="Do you have at least 30 credit hours?"
+              error={
+                formik.touched.hasMinimumCredits
+                  ? formik.errors.hasMinimumCredits
+                  : undefined
+              }
+            >
+              <input
+                type="radio"
+                id="hasMinimumCreditsYes"
+                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                onChange={formik.handleChange}
+                name="hasMinimumCredits"
+                value="yes"
+              />
+              <label
+                htmlFor="hasMinimumCreditsYes"
+                className="mx-3 block text-sm font-bold leading-6 uppercase"
+              >
+                yes
+              </label>
+              <input
+                type="radio"
+                onChange={formik.handleChange}
+                id="hasMinimumCreditsNo"
+                className="h-4 w-4 border-royal-blue text-indigo-600 checked:bg-royal-blue"
+                name="hasMinimumCredits"
+                value="no"
+              />
+              <label
+                htmlFor="hasMinimumCreditsNo"
+                className="mx-3 block text-sm font-bold leading-6 uppercase"
+              >
+                no
+              </label>
+            </RadioGroup>
+          </>
+        ) : (
+          <>
+            <RadioGroup
+              label="Do you have a baccalaureate degree?"
+              error={
+                formik.touched.hasBaccalaureate
+                  ? formik.errors.hasBaccalaureate
+                  : undefined
+              }
+            >
+              <input
+                type="radio"
+                id="hasBaccalaureateYes"
+                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                onChange={formik.handleChange}
+                name="hasBaccalaureate"
+                value="yes"
+              />
+              <label
+                htmlFor="hasBaccalaureateYes"
+                className="mx-3 block text-sm font-bold leading-6 uppercase"
+              >
+                yes
+              </label>
+              <input
+                type="radio"
+                onChange={formik.handleChange}
+                id="hasBaccalaureateNo"
+                className="h-4 w-4 border-royal-blue text-indigo-600 checked:bg-royal-blue"
+                name="hasBaccalaureate"
+                value="no"
+              />
+              <label
+                htmlFor="hasBaccalaureateNo"
+                className="mx-3 block text-sm font-bold leading-6 uppercase"
+              >
+                no
+              </label>
+            </RadioGroup>
+            <InputField
+          label="Which university did you attain a baccalaureate?"
+          name="university"
+          type="university"
+          autoComplete="university"
+          value={formik.values.university}
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          error={formik.touched.university ? formik.errors.university : undefined}
+        />
+          </>
+        )}
         <FormButton text={"I want to join"} />
       </form>
     </div>
