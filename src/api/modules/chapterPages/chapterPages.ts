@@ -3,7 +3,7 @@ import axiosRequest, { QueryParams } from "@/api/axios";
 const chapterPageActions = {
   async getChapterPageByAbbreviation(chapterAbbreviation: string) {
     try {
-      const endpoint = "/api/chapter-pages";
+      const endpoint = "/chapter-pages";
       const params: QueryParams = {
         populate: "*",
         "filters[chapter][chapter_abbreviation][$eq]": chapterAbbreviation,
@@ -16,7 +16,7 @@ const chapterPageActions = {
 
   async getCharterMembers(chapterAbbreviation: string) {
     try {
-      const endpoint = "/api/line-members";
+      const endpoint = "/line-members";
       const params: QueryParams = {
         "populate[member][populate][0]": "photo",
         "filters[line][chapter][chapter_abbreviation][$eq]":
