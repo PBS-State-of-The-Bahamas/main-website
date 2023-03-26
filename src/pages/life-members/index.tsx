@@ -1,8 +1,10 @@
 import getLifeMembers from "@/api/modules/lifeMember/getLifeMembers";
 import getLifeMembersPageContent from "@/api/modules/lifeMember/getLifeMembersPageContent";
+import Container from "@/components/Container";
 import LineMember, { LineMemberProps } from "@/components/lineage/line_member";
 import Member from "@/components/member/member";
 import PageTemplate from "@/components/PageTemplate";
+import Section from "@/components/Section";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { v4 } from "uuid";
@@ -32,39 +34,43 @@ export default function LifeMembers({
         <title>Life Members</title>
       </Head>
       <PageTemplate>
-        <div className="min-h-screen">
-          <div className="text-heading-3 pt-12">Sigma Bahamas Life Members</div>
-          <div className="pt-2 pb-6">
-                {openingParagraph}
-          </div>
-          <div className="pb-6">
-              {Object.keys(lifeMembers).map((year) => {
-                return (
-                  <div className="pt-4" key={v4()}>
-                    <div className="text-heading-4">{year}</div>
-                    <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
-                      {lifeMembers[year].map((lifeMember: LifeMember) => {
-                        return (
-                          <Member
-                            key={lifeMember.id}
-                            memberName={lifeMember.memberName}
-                            memberPhotoUrl={lifeMember.memberPhotoUrl}
-                          >
-                            <LineMember
-                              key={lifeMember.description.id}
-                              id={lifeMember.description.id}
-                              lineNumber={lifeMember.description.lineNumber}
-                              lineName={lifeMember.description.lineName}
-                            />
-                          </Member>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-        </div>
+        <Section>
+          <Container>
+            <div className="min-h-screen">
+              <div className="text-heading-3">Sigma Bahamas Life Members</div>
+              <div className="pt-2 pb-6">
+                    {openingParagraph}
+              </div>
+              <div className="pb-6">
+                  {Object.keys(lifeMembers).map((year) => {
+                    return (
+                      <div className="pt-4" key={v4()}>
+                        <div className="text-heading-4">{year}</div>
+                        <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
+                          {lifeMembers[year].map((lifeMember: LifeMember) => {
+                            return (
+                              <Member
+                                key={lifeMember.id}
+                                memberName={lifeMember.memberName}
+                                memberPhotoUrl={lifeMember.memberPhotoUrl}
+                              >
+                                <LineMember
+                                  key={lifeMember.description.id}
+                                  id={lifeMember.description.id}
+                                  lineNumber={lifeMember.description.lineNumber}
+                                  lineName={lifeMember.description.lineName}
+                                />
+                              </Member>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          </Container>
+        </Section>
       </PageTemplate>
     </div>
   );
