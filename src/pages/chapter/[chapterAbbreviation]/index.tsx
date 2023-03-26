@@ -70,7 +70,7 @@ const Index: NextPage = ({ ...data }: PageData) => {
   });
   const images = data.images.map((image: ChapterImage) => {
     return {
-      source: `${process.env.NEXT_PUBLIC_API_URL}${image.source}`,
+      source: `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_HOST}:${process.env.NEXT_PUBLIC_API_PORT}${image.source}`,
       altText: image.altText,
     };
   });
