@@ -38,9 +38,9 @@ const ChapterInterestForm = (props: Props) => {
       fullName: "",
       email: "",
       phone: "",
-      currentlyEnrolled: props.chapterType === "undergraduate" ? "" : undefined,
-      hasMinimumCredits: props.chapterType === "undergraduate" ? "" : undefined,
-      hasBaccalaureate: props.chapterType === "graduate" ? "" : undefined,
+      currentlyEnrolled: props.chapterType === "undergraduate" ? "yes" : undefined,
+      hasMinimumCredits: props.chapterType === "undergraduate" ? "yes" : undefined,
+      hasBaccalaureate: props.chapterType === "graduate" ? "yes" : undefined,
       university: props.chapterType === "graduate" ? "" : undefined,
     },
     onSubmit: async (values) => {
@@ -80,7 +80,6 @@ const ChapterInterestForm = (props: Props) => {
         setErrors(null);
         formik.setValues(formik.initialValues);
         formik.setTouched(formik.initialTouched);
-        window.location.reload();
         sendToast("Form submitted successfully!", ToastTypes.SUCCESS);
       }
     },
@@ -187,9 +186,10 @@ const ChapterInterestForm = (props: Props) => {
                 type="radio"
                 id="currentlyEnrolledYes"
                 className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                onChange={formik.handleChange}
+                onChange={(e) => formik.setFieldValue('currentlyEnrolled', e.target.value)}
                 name="currentlyEnrolled"
                 value="yes"
+                defaultChecked={true}
               />
               <label
                 htmlFor="currentlyEnrolledYes"
@@ -199,7 +199,7 @@ const ChapterInterestForm = (props: Props) => {
               </label>
               <input
                 type="radio"
-                onChange={formik.handleChange}
+                onChange={(e) => formik.setFieldValue('currentlyEnrolled', e.target.value)}
                 id="currentlyEnrolledNo"
                 className="h-4 w-4 border-royal-blue text-indigo-600 checked:bg-royal-blue"
                 name="currentlyEnrolled"
@@ -224,9 +224,10 @@ const ChapterInterestForm = (props: Props) => {
                 type="radio"
                 id="hasMinimumCreditsYes"
                 className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                onChange={formik.handleChange}
+                onChange={(e) => formik.setFieldValue('hasMinimumCredits', e.target.value)}
                 name="hasMinimumCredits"
                 value="yes"
+                defaultChecked={true}
               />
               <label
                 htmlFor="hasMinimumCreditsYes"
@@ -236,7 +237,7 @@ const ChapterInterestForm = (props: Props) => {
               </label>
               <input
                 type="radio"
-                onChange={formik.handleChange}
+                onChange={(e) => formik.setFieldValue('hasMinimumCredits', e.target.value)}
                 id="hasMinimumCreditsNo"
                 className="h-4 w-4 border-royal-blue text-indigo-600 checked:bg-royal-blue"
                 name="hasMinimumCredits"
@@ -264,9 +265,10 @@ const ChapterInterestForm = (props: Props) => {
                 type="radio"
                 id="hasBaccalaureateYes"
                 className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                onChange={formik.handleChange}
+                onChange={(e) => formik.setFieldValue('hasBaccalaureate', e.target.value)}
                 name="hasBaccalaureate"
                 value="yes"
+                defaultChecked={true}
               />
               <label
                 htmlFor="hasBaccalaureateYes"
@@ -276,7 +278,7 @@ const ChapterInterestForm = (props: Props) => {
               </label>
               <input
                 type="radio"
-                onChange={formik.handleChange}
+                onChange={(e) => formik.setFieldValue('hasBaccalaureate', e.target.value)}
                 id="hasBaccalaureateNo"
                 className="h-4 w-4 border-royal-blue text-indigo-600 checked:bg-royal-blue"
                 name="hasBaccalaureate"
