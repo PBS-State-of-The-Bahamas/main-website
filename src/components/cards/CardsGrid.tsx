@@ -24,9 +24,9 @@ const CardsGrid = (props: Props) => {
         role="list"
         className="mt-3 grid gap-5 max-sm:grid-cols-1 max-sm:gap-6 md:grid-cols-3 lg:grid-cols-4"
       >
-        {props.items.map((prop) => (
+        {props.items.map((prop, idx) => (
           <AwardCard
-            key={uuidv4()}
+            key={idx}
             title={prop.title}
             subtitle={prop.subtitle}
             icon={prop.icon}
