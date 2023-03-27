@@ -30,7 +30,7 @@ const InputField = ({
       <label htmlFor={name} className="block text-base font-normal text-gray-6">
         {label}
       </label>
-      <div className="relative mt-1 rounded-md">
+      <div className="mt-1 rounded-md">
         <input
           id={name}
           name={name}
