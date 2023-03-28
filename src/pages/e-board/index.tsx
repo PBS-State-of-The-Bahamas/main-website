@@ -18,7 +18,7 @@ export default function EBoard({boardMembers}: {boardMembers: BoardMemberProps[]
               <div className="min-h-screen">
                 <div>
                   <div className="font-bold text-heading-2 text-center">Meet The Board</div>
-                  <div className="mt-4">
+                  <div className="mt-4 mb-10">
                     Lorem ipsum dolor sit amet consectetur. Hendrerit diam quis ultricies scelerisque eget et et scelerisque. 
                     Nunc aliquam morbi suscipit at sagittis. Adipiscing id at mauris ut odio dictum ultricies vitae neque. 
                     Risus arcu lectus enim egestas urna. Massa platea neque integer diam. 
