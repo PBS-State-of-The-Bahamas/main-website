@@ -29,8 +29,8 @@ export default function EBoard({boardMembers}: {boardMembers: BoardMemberProps[]
                     {boardMembers.map((boardMember: BoardMemberProps) => (
                       <BoardMember
                         key={v4()}
-                        boardMemberName={boardMember.boardMemberName}
-                        boardMemberPhotoUrl={boardMember.boardMemberPhotoUrl}
+                        memberName={boardMember.memberName}
+                        memberPhotoUrl={boardMember.memberPhotoUrl}
                       />
                     ))}
                   </div>
