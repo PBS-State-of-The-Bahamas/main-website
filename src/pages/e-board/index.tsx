@@ -62,7 +62,7 @@ function getBoardMembers(): BoardMemberProps[] {
     let boardMembers: BoardMemberProps[] = []
 
     for (let step = 0; step < 5; step++) {
-        boardMembers.push({boardMemberName: "John Doe", boardMemberPhotoUrl: "/images/missing-member.svg"})
+        boardMembers.push({memberName: "John Doe", memberPhotoUrl: "/images/missing-member.svg"})
     }
 
     return boardMembers
