@@ -31,6 +31,7 @@ export default function EBoard({boardMembers}: {boardMembers: BoardMemberProps[]
                         key={v4()}
                         memberName={boardMember.memberName}
                         memberPhotoUrl={boardMember.memberPhotoUrl}
+                        position={boardMember.position}
                       />
                     ))}
                   </div>
@@ -62,7 +63,7 @@ function getBoardMembers(): BoardMemberProps[] {
     let boardMembers: BoardMemberProps[] = []
 
     for (let step = 0; step < 5; step++) {
-        boardMembers.push({memberName: "John Doe", memberPhotoUrl: "/images/missing-member.svg"})
+        boardMembers.push({memberName: "John Doe", memberPhotoUrl: "/images/missing-member.svg", position: "President"})
     }
 
     return boardMembers
