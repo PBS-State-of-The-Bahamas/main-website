@@ -26,7 +26,7 @@ export default function EBoard({
         <Section>
           <div className="min-h-screen">
             <div>
-              <div className="font-bold text-heading-2">Meet The Board</div>
+              <h3 className="font-bold text-heading-3">Meet The Board</h3>
               <div className="mt-4 mb-4">{opening_paragraph}</div>
             </div>
             <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
