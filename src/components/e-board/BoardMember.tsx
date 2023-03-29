@@ -11,7 +11,7 @@ export default function BoardMember(props: BoardMemberProps) {
     <div className="h-13">
       <BoardMemberThumbnail boardMemberPhotoUrl={props.memberPhotoUrl} />
       <div className="text-heading-5">{props.memberName}</div>
-      <div>{props.position}</div>
+      <p>{props.position}</p>
     </div>
   );
 }
