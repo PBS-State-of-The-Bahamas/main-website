@@ -29,7 +29,9 @@ export default function LineMembers({
 }) {
   const { chapterAbbreviation, id } = query;
   const [_lineMembers, setLineMembers] = useState(lineMembers);
-  const [hasMore, setHasMore] = useState(totalLineMembers > lineMembers.length ? true : false);
+  const [hasMore, setHasMore] = useState(
+    totalLineMembers > lineMembers.length ? true : false
+  );
 
   if (!lineMembers.length) {
     return <div>Line Members Not Found ...</div>;
@@ -42,7 +44,7 @@ export default function LineMembers({
       _lineMembers.length.toString(),
       "10",
       strapiUrl,
-      strapiToken,
+      strapiToken
     );
     setLineMembers((_lineMembers) => [
       ..._lineMembers,
@@ -77,7 +79,7 @@ export default function LineMembers({
                 hasMore={hasMore}
                 loader={<h4>Loading...</h4>}
                 endMessage={
-                  <p className="text-center text-[8px] mt-8">
+                  <p className="text-center text-[12px] mt-8">
                     <b>{`You've reached the end of ${lineInfo.shipName}`}</b>
                   </p>
                 }
@@ -123,7 +125,7 @@ export const getServerSideProps: GetServerSideProps<{
   id = id as string;
 
   const [[lineMembers, totalLineMembers], lineInfo] = await Promise.all([
-    getLineMembers(chapterAbbreviation, id, "0", "10",strapiUrl, strapiToken),
+    getLineMembers(chapterAbbreviation, id, "0", "10", strapiUrl, strapiToken),
     getLineInfo(chapterAbbreviation, id),
   ]);
 
@@ -138,7 +140,14 @@ export const getServerSideProps: GetServerSideProps<{
   }
 
   return {
-    props: { query, lineInfo, lineMembers, totalLineMembers, strapiUrl, strapiToken,},
+    props: {
+      query,
+      lineInfo,
+      lineMembers,
+      totalLineMembers,
+      strapiUrl,
+      strapiToken,
+    },
   };
 };
 
