@@ -70,12 +70,6 @@ export const getServerSideProps: GetServerSideProps<{
   };
 };
 
-/*
-1. Get Board Members for the respective chapter 
-STATE created as a "chapter" because the e-board collection in Strapi has a relation to the chapter collection
-2. Get Member Profile Photo 
-Strapi cannot retrieve photos of eboard members in one request (without a custom query)
-*/
 async function getBoardMembers(
   state: string
 ): Promise<BoardMemberProps[] | null> {
@@ -92,32 +86,12 @@ async function getBoardMembers(
     boardMembers.push({
       memberName: boardMember?.attributes?.member?.data?.attributes?.name,
       position: boardMember?.attributes?.position,
-      memberPhotoUrl: "/images/missing-member.svg",
+      memberPhotoUrl: boardMember.attributes?.member?.data?.attributes?.photo
+        ?.data?.length
+        ? `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_HOST}:${process.env.NEXT_PUBLIC_API_PORT}${boardMember.attributes?.member?.data?.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
+        : "/images/missing-member.svg",
     });
     memberNames.push(boardMember?.attributes?.member?.data?.attributes?.name);
-  });
-
-  const [jsonMembers, memberError] = await getMembers(memberNames);
-
-  if (memberError) {
-    //photo url already defaults to missing member image
-    //if there is an error retreiving the member's photo url just log the error
-    console.log(memberError);
-  }
-
-  jsonMembers?.data?.data?.map((member) => {
-    const index = boardMembers.findIndex(
-      (boardMember) => boardMember.memberName == member?.attributes?.name
-    );
-
-    //only attempt to reassign member's photo url if the member's name is found in the boardMembers array
-    if (index >= 0) {
-      Object.assign(boardMembers[index], {
-        memberPhotoUrl: member.attributes?.photo?.data?.length
-          ? `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_HOST}:${process.env.NEXT_PUBLIC_API_PORT}${member.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
-          : "/images/missing-member.svg",
-      });
-    }
   });
 
   return boardMembers;

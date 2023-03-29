@@ -5,6 +5,7 @@ export default async function getStateBoardMembers(chapter: string) {
   const params: QueryParams = {
     "filters[chapter][chapter_abbreviation][$eq]": chapter.toUpperCase(),
     "populate[0]": "member",
+    "populate[1]": "member.photo",
   };
 
   try {
