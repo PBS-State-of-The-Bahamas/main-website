@@ -102,7 +102,7 @@ async function getBoardMembers(
   const [jsonMembers, memberError] = await getMembers(memberNames);
 
   if (memberError) {
-    //photourl already defaults to missing member image
+    //photo url already defaults to missing member image
     //if there is an error retreiving the member's photo url just log the error
     console.log(memberError);
   }
@@ -112,8 +112,8 @@ async function getBoardMembers(
       (boardMember) => boardMember.memberName == member?.attributes?.name
     );
 
-    //only attempt to reassign member url if the member's name is found in the boardMembers array
-    if (index > 0) {
+    //only attempt to reassign member's photo url if the member's name is found in the boardMembers array
+    if (index >= 0) {
       Object.assign(boardMembers[index], {
         memberPhotoUrl: member.attributes?.photo?.data?.length
           ? `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_HOST}:${process.env.NEXT_PUBLIC_API_PORT}${member.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
