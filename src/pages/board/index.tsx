@@ -25,9 +25,7 @@ export default function EBoard({
           <Container>
             <div className="min-h-screen">
               <div>
-                <div className="font-bold text-heading-2 text-center">
-                  Meet The Board
-                </div>
+                <div className="font-bold text-heading-2">Meet The Board</div>
                 <div className="mt-4 mb-4">
                   Lorem ipsum dolor sit amet consectetur. Hendrerit diam quis
                   ultricies scelerisque eget et et scelerisque. Nunc aliquam
