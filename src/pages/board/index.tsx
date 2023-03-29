@@ -8,12 +8,14 @@ import BoardMember, {
 import PageTemplate from "@/components/PageTemplate";
 import { v4 } from "uuid";
 import getStateBoardMembers from "@/api/modules/e-board/getBoardMembers";
-import getMembers from "@/api/modules/member/getMembers";
+import getStateBoardPageContent from "@/api/modules/e-board/getStateBoardPageContents";
 
 export default function EBoard({
   boardMembers,
+  opening_paragraph,
 }: {
   boardMembers: BoardMemberProps[];
+  opening_paragraph: string;
 }) {
   return (
     <div>
@@ -26,15 +28,7 @@ export default function EBoard({
             <div className="min-h-screen">
               <div>
                 <div className="font-bold text-heading-2">Meet The Board</div>
-                <div className="mt-4 mb-4">
-                  Lorem ipsum dolor sit amet consectetur. Hendrerit diam quis
-                  ultricies scelerisque eget et et scelerisque. Nunc aliquam
-                  morbi suscipit at sagittis. Adipiscing id at mauris ut odio
-                  dictum ultricies vitae neque. Risus arcu lectus enim egestas
-                  urna. Massa platea neque integer diam. Commodo magna sodales
-                  sagittis quisque turpis dictumst. In donec integer elit
-                  malesuada a imperdiet vel amet.
-                </div>
+                <div className="mt-4 mb-4">{opening_paragraph}</div>
               </div>
               <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
                 {boardMembers.map((boardMember: BoardMemberProps) => (
@@ -56,8 +50,10 @@ export default function EBoard({
 
 export const getServerSideProps: GetServerSideProps<{
   boardMembers: BoardMemberProps[] | null;
+  opening_paragraph: string;
 }> = async ({ query }) => {
-  const boardMembers = await getBoardMembers("STATE");
+  const [boardMembers, [stateBoardContent, stateBoardContentError]] =
+    await Promise.all([getBoardMembers("STATE"), getStateBoardPageContent()]);
 
   if (!boardMembers) {
     return {
@@ -65,8 +61,15 @@ export const getServerSideProps: GetServerSideProps<{
     };
   }
 
+  if (stateBoardContentError) {
+    console.log(stateBoardContentError);
+  }
+
+  const opening_paragraph =
+    stateBoardContent?.data?.data?.attributes?.opening_paragraph;
+
   return {
-    props: { boardMembers },
+    props: { boardMembers, opening_paragraph },
   };
 };
 
