@@ -20,12 +20,12 @@ export default function History( {
         <title>History</title>
       </Head>
       <PageTemplate>
-        <div className="min-h-screen">
-          <div className="text-heading-3 pt-12 pl-72 text-left font-inter">History of state</div>
-          <div className="p-72 pt-2 text-[16px]text-justify font-inter whitespace-pre-line">
+        <section className="min-h-screen mx-24">
+          <h3 className="text-heading-3 pt-12 text-left font-open-sans">History of state</h3>
+          <div className=" pt-2 text-justify font-open-sans whitespace-pre-line">
             {history}
           </div>
-        </div>
+        </section>
       </PageTemplate>
     </div>
   );
