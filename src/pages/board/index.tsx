@@ -74,7 +74,6 @@ async function getBoardMembers(
   state: string
 ): Promise<BoardMemberProps[] | null> {
   let boardMembers: BoardMemberProps[] = [];
-  let memberNames: string[] = [];
   const [jsonEBoard, eBoardError] = await getStateBoardMembers(state);
 
   if (eBoardError) {
@@ -91,7 +90,6 @@ async function getBoardMembers(
         ? `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_HOST}:${process.env.NEXT_PUBLIC_API_PORT}${boardMember.attributes?.member?.data?.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
         : "/images/missing-member.svg",
     });
-    memberNames.push(boardMember?.attributes?.member?.data?.attributes?.name);
   });
 
   return boardMembers;
