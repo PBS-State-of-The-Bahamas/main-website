@@ -11,20 +11,20 @@ import { v4 } from "uuid";
 
 export default function LifeMembers({
   lifeMembers,
-  openingParagraph
+  openingParagraph,
 }: {
   lifeMembers: LifeMembers;
-  openingParagraph: string
+  openingParagraph: string;
 }) {
-  const notFound =  <div>Life Members Not Found ...</div>;
+  const notFound = <div>Life Members Not Found ...</div>;
 
-  if (!lifeMembers){
-    return notFound
+  if (!lifeMembers) {
+    return notFound;
   }
 
   Object.entries(lifeMembers).forEach(([key, value]) => {
     if (!value.length) {
-      return notFound
+      return notFound;
     }
   });
 
@@ -35,41 +35,37 @@ export default function LifeMembers({
       </Head>
       <PageTemplate>
         <Section>
-          <Container>
-            <div className="min-h-screen">
-              <div className="text-heading-3">Sigma Bahamas Life Members</div>
-              <div className="pt-2 pb-6">
-                    {openingParagraph}
-              </div>
-              <div className="pb-6">
-                  {Object.keys(lifeMembers).map((year) => {
-                    return (
-                      <div className="pt-4" key={v4()}>
-                        <div className="text-heading-4">{year}</div>
-                        <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
-                          {lifeMembers[year].map((lifeMember: LifeMember) => {
-                            return (
-                              <Member
-                                key={lifeMember.id}
-                                memberName={lifeMember.memberName}
-                                memberPhotoUrl={lifeMember.memberPhotoUrl}
-                              >
-                                <LineMember
-                                  key={lifeMember.description.id}
-                                  id={lifeMember.description.id}
-                                  lineNumber={lifeMember.description.lineNumber}
-                                  lineName={lifeMember.description.lineName}
-                                />
-                              </Member>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
+          <div className="min-h-screen">
+            <div className="text-heading-3">Sigma Bahamas Life Members</div>
+            <div className="pt-2 pb-6">{openingParagraph}</div>
+            <div className="pb-6">
+              {Object.keys(lifeMembers).map((year) => {
+                return (
+                  <div className="pt-4" key={v4()}>
+                    <div className="text-heading-4">{year}</div>
+                    <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
+                      {lifeMembers[year].map((lifeMember: LifeMember) => {
+                        return (
+                          <Member
+                            key={lifeMember.id}
+                            memberName={lifeMember.memberName}
+                            memberPhotoUrl={lifeMember.memberPhotoUrl}
+                          >
+                            <LineMember
+                              key={lifeMember.description.id}
+                              id={lifeMember.description.id}
+                              lineNumber={lifeMember.description.lineNumber}
+                              lineName={lifeMember.description.lineName}
+                            />
+                          </Member>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          </Container>
+          </div>
         </Section>
       </PageTemplate>
     </div>
@@ -92,8 +88,11 @@ export const getServerSideProps: GetServerSideProps<{
   lifeMembers: LifeMembers;
   openingParagraph: string;
 }> = async () => {
-  const [lifeMembers,openingParagraph] = await Promise.all([_getLifeMembers(),getPageContent()]);
-  return { props: { lifeMembers, openingParagraph} };
+  const [lifeMembers, openingParagraph] = await Promise.all([
+    _getLifeMembers(),
+    getPageContent(),
+  ]);
+  return { props: { lifeMembers, openingParagraph } };
 };
 
 async function _getLifeMembers(): Promise<LifeMembers> {
@@ -137,7 +136,7 @@ async function _getLifeMembers(): Promise<LifeMembers> {
   return lifeMembers;
 }
 
-async function getPageContent(): Promise<string>{
+async function getPageContent(): Promise<string> {
   const [content, error] = await getLifeMembersPageContent();
 
   if (error) {
@@ -145,5 +144,5 @@ async function getPageContent(): Promise<string>{
     return content;
   }
 
-  return content?.data?.data?.attributes?.opening_paragraph
+  return content?.data?.data?.attributes?.opening_paragraph;
 }
