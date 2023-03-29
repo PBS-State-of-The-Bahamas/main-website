@@ -24,24 +24,22 @@ export default function EBoard({
       </Head>
       <PageTemplate>
         <Section>
-          <Container>
-            <div className="min-h-screen">
-              <div>
-                <div className="font-bold text-heading-2">Meet The Board</div>
-                <div className="mt-4 mb-4">{opening_paragraph}</div>
-              </div>
-              <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
-                {boardMembers.map((boardMember: BoardMemberProps) => (
-                  <BoardMember
-                    key={v4()}
-                    memberName={boardMember.memberName}
-                    memberPhotoUrl={boardMember.memberPhotoUrl}
-                    position={boardMember.position}
-                  />
-                ))}
-              </div>
+          <div className="min-h-screen">
+            <div>
+              <div className="font-bold text-heading-2">Meet The Board</div>
+              <div className="mt-4 mb-4">{opening_paragraph}</div>
             </div>
-          </Container>
+            <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
+              {boardMembers.map((boardMember: BoardMemberProps) => (
+                <BoardMember
+                  key={v4()}
+                  memberName={boardMember.memberName}
+                  memberPhotoUrl={boardMember.memberPhotoUrl}
+                  position={boardMember.position}
+                />
+              ))}
+            </div>
+          </div>
         </Section>
       </PageTemplate>
     </div>
