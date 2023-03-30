@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import InputField from "../formElements/InputField";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import RadioGroup from "../formElements/RadioGroup";
 import FormButton from "../formElements/FormButton";
 import chapterPageActions from "@/api/modules/chapterPages/chapterPages";
 import sendToast from "@/util/toast/toast";
 import { ToastTypes } from "@/util/toast/enums/toastTypes";
+import RadioButtons from "../formElements/RadioButtons";
 
 enum FormFeedbackEnum {
   FIELD_REQUIRED = "This is required.",
@@ -31,6 +31,11 @@ export interface EmailData {
   };
 }
 
+const options = [
+  { key: "Yes", value: "yes" },
+  { key: "No", value: "no" },
+];
+
 const ChapterInterestForm = (props: Props) => {
   const [errors, setErrors] = useState<string[] | null>(null);
   const formik = useFormik({
@@ -38,9 +43,12 @@ const ChapterInterestForm = (props: Props) => {
       fullName: "",
       email: "",
       phone: "",
-      currentlyEnrolled: props.chapterType === "undergraduate" ? "yes" : undefined,
-      hasMinimumCredits: props.chapterType === "undergraduate" ? "yes" : undefined,
-      hasBaccalaureate: props.chapterType === "graduate" ? "yes" : undefined,
+      currentlyEnrolled:
+        props.chapterType === "undergraduate" ? options[0].value : undefined,
+      hasMinimumCredits:
+        props.chapterType === "undergraduate" ? options[0].value : undefined,
+      hasBaccalaureate:
+        props.chapterType === "graduate" ? options[0].value : undefined,
       university: props.chapterType === "graduate" ? "" : undefined,
     },
     onSubmit: async (values) => {
@@ -174,123 +182,36 @@ const ChapterInterestForm = (props: Props) => {
         />
         {props.chapterType === "undergraduate" ? (
           <>
-            <RadioGroup
+            <RadioButtons
+              flowDirection="row"
+              for="currentlyEnrolled"
               label="Currently enrolled at the University of The Bahamas?"
-              error={
-                formik.touched.currentlyEnrolled
-                  ? formik.errors.currentlyEnrolled
-                  : undefined
+              options={options}
+              onChange={(e) =>
+                formik.setFieldValue("currentlyEnrolled", e.target.value)
               }
-            >
-              <input
-                type="radio"
-                id="currentlyEnrolledYes"
-                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                onChange={(e) => formik.setFieldValue('currentlyEnrolled', e.target.value)}
-                name="currentlyEnrolled"
-                value="yes"
-                defaultChecked={true}
-              />
-              <label
-                htmlFor="currentlyEnrolledYes"
-                className="mx-3 block text-sm font-bold leading-6 uppercase"
-              >
-                yes
-              </label>
-              <input
-                type="radio"
-                onChange={(e) => formik.setFieldValue('currentlyEnrolled', e.target.value)}
-                id="currentlyEnrolledNo"
-                className="h-4 w-4 border-royal-blue text-indigo-600 checked:bg-royal-blue"
-                name="currentlyEnrolled"
-                value="no"
-              />
-              <label
-                htmlFor="currentlyEnrolledNo"
-                className="mx-3 block text-sm font-bold leading-6 uppercase"
-              >
-                no
-              </label>
-            </RadioGroup>
-            <RadioGroup
+            />
+            <RadioButtons
+              flowDirection="row"
+              for="hasMinimumCredits"
               label="Do you have at least 30 credit hours?"
-              error={
-                formik.touched.hasMinimumCredits
-                  ? formik.errors.hasMinimumCredits
-                  : undefined
+              options={options}
+              onChange={(e) =>
+                formik.setFieldValue("hasMinimumCredits", e.target.value)
               }
-            >
-              <input
-                type="radio"
-                id="hasMinimumCreditsYes"
-                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                onChange={(e) => formik.setFieldValue('hasMinimumCredits', e.target.value)}
-                name="hasMinimumCredits"
-                value="yes"
-                defaultChecked={true}
-              />
-              <label
-                htmlFor="hasMinimumCreditsYes"
-                className="mx-3 block text-sm font-bold leading-6 uppercase"
-              >
-                yes
-              </label>
-              <input
-                type="radio"
-                onChange={(e) => formik.setFieldValue('hasMinimumCredits', e.target.value)}
-                id="hasMinimumCreditsNo"
-                className="h-4 w-4 border-royal-blue text-indigo-600 checked:bg-royal-blue"
-                name="hasMinimumCredits"
-                value="no"
-              />
-              <label
-                htmlFor="hasMinimumCreditsNo"
-                className="mx-3 block text-sm font-bold leading-6 uppercase"
-              >
-                no
-              </label>
-            </RadioGroup>
+            />
           </>
         ) : (
           <>
-            <RadioGroup
+            <RadioButtons
+              flowDirection="row"
+              for="hasBaccalaureate"
               label="Do you have a baccalaureate degree?"
-              error={
-                formik.touched.hasBaccalaureate
-                  ? formik.errors.hasBaccalaureate
-                  : undefined
+              options={options}
+              onChange={(e) =>
+                formik.setFieldValue("hasBaccalaureate", e.target.value)
               }
-            >
-              <input
-                type="radio"
-                id="hasBaccalaureateYes"
-                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                onChange={(e) => formik.setFieldValue('hasBaccalaureate', e.target.value)}
-                name="hasBaccalaureate"
-                value="yes"
-                defaultChecked={true}
-              />
-              <label
-                htmlFor="hasBaccalaureateYes"
-                className="mx-3 block text-sm font-bold leading-6 uppercase"
-              >
-                yes
-              </label>
-              <input
-                type="radio"
-                onChange={(e) => formik.setFieldValue('hasBaccalaureate', e.target.value)}
-                id="hasBaccalaureateNo"
-                className="h-4 w-4 border-royal-blue text-indigo-600 checked:bg-royal-blue"
-                name="hasBaccalaureate"
-                value="no"
-              />
-              <label
-                htmlFor="hasBaccalaureateNo"
-                className="mx-3 block text-sm font-bold leading-6 uppercase"
-              >
-                no
-              </label>
-            </RadioGroup>
+            />
             <InputField
               label="Which university did you attain a baccalaureate?"
               name="university"
