@@ -78,7 +78,7 @@ export default function LineMembers({
               hasMore={hasMore}
               loader={<h4>Loading...</h4>}
               endMessage={
-                <p className="text-center text-[8px] mt-8">
+                <p className="text-center text-xs mt-8">
                   <b>{`You've reached the end of ${lineInfo.shipName}`}</b>
                 </p>
               }
