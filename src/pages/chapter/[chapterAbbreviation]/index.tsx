@@ -9,6 +9,7 @@ import GridGallery from "@/components/gallery/GridGallery";
 import { GetServerSideProps, GetServerSidePropsResult, NextPage } from "next";
 import React from "react";
 import ChapterInterestForm from "@/components/forms/ChapterInterestForm";
+import Head from "next/head";
 
 export interface Chapter {
   name: string;
@@ -82,51 +83,61 @@ const Index: NextPage = ({ ...data }: PageData) => {
   });
 
   return (
-    <PageTemplate pageType="chapter">
-      <ChapterHero
-        chapter={data.chapter.name}
-        chapterType={data.chapter.type}
-        city={data.city}
-        country={data.country}
-        imageURL={images[Math.floor(Math.random() * images.length)].source}
-        socials={socials}
-      />
-      <div className="flex flex-col items-center lg:flex-row w-full">
-        <div className="lg:w-3/6 p-6">
-          <h4 className="text-heading-4 pb-8 font-bold text-gray-6">History</h4>
-          <img
-            src={images[Math.floor(Math.random() * images.length)].source}
-            alt=""
-            className=""
-          />
-        </div>
-        <div className="lg:w-3/6 p-6">
-          <p className="text-gray-5">{data.history}</p>
-        </div>
-      </div>
-      <div className="m-8">
-        <h4 className="text-heading-4 font-bold text-gray-6">Charters</h4>
-      </div>
-      <div className="m-8 grid gap-5 max-sm:grid-cols-1 max-sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
-        {charters.map((charter, idx) => (
-          <Member
-            key={charter.title}
-            memberName={charter.title}
-            memberPhotoUrl={charter.imageURL}
-          >
-            <LineMember
-              key={charter.title}
-              id={idx}
-              lineNumber={parseInt(charter.subtitle)}
-              lineName={charter.description}
+    <>
+      <Head>
+        <title>{data.chapter.name} Chapter</title>
+      </Head>
+      <PageTemplate pageType="chapter">
+        <ChapterHero
+          chapter={data.chapter.name}
+          chapterType={data.chapter.type}
+          city={data.city}
+          country={data.country}
+          imageURL={images[Math.floor(Math.random() * images.length)].source}
+          socials={socials}
+        />
+        <div className="flex flex-col items-center lg:flex-row w-full">
+          <div className="lg:w-3/6 p-6">
+            <h4 className="text-heading-4 pb-8 font-bold text-gray-6">
+              History
+            </h4>
+            <img
+              src={images[Math.floor(Math.random() * images.length)].source}
+              alt=""
+              className=""
             />
-          </Member>
-        ))}
-      </div>
-      <CardsGrid heading="Awards" items={awards} />
-      <GridGallery images={images} />
-      <ChapterInterestForm chapter={data.chapter.chapterAbbreviation?.toUpperCase()} chapterType={data.chapter.type?.toLowerCase()} />
-    </PageTemplate>
+          </div>
+          <div className="lg:w-3/6 p-6">
+            <p className="text-gray-5">{data.history}</p>
+          </div>
+        </div>
+        <div className="m-8">
+          <h4 className="text-heading-4 font-bold text-gray-6">Charters</h4>
+        </div>
+        <div className="m-8 grid gap-5 max-sm:grid-cols-1 max-sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
+          {charters.map((charter, idx) => (
+            <Member
+              key={charter.title}
+              memberName={charter.title}
+              memberPhotoUrl={charter.imageURL}
+            >
+              <LineMember
+                key={charter.title}
+                id={idx}
+                lineNumber={parseInt(charter.subtitle)}
+                lineName={charter.description}
+              />
+            </Member>
+          ))}
+        </div>
+        <CardsGrid heading="Awards" items={awards} />
+        <GridGallery images={images} />
+        <ChapterInterestForm
+          chapter={data.chapter.chapterAbbreviation?.toUpperCase()}
+          chapterType={data.chapter.type?.toLowerCase()}
+        />
+      </PageTemplate>
+    </>
   );
 };
 
