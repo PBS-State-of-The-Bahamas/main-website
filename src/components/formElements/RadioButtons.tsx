@@ -5,7 +5,7 @@ type Props = {
     options: {key: string, value: string | number}[];
     for: string;
     onChange: any;
-    flowDirection?: string;
+    flowDirection?: 'row' | 'column'
 }
 
 const RadioButtons = (props: Props) => {
