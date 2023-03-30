@@ -1,5 +1,6 @@
 import getHistory from "@/api/modules/history/getHistory";
 import PageTemplate from "@/components/PageTemplate";
+import Section from "@/components/Section";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 
@@ -20,12 +21,14 @@ export default function History( {
         <title>History</title>
       </Head>
       <PageTemplate>
-        <section className="min-h-screen mx-24">
-          <h3 className="text-heading-3 pt-12 text-left font-open-sans">History of state</h3>
-          <div className=" pt-2 text-justify font-open-sans whitespace-pre-line">
-            {history}
+        <Section>
+          <div>
+              <h3 className="text-heading-3 pt-6 font-open-sans">History of state</h3>
+                <p className=" pt-2 text-justify font-open-sans whitespace-pre-line">
+                  {history}
+                </p>
           </div>
-        </section>
+        </Section>
       </PageTemplate>
     </div>
   );
