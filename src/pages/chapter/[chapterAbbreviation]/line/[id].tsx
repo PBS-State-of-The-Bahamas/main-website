@@ -61,17 +61,15 @@ export default function LineMembers({
       </Head>
       <PageTemplate>
         <Section>
-          <Container>
-            <div className="min-h-screen">
-              <div>
-                <div className="font-bold text-xl">{lineInfo.chapter}</div>
-                <div className="font-bold text-heading-3">Lineage</div>
-                <div className="mt-4">
-                  <span className="text-heading-4">
-                    {lineInfo.term} {lineInfo.year}
-                  </span>
-                  <div className="text-heading-6">{lineInfo.shipName}</div>
-                </div>
+          <div className="min-h-screen">
+            <div>
+              <div className="font-bold text-xl">{lineInfo.chapter}</div>
+              <div className="font-bold text-heading-3">Lineage</div>
+              <div className="mt-4">
+                <span className="text-heading-4">
+                  {lineInfo.term} {lineInfo.year}
+                </span>
+                <div className="text-heading-6">{lineInfo.shipName}</div>
               </div>
               <InfiniteScroll
                 dataLength={_lineMembers ? _lineMembers.length : 0}
@@ -102,7 +100,35 @@ export default function LineMembers({
                 </div>
               </InfiniteScroll>
             </div>
-          </Container>
+            <InfiniteScroll
+              dataLength={_lineMembers ? _lineMembers.length : 0}
+              next={() => addNewLineMembers()}
+              hasMore={hasMore}
+              loader={<h4>Loading...</h4>}
+              endMessage={
+                <p className="text-center text-[8px] mt-8">
+                  <b>{`You've reached the end of ${lineInfo.shipName}`}</b>
+                </p>
+              }
+            >
+              <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
+                {_lineMembers.map((line: LineMember) => (
+                  <Member
+                    key={line.id}
+                    memberName={line.memberName}
+                    memberPhotoUrl={line.memberPhotoUrl}
+                  >
+                    <LineMember
+                      key={line.description.id}
+                      id={line.description.id}
+                      lineNumber={line.description.lineNumber}
+                      lineName={line.description.lineName}
+                    />
+                  </Member>
+                ))}
+              </div>
+            </InfiniteScroll>
+          </div>
         </Section>
       </PageTemplate>
     </div>
