@@ -1,28 +1,30 @@
 import getLifeMembers from "@/api/modules/lifeMember/getLifeMembers";
 import getLifeMembersPageContent from "@/api/modules/lifeMember/getLifeMembersPageContent";
+import Container from "@/components/Container";
 import LineMember, { LineMemberProps } from "@/components/lineage/line_member";
 import Member from "@/components/member/member";
 import PageTemplate from "@/components/PageTemplate";
+import Section from "@/components/Section";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { v4 } from "uuid";
 
 export default function LifeMembers({
   lifeMembers,
-  openingParagraph
+  openingParagraph,
 }: {
   lifeMembers: LifeMembers;
-  openingParagraph: string
+  openingParagraph: string;
 }) {
-  const notFound =  <div>Life Members Not Found ...</div>;
+  const notFound = <div>Life Members Not Found ...</div>;
 
-  if (!lifeMembers){
-    return notFound
+  if (!lifeMembers) {
+    return notFound;
   }
 
   Object.entries(lifeMembers).forEach(([key, value]) => {
     if (!value.length) {
-      return notFound
+      return notFound;
     }
   });
 
@@ -32,12 +34,11 @@ export default function LifeMembers({
         <title>Life Members</title>
       </Head>
       <PageTemplate>
-        <div className="min-h-screen">
-          <div className="text-heading-3 pt-12">Sigma Bahamas Life Members</div>
-          <div className="pt-2 pb-6">
-                {openingParagraph}
-          </div>
-          <div className="pb-6">
+        <Section>
+          <div className="min-h-screen">
+            <div className="text-heading-3">Sigma Bahamas Life Members</div>
+            <div className="pt-2 pb-6">{openingParagraph}</div>
+            <div className="pb-6">
               {Object.keys(lifeMembers).map((year) => {
                 return (
                   <div className="pt-4" key={v4()}>
@@ -63,8 +64,9 @@ export default function LifeMembers({
                   </div>
                 );
               })}
+            </div>
           </div>
-        </div>
+        </Section>
       </PageTemplate>
     </div>
   );
@@ -86,8 +88,11 @@ export const getServerSideProps: GetServerSideProps<{
   lifeMembers: LifeMembers;
   openingParagraph: string;
 }> = async () => {
-  const [lifeMembers,openingParagraph] = await Promise.all([_getLifeMembers(),getPageContent()]);
-  return { props: { lifeMembers, openingParagraph} };
+  const [lifeMembers, openingParagraph] = await Promise.all([
+    _getLifeMembers(),
+    getPageContent(),
+  ]);
+  return { props: { lifeMembers, openingParagraph } };
 };
 
 async function _getLifeMembers(): Promise<LifeMembers> {
@@ -131,7 +136,7 @@ async function _getLifeMembers(): Promise<LifeMembers> {
   return lifeMembers;
 }
 
-async function getPageContent(): Promise<string>{
+async function getPageContent(): Promise<string> {
   const [content, error] = await getLifeMembersPageContent();
 
   if (error) {
@@ -139,5 +144,5 @@ async function getPageContent(): Promise<string>{
     return content;
   }
 
-  return content?.data?.data?.attributes?.opening_paragraph
+  return content?.data?.data?.attributes?.opening_paragraph;
 }

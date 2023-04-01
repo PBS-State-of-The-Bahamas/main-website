@@ -8,6 +8,8 @@ import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import getChapterLines from "@/api/modules/chapterLineage/getChapterLines";
 import { v4 } from "uuid";
+import Container from "@/components/Container";
+import Section from "@/components/Section";
 
 export default function Lineage({
   chapterAbbreviation,
@@ -52,39 +54,41 @@ export default function Lineage({
         <title>{`${chapterAbbreviation} Chapter Lineage`}</title>
       </Head>
       <PageTemplate>
-        <div className="md:container md:mx-auto mt-12 min-h-screen">
-          <span className="font-bold text-xl">{chapterName}</span>
-          <div className="font-bold text-heading-3">Lineage</div>
-          <InfiniteScroll
-            dataLength={_lineage ? _lineage.length : 0}
-            next={() => addNewLines()}
-            hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
-            endMessage={
-              <p className="text-center text-[8px] mt-8">
-                <b>{`You've reached the end of the chapter lineage for ${chapterAbbreviation}`}</b>
-              </p>
-            }
-          >
-            <div className="mt-4 grid md:items-center md:grid-cols-4 md:gap-4 gap-y-4">
-              {_lineage.map((line: any, index: number) => (
-                <Link
-                  href={{
-                    pathname: `/chapter/${chapterAbbreviation}/line/${line.id}`,
-                  }}
-                  key={v4()}
-                >
-                  <Line
-                    key={line.id}
-                    term={line.term}
-                    year={line.year}
-                    shipName={line.shipName}
-                  />
-                </Link>
-              ))}
-            </div>
-          </InfiniteScroll>
-        </div>
+        <Section>
+          <div className="min-h-screen">
+            <span className="font-bold text-xl">{chapterName}</span>
+            <div className="font-bold text-heading-3">Lineage</div>
+            <InfiniteScroll
+              dataLength={_lineage ? _lineage.length : 0}
+              next={() => addNewLines()}
+              hasMore={hasMore}
+              loader={<h4>Loading...</h4>}
+              endMessage={
+                <p className="text-center text-xs mt-8">
+                  <b>{`You've reached the end of the chapter lineage for ${chapterAbbreviation}`}</b>
+                </p>
+              }
+            >
+              <div className="mt-4 grid md:items-center md:grid-cols-4 md:gap-4 gap-y-4">
+                {_lineage.map((line: any, index: number) => (
+                  <Link
+                    href={{
+                      pathname: `/chapter/${chapterAbbreviation}/line/${line.id}`,
+                    }}
+                    key={v4()}
+                  >
+                    <Line
+                      key={line.id}
+                      term={line.term}
+                      year={line.year}
+                      shipName={line.shipName}
+                    />
+                  </Link>
+                ))}
+              </div>
+            </InfiniteScroll>
+          </div>
+        </Section>
       </PageTemplate>
     </div>
   );

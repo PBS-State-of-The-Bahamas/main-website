@@ -9,6 +9,8 @@ import { useState } from "react";
 import { ParsedUrlQuery } from "querystring";
 import getChapterLineMembers from "@/api/modules/chapterLineage/getChapterLineMembers";
 import getChapterLine from "@/api/modules/chapterLineage/getChapterLine";
+import Section from "@/components/Section";
+import Container from "@/components/Container";
 
 export default function LineMembers({
   query,
@@ -27,7 +29,9 @@ export default function LineMembers({
 }) {
   const { chapterAbbreviation, id } = query;
   const [_lineMembers, setLineMembers] = useState(lineMembers);
-  const [hasMore, setHasMore] = useState(totalLineMembers > lineMembers.length ? true : false);
+  const [hasMore, setHasMore] = useState(
+    totalLineMembers > lineMembers.length ? true : false
+  );
 
   if (!lineMembers.length) {
     return <div>Line Members Not Found ...</div>;
@@ -40,7 +44,7 @@ export default function LineMembers({
       _lineMembers.length.toString(),
       "10",
       strapiUrl,
-      strapiToken,
+      strapiToken
     );
     setLineMembers((_lineMembers) => [
       ..._lineMembers,
@@ -56,46 +60,48 @@ export default function LineMembers({
         <title>{`${lineInfo.shipName}`}</title>
       </Head>
       <PageTemplate>
-        <div className="md:container md:mx-auto mt-12 min-h-screen">
-          <div>
-            <div className="font-bold text-xl">{lineInfo.chapter}</div>
-            <div className="font-bold text-heading-3">Lineage</div>
-            <div className="mt-4">
-              <span className="text-heading-4">
-                {lineInfo.term} {lineInfo.year}
-              </span>
-              <div className="text-heading-6">{lineInfo.shipName}</div>
+        <Section>
+          <div className="min-h-screen">
+            <div>
+              <div className="font-bold text-xl">{lineInfo.chapter}</div>
+              <div className="font-bold text-heading-3">Lineage</div>
+              <div className="mt-4">
+                <span className="text-heading-4">
+                  {lineInfo.term} {lineInfo.year}
+                </span>
+                <div className="text-heading-6">{lineInfo.shipName}</div>
+              </div>
+              <InfiniteScroll
+                dataLength={_lineMembers ? _lineMembers.length : 0}
+                next={() => addNewLineMembers()}
+                hasMore={hasMore}
+                loader={<h4>Loading...</h4>}
+                endMessage={
+                  <p className="text-center text-xs mt-8">
+                    <b>{`You've reached the end of ${lineInfo.shipName}`}</b>
+                  </p>
+                }
+              >
+                <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
+                  {_lineMembers.map((line: LineMember) => (
+                    <Member
+                      key={line.id}
+                      memberName={line.memberName}
+                      memberPhotoUrl={line.memberPhotoUrl}
+                    >
+                      <LineMember
+                        key={line.description.id}
+                        id={line.description.id}
+                        lineNumber={line.description.lineNumber}
+                        lineName={line.description.lineName}
+                      />
+                    </Member>
+                  ))}
+                </div>
+              </InfiniteScroll>
             </div>
           </div>
-          <InfiniteScroll
-            dataLength={_lineMembers ? _lineMembers.length : 0}
-            next={() => addNewLineMembers()}
-            hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
-            endMessage={
-              <p className="text-center text-[8px] mt-8">
-                <b>{`You've reached the end of ${lineInfo.shipName}`}</b>
-              </p>
-            }
-          >
-            <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
-              {_lineMembers.map((line: LineMember) => (
-                <Member
-                  key={line.id}
-                  memberName={line.memberName}
-                  memberPhotoUrl={line.memberPhotoUrl}
-                >
-                  <LineMember
-                    key={line.description.id}
-                    id={line.description.id}
-                    lineNumber={line.description.lineNumber}
-                    lineName={line.description.lineName}
-                  />
-                </Member>
-              ))}
-            </div>
-          </InfiniteScroll>
-        </div>
+        </Section>
       </PageTemplate>
     </div>
   );
@@ -117,7 +123,7 @@ export const getServerSideProps: GetServerSideProps<{
   id = id as string;
 
   const [[lineMembers, totalLineMembers], lineInfo] = await Promise.all([
-    getLineMembers(chapterAbbreviation, id, "0", "10",strapiUrl, strapiToken),
+    getLineMembers(chapterAbbreviation, id, "0", "10", strapiUrl, strapiToken),
     getLineInfo(chapterAbbreviation, id),
   ]);
 
@@ -132,7 +138,14 @@ export const getServerSideProps: GetServerSideProps<{
   }
 
   return {
-    props: { query, lineInfo, lineMembers, totalLineMembers, strapiUrl, strapiToken,},
+    props: {
+      query,
+      lineInfo,
+      lineMembers,
+      totalLineMembers,
+      strapiUrl,
+      strapiToken,
+    },
   };
 };
 
