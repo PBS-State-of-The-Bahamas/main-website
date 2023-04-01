@@ -12,7 +12,7 @@ export default function History( {
   const notFound = <div>History Not Found ...</div>
 
   if(!history) {
-    return notFound
+    return notFound;
   }
 
   return (
@@ -37,7 +37,8 @@ export default function History( {
 async function getHistoryinfo(): Promise<string>{
   const [history, error] = await getHistory();
   if (error) {
-    return error;
+    console.log(error);
+    return history;
   }
 
   return history?.data?.data?.attributes?.history
