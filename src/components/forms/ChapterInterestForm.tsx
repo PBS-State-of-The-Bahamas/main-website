@@ -7,6 +7,7 @@ import chapterPageActions from "@/api/modules/chapterPages/chapterPages";
 import sendToast from "@/util/toast/toast";
 import { ToastTypes } from "@/util/toast/enums/toastTypes";
 import RadioButtons from "../formElements/RadioButtons";
+import { v4 as uuidv4 } from "uuid";
 
 enum FormFeedbackEnum {
   FIELD_REQUIRED = "This is required.",
@@ -141,8 +142,8 @@ const ChapterInterestForm = (props: Props) => {
                 </h3>
                 <div className="mt-2 text-sm text-feedback-warning">
                   <ul role="list" className="list-disc space-y-1 pl-5">
-                    {errors.map((error: string) => (
-                      <li>{error}</li>
+                    {errors.map((error: string, idx: number) => (
+                      <li key={idx}>{error}</li>
                     ))}
                   </ul>
                 </div>
