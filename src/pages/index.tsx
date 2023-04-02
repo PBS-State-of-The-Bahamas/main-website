@@ -1,9 +1,9 @@
-import Head from 'next/head'
-import PageTemplate from '@/components/PageTemplate'
-import Container from '@/components/Container'
-import ProgramCard from '@/components/cards/ProgramCard'
-import Section from '@/components/Section'
-import Link from 'next/link'
+import Head from "next/head";
+import PageTemplate from "@/components/PageTemplate";
+import Container from "@/components/Container";
+import ProgramCard from "@/components/cards/ProgramCard";
+import Section from "@/components/Section";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -14,7 +14,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PageTemplate>
+      <Section>
+        <div className="min-h-screen w-screen bg-royal-blue grid place-items-center">
+          <h1 className="text-heading-1  text-gray-1 ">COMING SOON</h1>
+        </div>
+      </Section>
+      {/* <PageTemplate>
         <header className='pt-12 pb-40 bg-gray-2'>
           <Container>
             <h1 className='text-heading-1 text-gray-6'>
@@ -62,7 +67,7 @@ export default function Home() {
             </div>
           </Container>
         </section>
-      </PageTemplate>
+      </PageTemplate> */}
     </>
   );
 }

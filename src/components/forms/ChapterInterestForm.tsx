@@ -232,5 +232,4 @@ const ChapterInterestForm = (props: Props) => {
     </div>
   );
 };
-
 export default ChapterInterestForm;
