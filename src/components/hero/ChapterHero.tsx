@@ -45,7 +45,7 @@ const ChapterHero = ({
           </div>
           <div className="py-4">
             <button className="bg-royal-blue px-6 py-3 border-none rounded-sm uppercase text-gray-1 font-bold">
-              I'm Interested
+              {"I'm Interested"}
             </button>
           </div>
           <div className="py-4 flex flex-row">
