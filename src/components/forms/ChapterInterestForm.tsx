@@ -142,8 +142,8 @@ const ChapterInterestForm = (props: Props) => {
                 </h3>
                 <div className="mt-2 text-sm text-feedback-warning">
                   <ul role="list" className="list-disc space-y-1 pl-5">
-                    {errors.map((error: string) => (
-                      <li key={uuidv4()}>{error}</li>
+                    {errors.map((error: string, idx: number) => (
+                      <li key={idx}>{error}</li>
                     ))}
                   </ul>
                 </div>
