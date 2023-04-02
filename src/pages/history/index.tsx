@@ -10,10 +10,9 @@ export default function History( {
 }: {
   history: string;
 }) {
-  const notFound = DataNotFound(history);
 
   if(!history) {
-    return notFound;
+    return <DataNotFound/>;
   }
 
   return (
