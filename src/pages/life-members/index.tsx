@@ -1,6 +1,5 @@
 import getLifeMembers from "@/api/modules/lifeMember/getLifeMembers";
 import getLifeMembersPageContent from "@/api/modules/lifeMember/getLifeMembersPageContent";
-import Container from "@/components/Container";
 import DataNotFound from "@/components/DataNotFound";
 import LineMember, { LineMemberProps } from "@/components/lineage/line_member";
 import Member from "@/components/member/member";

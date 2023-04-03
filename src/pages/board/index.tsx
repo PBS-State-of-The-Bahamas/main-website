@@ -1,7 +1,6 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Section from "@/components/Section";
-import Container from "@/components/Container";
 import BoardMember, {
   BoardMemberProps,
 } from "@/components/e-board/BoardMember";

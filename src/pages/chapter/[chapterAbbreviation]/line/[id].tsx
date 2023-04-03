@@ -10,7 +10,6 @@ import { ParsedUrlQuery } from "querystring";
 import getChapterLineMembers from "@/api/modules/chapterLineage/getChapterLineMembers";
 import getChapterLine from "@/api/modules/chapterLineage/getChapterLine";
 import Section from "@/components/Section";
-import Container from "@/components/Container";
 import DataNotFound from "@/components/DataNotFound";
 
 export default function LineMembers({
