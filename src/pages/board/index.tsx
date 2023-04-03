@@ -9,6 +9,7 @@ import PageTemplate from "@/components/PageTemplate";
 import { v4 } from "uuid";
 import getStateBoardMembers from "@/api/modules/e-board/getBoardMembers";
 import getStateBoardPageContent from "@/api/modules/e-board/getStateBoardPageContents";
+import DataNotFound from "@/components/DataNotFound";
 
 export default function EBoard({
   boardMembers,
@@ -17,6 +18,10 @@ export default function EBoard({
   boardMembers: BoardMemberProps[];
   opening_paragraph: string;
 }) {
+  if (!boardMembers) {
+    return <DataNotFound />;
+  }
+
   return (
     <div>
       <Head>
@@ -52,12 +57,6 @@ export const getServerSideProps: GetServerSideProps<{
 }> = async ({ query }) => {
   const [boardMembers, [stateBoardContent, stateBoardContentError]] =
     await Promise.all([getBoardMembers("STATE"), getStateBoardPageContent()]);
-
-  if (!boardMembers) {
-    return {
-      notFound: true,
-    };
-  }
 
   if (stateBoardContentError) {
     console.log(stateBoardContentError);
