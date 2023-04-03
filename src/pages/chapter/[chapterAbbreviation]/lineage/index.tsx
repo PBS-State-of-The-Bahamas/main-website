@@ -10,6 +10,7 @@ import getChapterLines from "@/api/modules/chapterLineage/getChapterLines";
 import { v4 } from "uuid";
 import Container from "@/components/Container";
 import Section from "@/components/Section";
+import DataNotFound from "@/components/DataNotFound";
 
 export default function Lineage({
   chapterAbbreviation,
@@ -31,8 +32,8 @@ export default function Lineage({
     totalLines > lineage.length ? true : false
   );
 
-  if (!lineage.length) {
-    return <div>Lineage Not Found ...</div>;
+  if (!chapterName || !lineage.length) {
+    return <DataNotFound />;
   }
 
   const addNewLines = async (): Promise<void> => {
@@ -116,12 +117,6 @@ export const getServerSideProps: GetServerSideProps<{
     strapiToken
   );
 
-  if (!chapterName) {
-    return {
-      notFound: true,
-    };
-  }
-
   if (process.env.NODE_ENV === "production") {
     strapiUrl = process.env.STRAPI_EXTERNAL_URL;
   }
@@ -144,7 +139,7 @@ async function getChapterLineage(
   limit: string,
   strapiUrl: string | undefined,
   strapiToken: string | undefined
-): Promise<[string | undefined, LineProps[], number]> {
+): Promise<[string | null, LineProps[], number]> {
   const [jsonChapterLineage, error] = await getChapterLines(
     chapterAbbreviation,
     start,
@@ -155,13 +150,13 @@ async function getChapterLineage(
 
   if (error) {
     console.log(error);
-    return [undefined, [], 0];
+    return [null, [], 0];
   }
 
   const totalLines = jsonChapterLineage?.data?.meta?.pagination?.total;
 
   if (!jsonChapterLineage?.data?.data.length) {
-    return [undefined, [], 0];
+    return [null, [], 0];
   }
   const chapterName =
     jsonChapterLineage.data?.data[0].attributes?.chapter?.data?.attributes
