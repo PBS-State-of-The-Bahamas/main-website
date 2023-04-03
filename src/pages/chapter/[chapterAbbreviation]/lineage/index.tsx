@@ -8,7 +8,6 @@ import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import getChapterLines from "@/api/modules/chapterLineage/getChapterLines";
 import { v4 } from "uuid";
-import Container from "@/components/Container";
 import Section from "@/components/Section";
 import DataNotFound from "@/components/DataNotFound";
 
