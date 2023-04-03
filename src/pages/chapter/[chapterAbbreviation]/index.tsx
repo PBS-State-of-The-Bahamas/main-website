@@ -10,6 +10,7 @@ import { GetServerSideProps, GetServerSidePropsResult, NextPage } from "next";
 import React from "react";
 import ChapterInterestForm from "@/components/forms/ChapterInterestForm";
 import Head from "next/head";
+import DataNotFound from "@/components/DataNotFound";
 
 export interface Chapter {
   name: string;
@@ -49,9 +50,13 @@ export interface PageData {
   images: ChapterImage[];
   chapterSocials: ChapterSocial[];
   chapter: Chapter;
+  notFound?: boolean;
 }
 
 const Index: NextPage = ({ ...data }: PageData) => {
+  if (data.notFound) {
+    return <DataNotFound />;
+  }
   const awards = data.chapterAwards.map((award: ChapterAward) => {
     return {
       icon: <Trophy />,
@@ -143,9 +148,7 @@ const Index: NextPage = ({ ...data }: PageData) => {
 
 export default Index;
 
-export const getServerSideProps: GetServerSideProps = async ({
-  query,
-}): Promise<GetServerSidePropsResult<PageData>> => {
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { chapterAbbreviation } = query;
   const [pageData, charters] = await Promise.all([
     chapterPageActions.getChapterPageByAbbreviation(
@@ -164,7 +167,9 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
   }
   return {
-    notFound: true,
+    props: {
+      notFound: true,
+    },
   };
 };
 
