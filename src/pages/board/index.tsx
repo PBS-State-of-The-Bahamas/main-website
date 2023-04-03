@@ -13,10 +13,10 @@ import DataNotFound from "@/components/DataNotFound";
 
 export default function EBoard({
   boardMembers,
-  opening_paragraph,
+  openingParagraph,
 }: {
   boardMembers: BoardMemberProps[];
-  opening_paragraph: string;
+  openingParagraph: string;
 }) {
   if (!boardMembers) {
     return <DataNotFound />;
@@ -32,7 +32,7 @@ export default function EBoard({
           <div className="min-h-screen">
             <div>
               <h3 className="font-bold text-heading-3">Meet The Board</h3>
-              <div className="mt-4 mb-4">{opening_paragraph}</div>
+              <div className="mt-4 mb-4">{openingParagraph}</div>
             </div>
             <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
               {boardMembers.map((boardMember: BoardMemberProps) => (
@@ -53,7 +53,7 @@ export default function EBoard({
 
 export const getServerSideProps: GetServerSideProps<{
   boardMembers: BoardMemberProps[] | null;
-  opening_paragraph: string;
+  openingParagraph: string;
 }> = async ({ query }) => {
   const [boardMembers, [stateBoardContent, stateBoardContentError]] =
     await Promise.all([getBoardMembers("STATE"), getStateBoardPageContent()]);
@@ -62,11 +62,11 @@ export const getServerSideProps: GetServerSideProps<{
     console.log(stateBoardContentError);
   }
 
-  const opening_paragraph =
+  const openingParagraph =
     stateBoardContent?.data?.data?.attributes?.opening_paragraph;
 
   return {
-    props: { boardMembers, opening_paragraph },
+    props: { boardMembers, openingParagraph },
   };
 };
 
