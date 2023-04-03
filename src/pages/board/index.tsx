@@ -62,8 +62,10 @@ export const getServerSideProps: GetServerSideProps<{
     console.log(stateBoardContentError);
   }
 
-  const openingParagraph =
-    stateBoardContent?.data?.data?.attributes?.opening_paragraph;
+  const openingParagraph = stateBoardContent?.data?.data?.attributes
+    ?.opening_paragraph
+    ? stateBoardContent?.data?.data?.attributes?.opening_paragraph
+    : null;
 
   return {
     props: { boardMembers, openingParagraph },
