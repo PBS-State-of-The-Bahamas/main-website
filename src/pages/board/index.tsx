@@ -18,7 +18,7 @@ export default function EBoard({
   boardMembers: BoardMemberProps[];
   openingParagraph: string;
 }) {
-  if (!boardMembers) {
+  if (!boardMembers.length) {
     return <DataNotFound />;
   }
 
