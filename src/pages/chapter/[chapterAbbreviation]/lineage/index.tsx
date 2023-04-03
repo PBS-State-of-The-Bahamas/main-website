@@ -70,7 +70,7 @@ export default function Lineage({
               }
             >
               <div className="mt-4 grid md:items-center md:grid-cols-4 md:gap-4 gap-y-4">
-                {_lineage.map((line: any, index: number) => (
+                {_lineage.map((line: any) => (
                   <Link
                     href={{
                       pathname: `/chapter/${chapterAbbreviation}/line/${line.id}`,
