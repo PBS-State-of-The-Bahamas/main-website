@@ -100,7 +100,7 @@ async function _getLifeMembers(): Promise<LifeMembers> {
 
   if (error) {
     console.log(error);
-    return jsonLifeMembers;
+    return lifeMembers;
   }
 
   jsonLifeMembers?.data?.data?.map((lifeMember) => {
