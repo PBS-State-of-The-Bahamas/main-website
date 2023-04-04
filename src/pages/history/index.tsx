@@ -3,13 +3,14 @@ import PageTemplate from "@/components/PageTemplate";
 import Section from "@/components/Section";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import DataNotFound from "@/components/DataNotFound";
 
 export default function History( {
    history,
 }: {
   history: string;
 }) {
-  const notFound = <div>History Not Found ...</div>
+  const notFound = <DataNotFound />
 
   if(!history) {
     return notFound
