@@ -10,9 +10,10 @@ export default function History( {
 }: {
   history: string;
 }) {
+  const notFound = <DataNotFound />
 
   if(!history) {
-    return <DataNotFound/>;
+    return notFound
   }
 
   return (
@@ -23,8 +24,8 @@ export default function History( {
       <PageTemplate>
         <Section>
           <div>
-              <h3 className="text-heading-3 pt-6 font-open-sans">History of state</h3>
-                <p className=" pt-2 text-justify font-open-sans whitespace-pre-line">
+              <h3 className="text-heading-3">History of state</h3>
+                <p className=" pt-2 text-gray-5">
                   {history}
                 </p>
           </div>
@@ -37,7 +38,7 @@ export default function History( {
 async function getHistoryinfo(): Promise<string>{
   const [history, error] = await getHistory();
   if (error) {
-    console.log(error);
+    console.log(error)
     return history;
   }
 
