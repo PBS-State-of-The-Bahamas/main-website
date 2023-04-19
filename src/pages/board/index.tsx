@@ -1,7 +1,6 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Section from "@/components/Section";
-import Container from "@/components/Container";
 import BoardMember, {
   BoardMemberProps,
 } from "@/components/e-board/BoardMember";
@@ -9,14 +8,19 @@ import PageTemplate from "@/components/PageTemplate";
 import { v4 } from "uuid";
 import getStateBoardMembers from "@/api/modules/e-board/getBoardMembers";
 import getStateBoardPageContent from "@/api/modules/e-board/getStateBoardPageContents";
+import DataNotFound from "@/components/DataNotFound";
 
 export default function EBoard({
   boardMembers,
-  opening_paragraph,
+  openingParagraph,
 }: {
   boardMembers: BoardMemberProps[];
-  opening_paragraph: string;
+  openingParagraph: string;
 }) {
+  if (!boardMembers?.length) {
+    return <DataNotFound />;
+  }
+
   return (
     <div>
       <Head>
@@ -27,7 +31,7 @@ export default function EBoard({
           <div className="min-h-screen">
             <div>
               <h3 className="font-bold text-heading-3">Meet The Board</h3>
-              <div className="mt-4 mb-4">{opening_paragraph}</div>
+              <div className="mt-4 mb-4">{openingParagraph}</div>
             </div>
             <div className="mt-4 grid md:grid-cols-4 md:gap-4 gap-y-4">
               {boardMembers.map((boardMember: BoardMemberProps) => (
@@ -48,26 +52,22 @@ export default function EBoard({
 
 export const getServerSideProps: GetServerSideProps<{
   boardMembers: BoardMemberProps[] | null;
-  opening_paragraph: string;
+  openingParagraph: string;
 }> = async ({ query }) => {
   const [boardMembers, [stateBoardContent, stateBoardContentError]] =
     await Promise.all([getBoardMembers("STATE"), getStateBoardPageContent()]);
-
-  if (!boardMembers) {
-    return {
-      notFound: true,
-    };
-  }
 
   if (stateBoardContentError) {
     console.log(stateBoardContentError);
   }
 
-  const opening_paragraph =
-    stateBoardContent?.data?.data?.attributes?.opening_paragraph;
+  const openingParagraph = stateBoardContent?.data?.data?.attributes
+    ?.opening_paragraph
+    ? stateBoardContent?.data?.data?.attributes?.opening_paragraph
+    : null;
 
   return {
-    props: { boardMembers, opening_paragraph },
+    props: { boardMembers, openingParagraph },
   };
 };
 

@@ -10,7 +10,7 @@ import { ParsedUrlQuery } from "querystring";
 import getChapterLineMembers from "@/api/modules/chapterLineage/getChapterLineMembers";
 import getChapterLine from "@/api/modules/chapterLineage/getChapterLine";
 import Section from "@/components/Section";
-import Container from "@/components/Container";
+import DataNotFound from "@/components/DataNotFound";
 
 export default function LineMembers({
   query,
@@ -33,8 +33,8 @@ export default function LineMembers({
     totalLineMembers > lineMembers.length ? true : false
   );
 
-  if (!lineMembers.length) {
-    return <div>Line Members Not Found ...</div>;
+  if (!lineInfo || !lineMembers.length) {
+    return <DataNotFound />;
   }
 
   const addNewLineMembers = async (): Promise<void> => {
@@ -127,12 +127,6 @@ export const getServerSideProps: GetServerSideProps<{
     getLineInfo(chapterAbbreviation, id),
   ]);
 
-  if (!lineInfo) {
-    return {
-      notFound: true,
-    };
-  }
-
   if (process.env.NODE_ENV === "production") {
     strapiUrl = process.env.STRAPI_EXTERNAL_URL;
   }
@@ -209,7 +203,7 @@ export interface LineInfo {
 async function getLineInfo(
   chapterAbbreviation: string,
   lineID: string
-): Promise<LineInfo | undefined> {
+): Promise<LineInfo | null> {
   const [jsonLineInfo, error] = await getChapterLine(
     chapterAbbreviation,
     lineID
@@ -217,11 +211,11 @@ async function getLineInfo(
 
   if (error) {
     console.log(error);
-    return undefined;
+    return null;
   }
 
   if (!jsonLineInfo?.data?.data.length) {
-    return undefined;
+    return null;
   }
 
   const lineInfo: LineInfo = {
