@@ -1,6 +1,6 @@
 import getLifeMembers from "@/api/modules/lifeMember/getLifeMembers";
 import getLifeMembersPageContent from "@/api/modules/lifeMember/getLifeMembersPageContent";
-import Container from "@/components/Container";
+import DataNotFound from "@/components/DataNotFound";
 import LineMember, { LineMemberProps } from "@/components/lineage/line_member";
 import Member from "@/components/member/member";
 import PageTemplate from "@/components/PageTemplate";
@@ -16,15 +16,13 @@ export default function LifeMembers({
   lifeMembers: LifeMembers;
   openingParagraph: string;
 }) {
-  const notFound = <div>Life Members Not Found ...</div>;
-
-  if (!lifeMembers) {
-    return notFound;
+  if (!Object.keys(lifeMembers).length) {
+    return <DataNotFound />;
   }
 
   Object.entries(lifeMembers).forEach(([key, value]) => {
     if (!value.length) {
-      return notFound;
+      return <DataNotFound />;
     }
   });
 
@@ -102,7 +100,7 @@ async function _getLifeMembers(): Promise<LifeMembers> {
 
   if (error) {
     console.log(error);
-    return jsonLifeMembers;
+    return lifeMembers;
   }
 
   jsonLifeMembers?.data?.data?.map((lifeMember) => {
