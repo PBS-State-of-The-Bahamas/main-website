@@ -1,3 +1,4 @@
+import Image from "next/image";
 export interface MemberThumbnailProps {
   memberPhotoUrl: string;
 }
@@ -5,7 +6,13 @@ export interface MemberThumbnailProps {
 export default function MemberThumbnail(props: MemberThumbnailProps) {
   return (
     <div className="border">
-      <img className="w-12 h-12" src={props.memberPhotoUrl} alt="member"></img>
+      <Image
+        fill={true}
+        src={props.memberPhotoUrl}
+        alt="member"
+        width={12}
+        height={12}
+      ></Image>
     </div>
   );
 }
