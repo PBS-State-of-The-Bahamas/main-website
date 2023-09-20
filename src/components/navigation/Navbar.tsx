@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { mainNav, subNav, renderNavigationLinks } from './data/pages';
+import { getMainLinks, getChapterPages } from './data/pages';
 import PageLogo from './PageLogo';
 import Container from '@/components/Container';
 import TextField from '@/components/formElements/TextField';
@@ -8,27 +8,19 @@ import RadioButtons from '@/components/formElements/RadioButtons'
 import * as Yup from 'yup'
 import { useFormik } from "formik";
 import {motion, AnimatePresence} from 'framer-motion'
-import { useRouter } from 'next/router';
 
-type Props = {
-  type?: string;
-}
-
-export default function Navbar({type = 'main'}: Props) {
+export default function Navbar({currentUrl}) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [contactModalOpen, setContactModalOpen] = useState(false)
-  const router = useRouter()
-
   useEffect(()=>{
     if (contactModalOpen && menuOpen) setMenuOpen(false)
   },[contactModalOpen])
-
   return (
     <>
     <div className='fixed w-full z-40'>
       <SubNavBar />
       <div className='bg-royal-blue py-2'>
-      <AnimatePresence key={router.route}>
+      <AnimatePresence key={currentUrl}>
         <Container>
           <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration: 0.25, delay: 1}}>
             <PageLogo />
@@ -41,7 +33,7 @@ export default function Navbar({type = 'main'}: Props) {
           transition={{duration: .5, delay: 0.75, type: 'spring'}}
           >
             {
-              renderNavigationLinks(mainNav[type])
+              getMainLinks(currentUrl)
                 .map((link, key) => <div key={key} className={`px-3 text-gray-1 hover:text-gray-3`}>{link}</div>)
             }
             <ContactButton setContactModalOpen={setContactModalOpen}/>
@@ -53,7 +45,7 @@ export default function Navbar({type = 'main'}: Props) {
       <div className={`hamburgerMenu ${!menuOpen && 'hidden'}`}>
         <div className={`rounded md:hidden bg-dark-royal-blue px-4 py-8 absolute w-full `}>
           {
-            renderNavigationLinks(mainNav[type])
+            getMainLinks(currentUrl)
               .map((link, key) => <div key={key} className={`py-1 text-gray-1 hover:text-gray-3`}>{link}</div>)
           }
           <ContactButton setContactModalOpen={setContactModalOpen}/>
@@ -76,7 +68,7 @@ function SubNavBar() {
       <Container>
       <div className='text-gray-1 text-sm flex'>
       {
-        renderNavigationLinks(subNav)
+        getChapterPages()
           .map((link, key)=> <div key={key} className={`px-2 text-gray-1 hover:text-gray-3`}>{link}</div>)
       }
       </div>
