@@ -10,6 +10,7 @@ import getChapterLines from "@/api/modules/chapterLineage/getChapterLines";
 import { v4 } from "uuid";
 import Section from "@/components/Section";
 import DataNotFound from "@/components/DataNotFound";
+import Loading from "@/components/Loading";
 
 export default function Lineage({
   chapterAbbreviation,
@@ -62,7 +63,7 @@ export default function Lineage({
               dataLength={_lineage ? _lineage.length : 0}
               next={() => addNewLines()}
               hasMore={hasMore}
-              loader={<h4>Loading...</h4>}
+              loader={<Loading />}
               endMessage={
                 <p className="text-center text-xs mt-8">
                   <b>{`You've reached the end of the chapter lineage for ${chapterAbbreviation}`}</b>

@@ -10,6 +10,7 @@ import { GetServerSideProps, GetServerSidePropsResult, NextPage } from "next";
 import React from "react";
 import ChapterInterestForm from "@/components/forms/ChapterInterestForm";
 import Head from "next/head";
+import Image from "next/image";
 
 export interface Chapter {
   name: string;
@@ -75,6 +76,7 @@ const Index: NextPage = ({ ...data }: PageData) => {
       altText: image.altText,
     };
   });
+  const imageIndex = Math.floor(Math.random() * images.length)
   const socials = data.chapterSocials.map((social: ChapterSocial) => {
     return {
       platform: social.platform,
@@ -101,10 +103,12 @@ const Index: NextPage = ({ ...data }: PageData) => {
             <h4 className="text-heading-4 pb-8 font-bold text-gray-6">
               History
             </h4>
-            <img
-              src={images[Math.floor(Math.random() * images.length)].source}
-              alt=""
-              className=""
+            <Image
+              src={images[imageIndex].source}
+              alt={images[imageIndex].altText}
+              width={400}
+              height={300}
+              className="object-fit w-[400px] h-[300px]"
             />
           </div>
           <div className="lg:w-3/6 p-6">

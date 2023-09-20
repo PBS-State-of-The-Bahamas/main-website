@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 type Props = {
@@ -16,10 +17,12 @@ const GridGallery = (props: Props) => {
       {props.images.map((image) => (
         <li key={image.source} className="relative">
           <div className="block w-full overflow-hidden rounded-sm bg-gray-100">
-            <img
+            <Image
               src={image.source}
               alt={image.altText}
-              className="object-cover hover:opacity-75 hover:cursor-pointer"
+              width={324}
+              height={200}
+              className="object-cover w-[324px] h-[200px] max-sm:w-[300px] max-sm:h-[150px] hover:opacity-75 hover:cursor-pointer"
             />
           </div>
         </li>

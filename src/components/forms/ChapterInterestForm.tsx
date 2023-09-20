@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import InputField from "../formElements/InputField";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import FormButton from "../formElements/FormButton";
@@ -7,7 +6,7 @@ import chapterPageActions from "@/api/modules/chapterPages/chapterPages";
 import sendToast from "@/util/toast/toast";
 import { ToastTypes } from "@/util/toast/enums/toastTypes";
 import RadioButtons from "../formElements/RadioButtons";
-import { v4 as uuidv4 } from "uuid";
+import TextField from "../formElements/TextField";
 
 enum FormFeedbackEnum {
   FIELD_REQUIRED = "This is required.",
@@ -151,79 +150,80 @@ const ChapterInterestForm = (props: Props) => {
             </div>
           </div>
         )}
-        <InputField
+        <TextField
           label="Full name"
-          name="fullName"
-          type="text"
-          autoComplete="name"
+          for="fullName"
+          formType="text"
           value={formik.values.fullName}
-          onBlur={formik.handleBlur}
           onChange={formik.handleChange}
-          error={formik.touched.fullName ? formik.errors.fullName : undefined}
+          errorMessage={formik.errors.fullName}
+          onBlur={formik.handleBlur}
         />
-        <InputField
+        <TextField
           label="Email"
-          name="email"
-          type="email"
-          autoComplete="email"
+          for="email"
+          formType="email"
           value={formik.values.email}
-          onBlur={formik.handleBlur}
           onChange={formik.handleChange}
-          error={formik.touched.email ? formik.errors.email : undefined}
+          errorMessage={formik.errors.email}
+          onBlur={formik.handleBlur}
         />
-        <InputField
+        <TextField
           label="Phone number"
-          name="phone"
-          type="tel"
-          autoComplete="tel"
+          for="phone"
+          formType="tel"
           value={formik.values.phone}
-          onBlur={formik.handleBlur}
           onChange={formik.handleChange}
-          error={formik.touched.phone ? formik.errors.phone : undefined}
+          errorMessage={formik.errors.phone}
+          onBlur={formik.handleBlur}
         />
         {props.chapterType === "undergraduate" ? (
           <>
-            <RadioButtons
-              flowDirection="row"
-              for="currentlyEnrolled"
-              label="Currently enrolled at the University of The Bahamas?"
-              options={options}
-              onChange={(e) =>
-                formik.setFieldValue("currentlyEnrolled", e.target.value)
-              }
-            />
-            <RadioButtons
-              flowDirection="row"
-              for="hasMinimumCredits"
-              label="Do you have at least 30 credit hours?"
-              options={options}
-              onChange={(e) =>
-                formik.setFieldValue("hasMinimumCredits", e.target.value)
-              }
-            />
+            <div className="my-1">
+              <RadioButtons
+                flowDirection="row"
+                for="currentlyEnrolled"
+                label="Currently enrolled at the University of The Bahamas?"
+                options={options}
+                onChange={(e) =>
+                  formik.setFieldValue("currentlyEnrolled", e.target.value)
+                }
+              />
+            </div>
+            <div className="my-1">
+              <RadioButtons
+                flowDirection="row"
+                for="hasMinimumCredits"
+                label="Do you have at least 30 credit hours?"
+                options={options}
+                onChange={(e) =>
+                  formik.setFieldValue("hasMinimumCredits", e.target.value)
+                }
+              />
+            </div>
           </>
         ) : (
           <>
-            <RadioButtons
-              flowDirection="row"
-              for="hasBaccalaureate"
-              label="Do you have a baccalaureate degree?"
-              options={options}
-              onChange={(e) =>
-                formik.setFieldValue("hasBaccalaureate", e.target.value)
-              }
-            />
-            <InputField
+            <div className="my-1">
+              <RadioButtons
+                flowDirection="row"
+                for="hasBaccalaureate"
+                label="Do you have a baccalaureate degree?"
+                options={options}
+                onChange={(e) =>
+                  formik.setFieldValue("hasBaccalaureate", e.target.value)
+                }
+              />
+            </div>
+
+            <TextField
               label="Which university did you attain a baccalaureate?"
-              name="university"
-              type="university"
-              autoComplete="university"
+              for="university"
+              formType="text"
               value={formik.values.university}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              error={
-                formik.touched.university ? formik.errors.university : undefined
-              }
+              errorMessage={formik.errors.university}
             />
           </>
         )}
