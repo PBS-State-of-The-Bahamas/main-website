@@ -89,7 +89,7 @@ const Index: NextPage = ({ ...data }: PageData) => {
       <Head>
         <title>{data.chapter.name} Chapter</title>
       </Head>
-      <PageTemplate pageType="chapter">
+      <PageTemplate>
         <ChapterHero
           chapter={data.chapter.name}
           chapterType={data.chapter.type}

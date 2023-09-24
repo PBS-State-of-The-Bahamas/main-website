@@ -11,6 +11,7 @@ import getChapterLineMembers from "@/api/modules/chapterLineage/getChapterLineMe
 import getChapterLine from "@/api/modules/chapterLineage/getChapterLine";
 import Section from "@/components/Section";
 import DataNotFound from "@/components/DataNotFound";
+import Loading from "@/components/Loading";
 
 export default function LineMembers({
   query,
@@ -75,7 +76,7 @@ export default function LineMembers({
                 dataLength={_lineMembers ? _lineMembers.length : 0}
                 next={() => addNewLineMembers()}
                 hasMore={hasMore}
-                loader={<h4>Loading...</h4>}
+                loader={<Loading />}
                 endMessage={
                   <p className="text-center text-xs mt-8">
                     <b>{`You've reached the end of ${lineInfo.shipName}`}</b>
