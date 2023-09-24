@@ -1,26 +1,27 @@
 import React from 'react'
-import { mainNav, renderNavigationLinks, subNav } from './data/pages';
+import { getMainLinks, getChapterPages} from './data/pages';
 import Container from '../Container';
 
-type Props = {};
+type Props = {
+    currentUrl: string
+};
 
-function Footer({}: Props) {
+function Footer({currentUrl}: Props) {
   return (
     <>
         <div className='bg-dark-royal-blue py-6'>
             <Container>
                 <div className='flex space-x-20'>
-                    
                     <div>
                         <h6 className='text-heading-6 uppercase text-gray-1'>Menu</h6>
                         <ul className='text-gray-1 mt-3'>
-                            {renderNavigationLinks(mainNav['main']).map((item, index)=> <li key={index}>{item}</li>)}
+                            {getMainLinks(currentUrl).map((item, index)=> <li key={index}>{item}</li>)}
                         </ul>
                     </div>
                     <div>
                         <h6 className='text-heading-6 uppercase text-gray-1'>Chapters</h6>
                         <ul className='text-gray-1 mt-3 '>
-                            {renderNavigationLinks(subNav).map((item, index)=> <li className='hover:text-gray-3'key={index}>{item}</li>) }
+                            {getChapterPages().map((item, index)=> <li className='hover:text-gray-3'key={index}>{item}</li>) }
                         </ul>
                     </div>
                     
