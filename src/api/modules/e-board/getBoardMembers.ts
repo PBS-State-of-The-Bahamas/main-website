@@ -6,6 +6,7 @@ export default async function getStateBoardMembers(chapter: string) {
     "filters[chapter][chapter_abbreviation][$eq]": chapter.toUpperCase(),
     "populate[0]": "member",
     "populate[1]": "member.photo",
+    "sort": "id:asc"
   };
 
   try {
