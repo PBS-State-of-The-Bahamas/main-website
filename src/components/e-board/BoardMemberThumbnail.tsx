@@ -8,6 +8,7 @@ export default function BoardMemberThumbnail(props: BoardMemberThumbnailProps) {
   return (
     <div className="border">
       <Image
+        priority
         src={props.boardMemberPhotoUrl}
         alt={"member"}
         width={324}
