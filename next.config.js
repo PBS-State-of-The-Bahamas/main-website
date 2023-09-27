@@ -5,12 +5,12 @@ const nextConfig = {
     domains: ["localhost", "admin.sigmabahamas1914.org"],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**.sigmabahamas1914.org',
+        protocol: "https",
+        hostname: "admin.sigmabahamas1914.org",
       },
       {
-        protocol: 'http',
-        hostname: 'localhost',
+        protocol: "http",
+        hostname: "localhost",
       },
     ],
   },
