@@ -179,7 +179,7 @@ async function getLineMembers(
         id: line.id,
         memberName: line.attributes?.name,
         memberPhotoUrl: line.attributes?.photo?.data?.length
-          ? `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_HOST}:${process.env.NEXT_PUBLIC_API_PORT}${line.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
+          ? `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_HOST}${process.env.NEXT_PUBLIC_API_PORT}${line.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
           : "/images/missing-member.svg",
         description: {
           id: line.attributes?.line_member?.data?.id,

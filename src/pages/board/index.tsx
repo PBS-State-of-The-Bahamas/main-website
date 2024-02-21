@@ -88,7 +88,7 @@ async function getBoardMembers(
       position: boardMember?.attributes?.position,
       memberPhotoUrl: boardMember.attributes?.member?.data?.attributes?.photo
         ?.data?.length
-        ? `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_HOST}:${process.env.NEXT_PUBLIC_API_PORT}${boardMember.attributes?.member?.data?.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
+        ? `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_HOST}${process.env.NEXT_PUBLIC_API_PORT}${boardMember.attributes?.member?.data?.attributes?.photo?.data[0].attributes?.formats?.small?.url}`
         : "/images/missing-member.svg",
     });
   });
