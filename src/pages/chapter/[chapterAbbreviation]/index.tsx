@@ -11,7 +11,6 @@ import React from "react";
 import ChapterInterestForm from "@/components/forms/ChapterInterestForm";
 import Head from "next/head";
 import Image from "next/image";
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 export interface Chapter {
   name: string;
